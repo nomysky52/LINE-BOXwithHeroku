@@ -42,7 +42,8 @@ bot.on('message', function(event) {
                     });
                     break;
                 case 'Push':
-                    bot.push(channelId: process.env.CHANNEL_NO, ['Hey!', 'สวัสดี ' + String.fromCharCode(0xD83D, 0xDE01)]);
+					messagepush = messagepush + String.fromCharCode(0xD83D, 0xDE01)
+                    bot.push(channelId: process.env.CHANNEL_NO, messagepush);
                     break;
                 case 'Push2':
                     bot.push(channelId: process.env.CHANNEL_NO, 'Push to group');
