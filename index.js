@@ -14,6 +14,7 @@ bot.on('message', function(event) {
 	event.source.profile().then(function (profile) {
 		displayName = profile.displayName;
 		messagepush = messagepush + 'displayName:' + displayName + '\n';
+		return;
      });
 	
     if(typeof event.source.groupId !== "undefined")
