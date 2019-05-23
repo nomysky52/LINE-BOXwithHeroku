@@ -86,7 +86,7 @@ bot.on('message', function(event) {
                     // 回傳 userId 說了甚麼
                     messagepush = messagepush + ':' + event.message.text
                     bot.push(process.env.CHANNEL_NO, messagepush);
-                    bot.push(process.env.CHANNEL_NO, JSON.stringify(event));
+                    bot.push(process.env.CHANNEL_NO, JSON.stringify(bot));
                     break;
             }
             break;
