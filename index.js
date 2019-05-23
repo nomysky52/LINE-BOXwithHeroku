@@ -20,11 +20,13 @@ bot.on('message', function(event) {
             switch (event.message.text) {
                 case 'Me':
                     event.source.profile().then(function (profile) {
+                        bot.push(process.env.CHANNEL_NO, JSON.stringify(profile));
                         return event.reply('Hello ' + profile.displayName + ' ' + profile.userId);
                     });
                     break;
                 case 'Member':
                     event.source.member().then(function (member) {
+                        bot.push(process.env.CHANNEL_NO, JSON.stringify(member));
                         return event.reply(JSON.stringify(member));
                     });
                     break;
@@ -86,14 +88,14 @@ bot.on('message', function(event) {
                     // 回傳 userId 說了甚麼
                     messagepush = messagepush + ':' + event.message.text
                     bot.push(process.env.CHANNEL_NO, messagepush);
-                    bot.push(process.env.CHANNEL_NO, JSON.stringify(bot));
                     break;
             }
             break;
         case 'image':
             // 紀錄 userId 傳了 image
-            messagepush = messagepush + ':' + event.message.type
-            bot.push(process.env.CHANNEL_NO, messagepush);
+            //messagepush = messagepush + ':' + event.message.type
+            //bot.push(process.env.CHANNEL_NO, messagepush);
+            bot.push(process.env.CHANNEL_NO, JSON.stringify(event));
 
             //event.message.content().then(function (data) {
             //    const s = data.toString('hex').substring(0, 32);
@@ -104,28 +106,33 @@ bot.on('message', function(event) {
             break;
         case 'video':
             // 紀錄 userId 傳了 video
-            messagepush = messagepush + ':' + event.message.type
-            bot.push(process.env.CHANNEL_NO, messagepush);
+            //messagepush = messagepush + ':' + event.message.type
+            //bot.push(process.env.CHANNEL_NO, messagepush);
+            bot.push(process.env.CHANNEL_NO, JSON.stringify(event));
             break;
         case 'audio':
             // 紀錄 userId 傳了 audio
-            messagepush = messagepush + ':' + event.message.type
-            bot.push(process.env.CHANNEL_NO, messagepush);
+            //messagepush = messagepush + ':' + event.message.type
+            //bot.push(process.env.CHANNEL_NO, messagepush);
+            bot.push(process.env.CHANNEL_NO, JSON.stringify(event));
             break;
         case 'file':
             // 紀錄 userId 傳了 file
-            messagepush = messagepush + ':' + event.message.type
-            bot.push(process.env.CHANNEL_NO, messagepush);
+            //messagepush = messagepush + ':' + event.message.type
+            //bot.push(process.env.CHANNEL_NO, messagepush);
+            bot.push(process.env.CHANNEL_NO, JSON.stringify(event));
             break;
         case 'location':
             // 紀錄 userId 傳了 location
-            messagepush = messagepush + ':' + event.message.type
-            bot.push(process.env.CHANNEL_NO, [messagepush, 'Lat:' + event.message.latitude, 'Long:' + event.message.longitude]);
+            //messagepush = messagepush + ':' + event.message.type
+            //bot.push(process.env.CHANNEL_NO, [messagepush, 'Lat:' + event.message.latitude, 'Long:' + event.message.longitude]);
+            bot.push(process.env.CHANNEL_NO, JSON.stringify(event));
             break;
         case 'sticker':
             // 紀錄 userId 傳了 sticker
-            messagepush = messagepush + ':' + event.message.type
-            bot.push(process.env.CHANNEL_NO, messagepush + '\n' + event.message.packageId + ':' + event.message.stickerId);
+            //messagepush = messagepush + ':' + event.message.type
+            //bot.push(process.env.CHANNEL_NO, messagepush + '\n' + event.message.packageId + ':' + event.message.stickerId);
+            bot.push(process.env.CHANNEL_NO, JSON.stringify(event));
 
             // 傳送貼圖
             // bot.push(process.env.CHANNEL_NO, {
@@ -136,78 +143,87 @@ bot.on('message', function(event) {
             break;
         default:
             // 紀錄 userId 傳了 未知類別
-            messagepush = messagepush + ':' + event.message.type
-            bot.push(process.env.CHANNEL_NO, messagepush);
+            //messagepush = messagepush + ':' + event.message.type
+            //bot.push(process.env.CHANNEL_NO, messagepush);
+            bot.push(process.env.CHANNEL_NO, JSON.stringify(event));
             break;
     }
 });
 
 // 當添加為朋友（或未阻止）時 觸發
 bot.on('follow', function (event) {
-    var messagepush = 'userId:' + event.source.userId
-    if(typeof event.source.groupId !== "undefined")
-	{
-		messagepush = messagepush + 'groupId:' + event.source.groupId + '\n'
-	}
-    bot.push(process.env.CHANNEL_NO, '[follow]' + messagepush);
+    // var messagepush = 'userId:' + event.source.userId
+    // if(typeof event.source.groupId !== "undefined")
+	// {
+		// messagepush = messagepush + 'groupId:' + event.source.groupId + '\n'
+	// }
+    // bot.push(process.env.CHANNEL_NO, '[follow]' + messagepush);
+    bot.push(process.env.CHANNEL_NO, '[follow]' + '\n'+ JSON.stringify(event));
 });
 
 // 當取消關注（或封鎖）時 觸發
 bot.on('unfollow', function (event) {
-    var messagepush = 'userId:' + event.source.userId
-    if(typeof event.source.groupId !== "undefined")
-	{
-		messagepush = messagepush + 'groupId:' + event.source.groupId + '\n'
-	}
-    bot.push(process.env.CHANNEL_NO, '[unfollow]' + messagepush);
+    // var messagepush = 'userId:' + event.source.userId
+    // if(typeof event.source.groupId !== "undefined")
+	// {
+		// messagepush = messagepush + 'groupId:' + event.source.groupId + '\n'
+	// }
+    // bot.push(process.env.CHANNEL_NO, '[unfollow]' + messagepush);
+    bot.push(process.env.CHANNEL_NO, '[unfollow]' + '\n'+ JSON.stringify(event));
 });
 
 // 當群組加入成員時 觸發
 bot.on('memberJoined', function (event) {
+    bot.push(process.env.CHANNEL_NO, '[memberJoined]' + '\n'+ JSON.stringify(event));
 });
 
 // 當群組離開成員時 觸發
 bot.on('memberLeft', function (event) {
+    bot.push(process.env.CHANNEL_NO, '[memberLeft]' + '\n'+ JSON.stringify(event));
 });
 
 // 當加入邀請時 觸發
 bot.on('join', function (event) {
-    var messagepush = 'userId:' + event.source.userId
-    if(typeof event.source.groupId !== "undefined")
-	{
-		messagepush = messagepush + 'groupId:' + event.source.groupId + '\n'
-	}
-    bot.push(process.env.CHANNEL_NO, '[join]' + messagepush);
+    // var messagepush = 'userId:' + event.source.userId
+    // if(typeof event.source.groupId !== "undefined")
+	// {
+		// messagepush = messagepush + 'groupId:' + event.source.groupId + '\n'
+	// }
+    // bot.push(process.env.CHANNEL_NO, '[join]' + messagepush);
+    bot.push(process.env.CHANNEL_NO, '[join]' + '\n'+ JSON.stringify(event));
 });
 
 // 當離開群組時 觸發
 bot.on('leave', function (event) {
-    var messagepush = 'userId:' + event.source.userId
-    if(typeof event.source.groupId !== "undefined")
-	{
-		messagepush = messagepush + 'groupId:' + event.source.groupId + '\n'
-	}
-    bot.push(process.env.CHANNEL_NO, '[leave]' + messagepush);
+    // var messagepush = 'userId:' + event.source.userId
+    // if(typeof event.source.groupId !== "undefined")
+	// {
+		// messagepush = messagepush + 'groupId:' + event.source.groupId + '\n'
+	// }
+    // bot.push(process.env.CHANNEL_NO, '[leave]' + messagepush);
+    bot.push(process.env.CHANNEL_NO, '[leave]' + '\n'+ JSON.stringify(event));
 });
 
 // 
 bot.on('postback', function (event) {
-    var messagepush = 'userId:' + event.source.userId
-    if(typeof event.source.groupId !== "undefined")
-	{
-		messagepush = messagepush + 'groupId:' + event.source.groupId + '\n'
-	}
-    bot.push(process.env.CHANNEL_NO, '[postback]' + messagepush);
+    // var messagepush = 'userId:' + event.source.userId
+    // if(typeof event.source.groupId !== "undefined")
+	// {
+		// messagepush = messagepush + 'groupId:' + event.source.groupId + '\n'
+	// }
+    // bot.push(process.env.CHANNEL_NO, '[postback]' + messagepush);
+    bot.push(process.env.CHANNEL_NO, '[postback]' + '\n'+ JSON.stringify(event));
 });
 
 // 
 bot.on('beacon',   function (event) {
-    var messagepush = 'userId:' + event.source.userId
-    if(typeof event.source.groupId !== "undefined")
-	{
-		messagepush = messagepush + 'groupId:' + event.source.groupId + '\n'
-	}
-    bot.push(process.env.CHANNEL_NO, '[beacon]' + messagepush);
+    // var messagepush = 'userId:' + event.source.userId
+    // if(typeof event.source.groupId !== "undefined")
+	// {
+		// messagepush = messagepush + 'groupId:' + event.source.groupId + '\n'
+	// }
+    // bot.push(process.env.CHANNEL_NO, '[beacon]' + messagepush);
+    bot.push(process.env.CHANNEL_NO, '[beacon]' + '\n'+ JSON.stringify(event));
 });
 
 // Bot所監聽的webhook路徑與port
