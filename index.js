@@ -10,11 +10,11 @@ const bot = linebot({
 // 當有人傳送訊息給Bot時 觸發
 bot.on('message', function(event) {
     var messagepush = 'userId:' + event.source.userId + '\n';
-	var displayName = event.source.profile().then(function (profile) {
-        // messagepush = messagepush + 'displayName:' + profile.displayName + '\n';
-		bot.push(process.env.CHANNEL_NO, 'displayName:' + profile.displayName + '\n');
-		return profile.displayName;
-    });
+	// var displayName = event.source.profile().then(function (profile) {
+        // // messagepush = messagepush + 'displayName:' + profile.displayName + '\n';
+		// bot.push(process.env.CHANNEL_NO, 'displayName:' + profile.displayName + '\n');
+		// return profile.displayName;
+    // });
 	
     if(typeof event.source.groupId !== "undefined")
 	{
@@ -23,13 +23,18 @@ bot.on('message', function(event) {
 
     switch (event.message.type) {
         case 'text':
+		    if(event.source.userId == process.env.CHANNEL_NO)
+			{
+				switch (event.message.text) {
+					case 'Set':
+					    break;
+					default:
+					    bot.broadcast(event.message.text);
+					    break;
+				}
+				break;
+			}
             switch (event.message.text) {
-                case 'Me':
-                    event.source.profile().then(function (profile) {
-                        bot.push(process.env.CHANNEL_NO, JSON.stringify(profile));
-                        return event.reply('Hello ' + profile.displayName + ' ' + profile.userId);
-                    });
-                    break;
                 case 'Member':
                     event.source.member().then(function (member) {
                         bot.push(process.env.CHANNEL_NO, JSON.stringify(member));
