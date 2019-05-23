@@ -10,6 +10,8 @@ const bot = linebot({
 
 // 當有人傳送訊息給Bot時 觸發
 bot.on('message', function(event) {
+	var messagepush = 'userId:' + event.source.userId + '\n'
+	
     switch (event.message.type) {
         case 'text':
             switch (event.message.text) {
@@ -40,13 +42,13 @@ bot.on('message', function(event) {
                     });
                     break;
                 case 'Push':
-                    bot.push('U17448c796a01b715d293c34810985a4c', ['Hey!', 'สวัสดี ' + String.fromCharCode(0xD83D, 0xDE01)]);
+                    bot.push(channelId: process.env.CHANNEL_NO, ['Hey!', 'สวัสดี ' + String.fromCharCode(0xD83D, 0xDE01)]);
                     break;
                 case 'Push2':
-                    bot.push('Cba71ba25dafbd6a1472c655fe22979e2', 'Push to group');
+                    bot.push(channelId: process.env.CHANNEL_NO, 'Push to group');
                     break;
                 case 'Multicast':
-                    bot.push(['U17448c796a01b715d293c34810985a4c', 'Cba71ba25dafbd6a1472c655fe22979e2'], 'Multicast!');
+                    bot.push(channelId: process.env.CHANNEL_NO, 'Multicast!');
                     break;
                 case 'Broadcast':
                     bot.broadcast('Broadcast!');
@@ -78,13 +80,15 @@ bot.on('message', function(event) {
                     break;
                 default:
                     // 回傳 userId 說了甚麼
-                    bot.push(channelId: process.env.CHANNEL_NO, ['userId:' + event.source.userId + '\n' + '  groupId:' + event.source.groupId + '\n' + ':' +event.message.text]);
+					messagepush = messagepush + 'groupId:' + event.source.groupId + '\n' + ':' +event.message.text
+                    bot.push(channelId: process.env.CHANNEL_NO, messagepush);
                     break;
             }
             break;
         case 'image':
             // 紀錄 userId 傳了 image
-            bot.push(channelId: process.env.CHANNEL_NO, ['userId:' + event.source.userId + '\n' + '  groupId:' + event.source.groupId + '\n' + ':' + event.message.type]);
+			messagepush = messagepush + 'groupId:' + event.source.groupId + '\n' + ':' + event.message.type
+            bot.push(channelId: process.env.CHANNEL_NO, messagepush);
 
             //event.message.content().then(function (data) {
             //    const s = data.toString('hex').substring(0, 32);
@@ -95,23 +99,29 @@ bot.on('message', function(event) {
             break;
         case 'video':
             // 紀錄 userId 傳了 video
-            bot.push(channelId: process.env.CHANNEL_NO, ['userId:' + event.source.userId + '\n' + '  groupId:' + event.source.groupId + '\n' + ':' + event.message.type]);
+			messagepush = messagepush + 'groupId:' + event.source.groupId + '\n' + ':' + event.message.type
+            bot.push(channelId: process.env.CHANNEL_NO, messagepush);
             break;
         case 'audio':
             // 紀錄 userId 傳了 audio
-            bot.push(channelId: process.env.CHANNEL_NO, ['userId:' + event.source.userId + '\n' + '  groupId:' + event.source.groupId + '\n' + ':' + event.message.type]);
+			messagepush = messagepush + 'groupId:' + event.source.groupId + '\n' + ':' + event.message.type
+            bot.push(channelId: process.env.CHANNEL_NO, messagepush);
             break;
         case 'file':
             // 紀錄 userId 傳了 file
-            bot.push(channelId: process.env.CHANNEL_NO, ['userId:' + event.source.userId + '\n' + '  groupId:' + event.source.groupId + '\n' + ':' + event.message.type]);
+			messagepush = messagepush + 'groupId:' + event.source.groupId + '\n' + ':' + event.message.type
+            bot.push(channelId: process.env.CHANNEL_NO, messagepush);
             break;
         case 'location':
             // 紀錄 userId 傳了 location
-            bot.push(channelId: process.env.CHANNEL_NO, ['userId:' + event.source.userId + '\n' + '  groupId:' + event.source.groupId + '\n' + ':' + event.message.type ,'Lat:' + event.message.latitude , 'Long:' + event.message.longitude]);
+			messagepush = messagepush + 'groupId:' + event.source.groupId + '\n' + ':' + event.message.type
+            bot.push(channelId: process.env.CHANNEL_NO, [messagepush, 'Lat:' + event.message.latitude, 'Long:' + event.message.longitude]);
             break;
         case 'sticker':
             // 紀錄 userId 傳了 sticker
-            bot.push(channelId: process.env.CHANNEL_NO, ['userId:' + event.source.userId + '\n' + '  groupId:' + event.source.groupId + '\n' + ':' + event.message.type + '\n' + event.message.packageId + ':' + event.message.stickerId ]);
+			messagepush = messagepush + 'groupId:' + event.source.groupId + '\n' + ':' + event.message.type
+            bot.push(channelId: process.env.CHANNEL_NO, messagepush + '\n' + event.message.packageId + ':' + event.message.stickerId);
+
             // 傳送貼圖
             // bot.push(channelId: process.env.CHANNEL_NO, {
                 // type: 'sticker',
@@ -121,7 +131,8 @@ bot.on('message', function(event) {
             break;
         default:
             // 紀錄 userId 傳了 未知類別
-            bot.push(channelId: process.env.CHANNEL_NO, ['userId:' + event.source.userId + '\n' + '  groupId:' + event.source.groupId + '\n' + ':' + event.message.type]);
+			messagepush = messagepush + 'groupId:' + event.source.groupId + '\n' + ':' + event.message.type
+            bot.push(channelId: process.env.CHANNEL_NO, messagepush);
             break;
     }
 });
