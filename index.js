@@ -10,9 +10,10 @@ const bot = linebot({
 // 當有人傳送訊息給Bot時 觸發
 bot.on('message', function(event) {
     var messagepush = 'userId:' + event.source.userId + '\n';
-	var playName = JSON.stringify(event.source.profile());
-	
-	messagepush = messagepush + 'displayName:' + playName + '\n';
+	var displayName = event.source.profile().then(function (profile) {
+        messagepush = messagepush + 'displayName:' + profile.displayName + '\n';
+		return profile.displayName;
+    });
 	
     if(typeof event.source.groupId !== "undefined")
 	{
