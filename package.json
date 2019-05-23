@@ -1,0 +1,36 @@
+{
+  "name": "linebot",
+  "version": "1.0.0",
+  "description": "Node.js SDK for the LINE Messaging API",
+  "main": "index.js",
+  "files": [
+    "index.js",
+    "lib/**"
+  ],
+  "scripts": {
+    "start": "node .",
+    "pretest": "eslint index.js lib/**/*.js",
+    "test": "mocha --timeout 5000 --exit",
+    "lint": "eslint index.js lib/**/*.js"
+  },
+  "keywords": [
+    "LINE",
+    "Messaging",
+    "API",
+    "chat",
+    "bot"
+  ],
+  "author": "Chaing",
+  "license": "MIT",
+  "homepage": "https://github.com/nomysky52/LINE-BOX_Heroku#readme",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "debug": "^4.1.1",
+    "node-fetch": "^2.5.0"
+  },
+  "devDependencies": {
+    "eslint": "^5.16.0",
+    "mocha": "^6.1.4",
+    "nock": "^10.0.6"
+  }
+}
