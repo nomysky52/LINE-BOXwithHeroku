@@ -43,13 +43,13 @@ bot.on('message', function(event) {
                     break;
                 case 'Push':
 					messagepush = messagepush + String.fromCharCode(0xD83D, 0xDE01)
-                    bot.push(channelId: process.env.CHANNEL_NO, messagepush);
+                    bot.push(process.env.CHANNEL_NO, messagepush);
                     break;
                 case 'Push2':
-                    bot.push(channelId: process.env.CHANNEL_NO, 'Push to group');
+                    bot.push(process.env.CHANNEL_NO, 'Push to group');
                     break;
                 case 'Multicast':
-                    bot.push(channelId: process.env.CHANNEL_NO, 'Multicast!');
+                    bot.push(process.env.CHANNEL_NO, 'Multicast!');
                     break;
                 case 'Broadcast':
                     bot.broadcast('Broadcast!');
@@ -82,14 +82,14 @@ bot.on('message', function(event) {
                 default:
                     // 回傳 userId 說了甚麼
                     messagepush = messagepush + 'groupId:' + event.source.groupId + '\n' + ':' +event.message.text
-                    bot.push(channelId: process.env.CHANNEL_NO, messagepush);
+                    bot.push(process.env.CHANNEL_NO, messagepush);
                     break;
             }
             break;
         case 'image':
             // 紀錄 userId 傳了 image
             messagepush = messagepush + 'groupId:' + event.source.groupId + '\n' + ':' + event.message.type
-            bot.push(channelId: process.env.CHANNEL_NO, messagepush);
+            bot.push(process.env.CHANNEL_NO, messagepush);
 
             //event.message.content().then(function (data) {
             //    const s = data.toString('hex').substring(0, 32);
@@ -101,30 +101,30 @@ bot.on('message', function(event) {
         case 'video':
             // 紀錄 userId 傳了 video
             messagepush = messagepush + 'groupId:' + event.source.groupId + '\n' + ':' + event.message.type
-            bot.push(channelId: process.env.CHANNEL_NO, messagepush);
+            bot.push(process.env.CHANNEL_NO, messagepush);
             break;
         case 'audio':
             // 紀錄 userId 傳了 audio
             messagepush = messagepush + 'groupId:' + event.source.groupId + '\n' + ':' + event.message.type
-            bot.push(channelId: process.env.CHANNEL_NO, messagepush);
+            bot.push(process.env.CHANNEL_NO, messagepush);
             break;
         case 'file':
             // 紀錄 userId 傳了 file
             messagepush = messagepush + 'groupId:' + event.source.groupId + '\n' + ':' + event.message.type
-            bot.push(channelId: process.env.CHANNEL_NO, messagepush);
+            bot.push(process.env.CHANNEL_NO, messagepush);
             break;
         case 'location':
             // 紀錄 userId 傳了 location
             messagepush = messagepush + 'groupId:' + event.source.groupId + '\n' + ':' + event.message.type
-            bot.push(channelId: process.env.CHANNEL_NO, [messagepush, 'Lat:' + event.message.latitude, 'Long:' + event.message.longitude]);
+            bot.push(process.env.CHANNEL_NO, [messagepush, 'Lat:' + event.message.latitude, 'Long:' + event.message.longitude]);
             break;
         case 'sticker':
             // 紀錄 userId 傳了 sticker
             messagepush = messagepush + 'groupId:' + event.source.groupId + '\n' + ':' + event.message.type
-            bot.push(channelId: process.env.CHANNEL_NO, messagepush + '\n' + event.message.packageId + ':' + event.message.stickerId);
+            bot.push(process.env.CHANNEL_NO, messagepush + '\n' + event.message.packageId + ':' + event.message.stickerId);
 
             // 傳送貼圖
-            // bot.push(channelId: process.env.CHANNEL_NO, {
+            // bot.push(process.env.CHANNEL_NO, {
                 // type: 'sticker',
                 // packageId: event.message.packageId, // Line 有限制只能使用前4套貼圖，也就是說 packageId 的值必須在 1 到 4 之間。
                 // stickerId: event.message.stickerId
@@ -133,7 +133,7 @@ bot.on('message', function(event) {
         default:
             // 紀錄 userId 傳了 未知類別
             messagepush = messagepush + 'groupId:' + event.source.groupId + '\n' + ':' + event.message.type
-            bot.push(channelId: process.env.CHANNEL_NO, messagepush);
+            bot.push(process.env.CHANNEL_NO, messagepush);
             break;
     }
 });
@@ -141,13 +141,13 @@ bot.on('message', function(event) {
 // 當添加為朋友（或未阻止）時 觸發
 bot.on('follow', function (event) { 
     var messagepush = 'userId:' + event.source.userId
-    bot.push(channelId: process.env.CHANNEL_NO, '[follow]' + messagepush);
+    bot.push(process.env.CHANNEL_NO, '[follow]' + messagepush);
 });
 
 // 當取消關注（或封鎖）時 觸發
 bot.on('unfollow', function (event) { 
     var messagepush = 'userId:' + event.source.userId
-    bot.push(channelId: process.env.CHANNEL_NO, '[unfollow]' + messagepush);
+    bot.push(process.env.CHANNEL_NO, '[unfollow]' + messagepush);
 });
 
 // 當群組加入成員時 觸發
@@ -161,25 +161,25 @@ bot.on('memberLeft', function (event) {
 // 當加入邀請時 觸發
 bot.on('join', function (event) {
     var messagepush = 'userId:' + event.source.userId + '\n' + 'groupId:' + event.source.groupId
-    bot.push(channelId: process.env.CHANNEL_NO, '[join]' + messagepush);
+    bot.push(process.env.CHANNEL_NO, '[join]' + messagepush);
 });
 
 // 當離開群組時 觸發
 bot.on('leave', function (event) {
     var messagepush = 'userId:' + event.source.userId + '\n' + 'groupId:' + event.source.groupId
-    bot.push(channelId: process.env.CHANNEL_NO, '[leave]' + messagepush);
+    bot.push(process.env.CHANNEL_NO, '[leave]' + messagepush);
 });
 
 // 
 bot.on('postback', function (event) {
     var messagepush = 'userId:' + event.source.userId + '\n' + 'groupId:' + event.source.groupId
-    bot.push(channelId: process.env.CHANNEL_NO, '[postback]' + messagepush);
+    bot.push(process.env.CHANNEL_NO, '[postback]' + messagepush);
 });
 
 // 
 bot.on('beacon',   function (event) {
     var messagepush = 'userId:' + event.source.userId + '\n' + 'groupId:' + event.source.groupId
-    bot.push(channelId: process.env.CHANNEL_NO, '[beacon]' + messagepush);
+    bot.push(process.env.CHANNEL_NO, '[beacon]' + messagepush);
 });
 
 // Bot所監聽的webhook路徑與port
