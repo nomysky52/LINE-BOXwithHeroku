@@ -9,7 +9,13 @@ const bot = linebot({
 });
 // 當有人傳送訊息給Bot時 觸發
 bot.on('message', function(event) {
-    var messagepush = 'userId:' + event.source.userId + '\n'
+    var messagepush = 'userId:' + event.source.userId + '\n';
+	var displayName = '';
+	event.source.profile().then(function (profile) {
+		displayName = profile.displayName;
+		messagepush = messagepush + 'displayName:' + displayName + '\n';
+     });
+	
     if(typeof event.source.groupId !== "undefined")
 	{
 		messagepush = messagepush + 'groupId:' + event.source.groupId + '\n'
@@ -128,17 +134,17 @@ bot.on('message', function(event) {
             //bot.push(process.env.CHANNEL_NO, [messagepush, 'Lat:' + event.message.latitude, 'Long:' + event.message.longitude]);
             bot.push(process.env.CHANNEL_NO, JSON.stringify(event));
             break;
-        case 'sticker':
+        // 收到貼圖    
+		case 'sticker':
             // 紀錄 userId 傳了 sticker
-            //messagepush = messagepush + ':' + event.message.type
-            //bot.push(process.env.CHANNEL_NO, messagepush + '\n' + event.message.packageId + ':' + event.message.stickerId);
-            bot.push(process.env.CHANNEL_NO, JSON.stringify(event));
+            messagepush = messagepush + ':' + event.message.type
+            bot.push(process.env.CHANNEL_NO, messagepush + '\n' + event.message.packageId + ':' + event.message.stickerId);
 
-            // 傳送貼圖
+            //// 傳送貼圖
             // bot.push(process.env.CHANNEL_NO, {
                 // type: 'sticker',
-                // packageId: event.message.packageId, // Line 有限制只能使用前4套貼圖，也就是說 packageId 的值必須在 1 到 4 之間。
-                // stickerId: event.message.stickerId
+                // packageId: 1, // event.message.packageId, // Line 有限制只能使用前4套貼圖，也就是說 packageId 的值必須在 1 到 4 之間。
+                // stickerId: 1  // event.message.stickerId
             // });
             break;
         default:
