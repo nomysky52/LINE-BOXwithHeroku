@@ -11,7 +11,8 @@ const bot = linebot({
 bot.on('message', function(event) {
     var messagepush = 'userId:' + event.source.userId + '\n';
 	var displayName = event.source.profile().then(function (profile) {
-        messagepush = messagepush + 'displayName:' + profile.displayName + '\n';
+        // messagepush = messagepush + 'displayName:' + profile.displayName + '\n';
+		bot.push(process.env.CHANNEL_NO, 'displayName:' + profile.displayName + '\n');
 		return profile.displayName;
     });
 	
