@@ -108,12 +108,12 @@ bot.on('message', function(event) {
             //bot.push(process.env.CHANNEL_NO, messagepush);
             bot.push(process.env.CHANNEL_NO, JSON.stringify(event));
 
-            //event.message.content().then(function (data) {
-            //    const s = data.toString('hex').substring(0, 32);
-            //    return event.reply('Nice picture! ' + s);
-            //    }).catch(function (err) {
-            //    return event.reply(err.toString());
-            //});
+            event.message.content().then(function (data) {
+               const s = data.toString('hex').substring(0, 32);
+               return bot.push(process.env.CHANNEL_NO, 'Nice picture! ' + s);
+               }).catch(function (err) {
+               return bot.push(process.env.CHANNEL_NO, err.toString());
+            });
             break;
         case 'video':
             // 紀錄 userId 傳了 video
