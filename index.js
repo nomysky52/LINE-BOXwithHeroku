@@ -11,7 +11,7 @@ const bot = linebot({
 bot.on('message', function(event) {
     var messagepush = 'userId:' + event.source.userId + '\n';
 	var displayName = event.source.profile().then(function (profile) {
-		return profile.displayName;
+		return JSON.stringify(profile.displayName);
     });
 	messagepush = messagepush + 'displayName:' + displayName + '\n';
 	
