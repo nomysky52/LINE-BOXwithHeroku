@@ -215,7 +215,7 @@ function(channelid) {
 		client.end();
 		context.succeed(jsonObj);
 	});
-
+	return this;
 	//const query = 'SELECT "CHANNELID", "TYPE", "NOTE" FROM public."CHANNEL"'// where "CHANNELID" = ' + channelid;
 
 	//return client.query(query);
