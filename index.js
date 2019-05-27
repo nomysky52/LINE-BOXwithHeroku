@@ -26,7 +26,17 @@ bot.on('message', function(event) {
 
     switch (event.message.type) {
         case 'text':
-		    if(event.source.userId == process.env.CHANNEL_NO)
+		    if(event.source.groupId === process.env.CHANNEL_RECEIVE)
+			{// 接收群組
+				switch (event.message.text) {
+					default:
+						//廣播
+						bot.broadcast(event.message.text);
+						break;
+				}
+				break;
+			}
+		    else if(event.source.userId === process.env.CHANNEL_NO)
 			{
 				if(typeof event.source.groupId !== "undefined")
 				{
@@ -35,17 +45,8 @@ bot.on('message', function(event) {
 				}
 				else
 				{
-					switch (event.message.text) {
-						case 'Set':
-							break;
-						default:
-							//廣播
-							//bot.broadcast(event.message.text);
-							// 回傳 userId 說了甚麼
-							//messagepush = messagepush + ':' + event.message.text
-							//bot.push(process.env.CHANNEL_NO, messagepush);
-							break;
-					}
+					event.reply(messagepush + ':' + event.message.text);
+					break;
 				}
 			}
             switch (event.message.text) {
@@ -122,12 +123,12 @@ bot.on('message', function(event) {
             //bot.push(process.env.CHANNEL_NO, messagepush);
             //bot.push(process.env.CHANNEL_NO, JSON.stringify(event));
 
-            event.message.content().then(function (data) {
-               const s = data.toString('hex').substring(0, 32);
-               return //bot.push(process.env.CHANNEL_NO, 'Nice picture! ' + s);
-               }).catch(function (err) {
-               return //bot.push(process.env.CHANNEL_NO, err.toString());
-            });
+            // event.message.content().then(function (data) {
+               // const s = data.toString('hex').substring(0, 32);
+               // return bot.push(process.env.CHANNEL_NO, 'Nice picture! ' + s);
+               // }).catch(function (err) {
+               // return bot.push(process.env.CHANNEL_NO, err.toString());
+            // });
             break;
         case 'video':
             // 紀錄 userId 傳了 video
@@ -165,8 +166,15 @@ bot.on('message', function(event) {
                 // packageId: 1, // event.message.packageId, // Line 有限制只能使用前4套貼圖，也就是說 packageId 的值必須在 1 到 4 之間。
                 // stickerId: 1  // event.message.stickerId
             // });
-			var a = check.checkchannel();
-			event.reply(messagepush + ':' + a)
+			if(event.source.userId === process.env.CHANNEL_NO)
+			{
+				
+			check.checkchannel(event.source.userId).then(function () {
+				event.reply(JSON.stringify(this));
+		    }
+			)
+			
+			};
             break;
         default:
             // 紀錄 userId 傳了 未知類別
@@ -186,6 +194,9 @@ bot.on('follow', function (event) {
 	// }
     // //bot.push(process.env.CHANNEL_NO, '[follow]' + messagepush);
     //bot.push(process.env.CHANNEL_NO, '[follow]' + '\n'+ JSON.stringify(event));
+	
+	
+	event.reply(['Line 1', 'Line 2', 'Line 3', 'Line 4', 'Line 5']);
 });
 
 // 當取消關注（或封鎖）時 觸發
