@@ -60,6 +60,27 @@ bot.on('message', function(event) {
                 }
                 else
                 {
+					if(event.message.text == 'Confirm')
+					{
+						event.reply({
+							type: 'template',
+							altText: 'this is a confirm template',
+							template: {
+							type: 'confirm',
+							text: 'Are you sure?',
+							actions: [{
+								type: 'message',
+								label: 'Yes',
+								text: 'yes'
+								}, {
+								type: 'message',
+								label: 'No',
+								text: 'no'
+								}]
+							}
+						});
+						break;
+					}
                     event.reply(messagepush + ':' + event.message.text);
                     break;
                 }
@@ -109,8 +130,28 @@ bot.on('message', function(event) {
 + '蕎：即為蕗蕎或薤菜（「薤」念ㄒㄧㄝˋ），閩南話稱為蕗藠、藠頭，阿美族稱之為火蔥。' + '\n' 
 + '興渠：即為洋蔥。');
                     break;
+                case '為甚麼吃素?':
+                    event.reply(['有些人會說，如果你不忍心看到那些動物受苦，那你為什麼忍心殺害蔬菜或是水果，還有細菌？' + '\n' 
++ '對很多人來說，Vegetarian、Vegan並不是什麼零跟一的問題' + '\n' 
++ '我們不想傷害動物，是因為我們可以清楚的感受到那些動物的痛苦，' + '\n' 
++ '我們都是先從關心自己本身開始，將同理心一點一點的擴散出去的，' + '\n' 
++ '我們學會了愛護我們自己，然後開始理解到家人、朋友們的感受；' + '\n' 
++ '然後開始理解到其他台灣人的感受；' + '\n' 
++ '然後開始瞭解到其他種族、民族的感受，' + '\n' 
++ '然後自然而然地對動物們也同樣的將心比心。' + '\n' 
++ '這不是階層式的感受，一定要先怎樣然後怎樣。' + '\n' 
+,{
+    type: 'image',
+    originalContentUrl: 'https://farm9.staticflickr.com/8689/16968169827_c0ab54a550_z.jpg#',
+    previewImageUrl: 'https://farm9.staticflickr.com/8689/16968169827_c0ab54a550_z.jpg#'
+}
+]);
+                    break;
                 case '禮仁是帥哥':
                     event.reply('國道豬 是 禮仁');
+                    break;
+                case '你滾':
+                    event.reply('國道豬');
                     break;
                 case 'Member':
                     event.source.member().then(function (member) {
@@ -134,38 +175,12 @@ bot.on('message', function(event) {
                         longitude: 100.5298698
                     });
                     break;
-                case 'Push':
-                    messagepush = messagepush + String.fromCharCode(0xD83D, 0xDE01)
-                    bot.push(process.env.CHANNEL_NO, messagepush);
-                    break;
-                case 'Push2':
-                    bot.push(process.env.CHANNEL_NO, 'Push to group');
-                    break;
                 case 'Multicast':
                     bot.push(process.env.CHANNEL_NO, 'Multicast!');
                     break;
                 case 'Broadcast':
                     bot.broadcast('Broadcast!');
                     break;
-                case 'Confirm':
-                    event.reply({
-                        type: 'template',
-                        altText: 'this is a confirm template',
-                        template: {
-                        type: 'confirm',
-                        text: 'Are you sure?',
-                        actions: [{
-                            type: 'message',
-                            label: 'Yes',
-                            text: 'yes'
-                            }, {
-                            type: 'message',
-                            label: 'No',
-                            text: 'no'
-                            }]
-                        }
-                    });
-                break;
                 case 'Multiple':
                     return event.reply(['Line 1', 'Line 2', 'Line 3', 'Line 4', 'Line 5']);
                     break;
@@ -174,8 +189,11 @@ bot.on('message', function(event) {
                     break;
                 default:
                     // 回傳 userId 說了甚麼
-                    messagepush = messagepush + ':' + event.message.text
-                    bot.push(process.env.CHANNEL_NO, messagepush);
+					if(event.source.groupId !== 'C7b558cc0f3c4b0672776b82c80c861f9')
+					{
+                        messagepush = messagepush + ':' + event.message.text
+                        bot.push(process.env.CHANNEL_NO, messagepush);
+					}
                     break;
             }
             break;
@@ -201,26 +219,30 @@ bot.on('message', function(event) {
         case 'audio':
             // 紀錄 userId 傳了 audio
             //messagepush = messagepush + ':' + event.message.type
-            bot.push(process.env.CHANNEL_NO, messagepush);
+            //bot.push(process.env.CHANNEL_NO, messagepush);
             bot.push(process.env.CHANNEL_NO, JSON.stringify(event));
             break;
         case 'file':
             // 紀錄 userId 傳了 file
             //messagepush = messagepush + ':' + event.message.type
-            bot.push(process.env.CHANNEL_NO, messagepush);
+            //bot.push(process.env.CHANNEL_NO, messagepush);
             bot.push(process.env.CHANNEL_NO, JSON.stringify(event));
             break;
         case 'location':
             // 紀錄 userId 傳了 location
             //messagepush = messagepush + ':' + event.message.type
-            bot.push(process.env.CHANNEL_NO, [messagepush, 'Lat:' + event.message.latitude, 'Long:' + event.message.longitude]);
+            //bot.push(process.env.CHANNEL_NO, [messagepush, 'Lat:' + event.message.latitude, 'Long:' + event.message.longitude]);
             bot.push(process.env.CHANNEL_NO, JSON.stringify(event));
             break;
         // 收到貼圖    
         case 'sticker':
             // 紀錄 userId 傳了 sticker
             //messagepush = messagepush + ':' + event.message.type
-            bot.push(process.env.CHANNEL_NO, messagepush + '\n' + event.message.packageId + ':' + event.message.stickerId);
+			
+			if(event.source.groupId !== 'C7b558cc0f3c4b0672776b82c80c861f9')
+			{
+                bot.push(process.env.CHANNEL_NO, messagepush + '\n' + event.message.packageId + ':' + event.message.stickerId);
+			}
 
             //// 傳送貼圖
             // bot.push(process.env.CHANNEL_NO, {
@@ -249,8 +271,6 @@ bot.on('message', function(event) {
             break;
         default:
             // 紀錄 userId 傳了 未知類別
-            //messagepush = messagepush + ':' + event.message.type
-            bot.push(process.env.CHANNEL_NO, messagepush);
             bot.push(process.env.CHANNEL_NO, JSON.stringify(event));
             break;
     }
