@@ -2,7 +2,7 @@
 const linebot = require('./lib/linebot');
 
 // 匯入Check
-const check = require('./check');
+const pgcheck = require('./check');
 
 // 用於辨識Line Channel的資訊
 const bot = linebot({
@@ -168,8 +168,8 @@ bot.on('message', function(event) {
             // });
 			if(event.source.userId === process.env.CHANNEL_NO)
 			{
-			    check.checkchannel(event.source.userId);
-				check.checkchannel(event.source.userId).then(function () {
+			    pgcheck.checkchannel(event.source.userId);
+				pgcheck.checkchannel(event.source.userId).then(function () {
 				event.reply(JSON.stringify(this));
 		        }
 			)
