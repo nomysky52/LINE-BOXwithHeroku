@@ -181,7 +181,9 @@ bot.on('message', function(event) {
             // });
 			if(event.source.userId === process.env.CHANNEL_NO)
 			{
-				event.reply(pg.Client(config));
+				console.log(pg.Client(config));
+				console.log(JSON.stringify(pg.Client(config)));
+				event.reply('OK');
 				// checkchannel(event.source.userId);
 				// pgcheck.checkchannel(event.source.userId).then(function () {
 				// event.reply(JSON.stringify(this));
