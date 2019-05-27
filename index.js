@@ -259,7 +259,7 @@ bot.on('message', function(event) {
     // database: 'd8a8qp0fsn155i',
     // port: 5432
 // })
-				pg.Client(connectionString, function(err, client, done) {
+				pg.connect(connectionString, function(err, client, done) {
    client.query('SELECT * FROM public."CHANNEL"', function(err, result) {
       done();
       if(err) return console.error(err);
