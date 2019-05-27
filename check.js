@@ -14,7 +14,7 @@ const config = {
 function checkchannel(channelid) {
     const client = new pg.Client(config);
 	
-	const query = 'SELECT "CHANNELID", "TYPE", "NOTE" FROM public."CHANNEL" where "CHANNELID" = ' + channelid;
+	const query = 'SELECT "CHANNELID", "TYPE", "NOTE" FROM public."CHANNEL"'// where "CHANNELID" = ' + channelid;
 	
     return client.query(query);
 }
