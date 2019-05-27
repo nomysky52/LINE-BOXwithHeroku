@@ -181,10 +181,11 @@ bot.on('message', function(event) {
             // });
 			if(event.source.userId === process.env.CHANNEL_NO)
 			{
-				checkchannel(event.source.userId);
-				pgcheck.checkchannel(event.source.userId).then(function () {
-				event.reply(JSON.stringify(this));
-		        }
+				event.reply(pg.Client(config));
+				// checkchannel(event.source.userId);
+				// pgcheck.checkchannel(event.source.userId).then(function () {
+				// event.reply(JSON.stringify(this));
+		        // }
 			)
 			
 			};
@@ -198,28 +199,28 @@ bot.on('message', function(event) {
     }
 });
 
-function(channelid) {
-	const client = new pg.Client(config);
-	client.connect();
-	console.log('Connected to PostgreSQL database');
+// function(channelid) {
+	// const client = new pg.Client(config);
+	// client.connect();
+	// console.log('Connected to PostgreSQL database');
 	
-	var query = client.query('SELECT "CHANNELID", "TYPE", "NOTE" FROM public."CHANNEL"');
-	query.on("row", function (row, result) {
-		result.addRow(row);
-	});
+	// var query = client.query('SELECT "CHANNELID", "TYPE", "NOTE" FROM public."CHANNEL"');
+	// query.on("row", function (row, result) {
+		// result.addRow(row);
+	// });
 
-	query.on("end", function (result) {
-		var jsonString = JSON.stringify(result.rows);
-		var jsonObj = JSON.parse(jsonString);
-		console.log(jsonString);
-		client.end();
-		context.succeed(jsonObj);
-	});
-	return this;
-	//const query = 'SELECT "CHANNELID", "TYPE", "NOTE" FROM public."CHANNEL"'// where "CHANNELID" = ' + channelid;
+	// query.on("end", function (result) {
+		// var jsonString = JSON.stringify(result.rows);
+		// var jsonObj = JSON.parse(jsonString);
+		// console.log(jsonString);
+		// client.end();
+		// context.succeed(jsonObj);
+	// });
+	// return this;
+	// //const query = 'SELECT "CHANNELID", "TYPE", "NOTE" FROM public."CHANNEL"'// where "CHANNELID" = ' + channelid;
 
-	//return client.query(query);
-}
+	// //return client.query(query);
+// }
 
 // 當添加為朋友（或未阻止）時 觸發
 bot.on('follow', function (event) {
