@@ -249,6 +249,7 @@ bot.on('message', function(event) {
             if(event.source.userId === process.env.CHANNEL_NO)
             {
 				console.log(messagepush + event.message.packageId + ':' + event.message.stickerId);
+				console.log(connectionString);
                 const client = new pg.Client(connectionString)
 				// const client = new pg.Client(config)
                 client.connect(err => {
