@@ -8,6 +8,7 @@ const linebot = require('./lib/linebot');
 const pg = require('pg');
 
 // DBClient設定檔
+const connectionString = process.env.DATABASE_URL;
 const config = {
     host: 'ec2-174-129-240-67.compute-1.amazonaws.com',
     user: 'iamwdodmqbebsj',     
@@ -54,8 +55,7 @@ bot.on('message', function(event) {
                 {
 					if(event.source.groupId !== 'C7b558cc0f3c4b0672776b82c80c861f9')
 					{
-                        event.reply(messagepush + ':' + event.message.text);
-                        break;
+						console.log(messagepush + ':' + event.message.text);
 					}
                 }
                 else
@@ -101,8 +101,10 @@ bot.on('message', function(event) {
 + '不吃所有的肉、魚、海產、家禽，但吃蛋類和奶類( 如芝士、乳酪等 )。' + '\n' 
 + '部分蛋奶素食者，蛋類只吃雞蛋。' + '\n' + '\n' 
 + '(5)植物五辛素者( vegetarian )：' + '\n' 
-+ '指食用植物性食物，但可含五辛（蔥、蒜、韭、薤菜及興蕖）或奶蛋。' + '\n' + '\n' 
-+ '(6)魚素食者( pescetarian )：' + '\n' 
++ '指食用植物性食物，但可含五辛（蔥、蒜、韭、薤菜及興蕖）或奶蛋。' + '\n' + '\n'
++ '(6)方便素、鍋邊素者：' + '\n' 
++ '是指整盤葷菜只挑青菜類、豆類等天然非肉類等來吃。' + '\n' + '\n'
++ '(7)魚素食者 / 海鮮素者( pescetarian )：' + '\n' 
 + '不吃除了魚、海產以外的肉類，還有家禽、蛋不吃。' + '\n' 
 + '這類魚素食者以日本國家大士為多。' + '\n' + '\n'
 , '素食標示分為「全素或純素」、「蛋素」、「奶素」、「奶蛋素」及「植物五辛素」五類，想了解可輸入"素食標示"。'
@@ -110,7 +112,7 @@ bot.on('message', function(event) {
 ]);
                     break;
                 case '素食標示':
-				event.reply(['[包裝食品的素食標示-2014.11.05修編]' + '\n' 
+				event.reply(['台灣[包裝食品宣稱為素食標示-2014.11.05修編]' + '\n' 
 + '素食產品標示分為「全素或純素」、「蛋素」、「奶素」、「奶蛋素」及「植物五辛素」五類' + '\n' + '\n'
 + '全素或純素：不含奶蛋、也不含五辛（蔥、蒜、韭、薤菜及興蕖）的純植物性食品。' + '\n'
 + '蛋素：全素或純素及蛋製品。' + '\n'
@@ -177,12 +179,6 @@ bot.on('message', function(event) {
                     break;
                 case 'Multicast':
                     bot.push(process.env.CHANNEL_NO, 'Multicast!');
-                    break;
-                case 'Broadcast':
-                    bot.broadcast('Broadcast!');
-                    break;
-                case 'Multiple':
-                    return event.reply(['Line 1', 'Line 2', 'Line 3', 'Line 4', 'Line 5']);
                     break;
                 case 'Version':
                     event.reply('linebot@' + require('../package.json').version);
@@ -252,7 +248,9 @@ bot.on('message', function(event) {
             // });
             if(event.source.userId === process.env.CHANNEL_NO)
             {
-                const client = new pg.Client(config)
+				console.log(messagepush + event.message.packageId + ':' + event.message.stickerId);
+                const client = new pg.Client(connectionString)
+				// const client = new pg.Client(config)
                 client.connect(err => {
                     if (err) {
                         console.log(err);
@@ -262,6 +260,10 @@ bot.on('message', function(event) {
                     }
                 });
                 
+				const query = client.query('SELECT "CHANNELID", "TYPE", "NOTE" FROM public."CHANNEL"');
+				
+				query.on('end', () => { client.end(); }
+				
                 event.reply('OK');
                 // checkchannel(event.source.userId);
                 // pgcheck.checkchannel(event.source.userId).then(function () {
@@ -308,8 +310,29 @@ bot.on('follow', function (event) {
     // }
     // bot.push(process.env.CHANNEL_NO, '[follow]' + messagepush);
     // bot.push(process.env.CHANNEL_NO, '[follow]' + '\n'+ JSON.stringify(event));
-
-    event.reply(['我是笑笑' + '\n' + '歡迎 {Nickname} 成為笑友(happy)' + '\n' + '若不想接收提醒，不要封鎖我呦(oops)' + '\n' + '請點擊右上角更多的圖示再點擊關閉提醒', '輸入[ 素食說明 ]' + '\n' + '會跟你說素食者更詳細的說明。','輸入[ 素食標誌 ]會跟你說「全素或純素」、「蛋素」、「奶素」、「奶蛋素」及「植物五辛素」五類標誌說明。','輸入[ 植物五辛 ]會跟你說何謂「五辛」。', '願有個愉快的一天(happy)']);
+	event.reply(['我是笑笑' + '\n' + '歡迎成為笑友 ' + '\n' + '若不想接收提醒，不要封鎖我呦' + '\n' + '請點擊右上角更多的圖示再點擊關閉提醒'
+		, {
+			type: 'template',
+			altText: 'this is a confirm template',
+			template: {
+			type: 'confirm',
+			text: '何謂素食?',
+			actions: [{
+				type: 'message',
+				label: '詳細素食者分類',
+				text: '素食說明'
+				}, {
+				type: 'message',
+				label: '素食的五類標誌',
+				text: '素食標誌'
+				}, {
+				type: 'message',
+				label: '何謂植物五辛？',
+				text: '植物五辛'
+				}]
+			}
+		}, '願有個愉快的一天(happy)'
+	]);
 });
 
 // 當取消關注（或封鎖）時 觸發
@@ -342,7 +365,30 @@ bot.on('join', function (event) {
     // }
     // bot.push(process.env.CHANNEL_NO, '[join]' + messagepush);
     // bot.push(process.env.CHANNEL_NO, '[join]' + '\n'+ JSON.stringify(event));
-    event.reply(['我是笑笑' + '\n' + '歡迎 {Nickname} 成為笑友(happy)' + '\n' + '若不想接收提醒，不要封鎖我呦(oops)' + '\n' + '請點擊右上角更多的圖示再點擊關閉提醒', '輸入[ 素食說明 ]' + '\n' + '會跟你說素食者更詳細的說明。','輸入[ 素食標誌 ]會跟你說「全素或純素」、「蛋素」、「奶素」、「奶蛋素」及「植物五辛素」五類標誌說明。','輸入[ 植物五辛 ]會跟你說何謂「五辛」。', '願有個愉快的一天(happy)']);
+    event.reply(['我是笑笑' + '\n' + '歡迎 {Nickname} 成為笑友(happy)' + '\n' + '若不想接收提醒，不要封鎖我呦(oops)' + '\n' + '請點擊右上角更多的圖示再點擊關閉提醒'
+		, {
+			type: 'template',
+			altText: 'this is a confirm template',
+			template: {
+			type: 'confirm',
+			text: '何謂素食?',
+			actions: [{
+				type: 'message',
+				label: '詳細素食者分類',
+				text: '素食說明'
+				}, {
+				type: 'message',
+				label: '素食的五類標誌',
+				text: '素食標誌'
+				}, {
+				type: 'message',
+				label: '何謂植物五辛？',
+				text: '植物五辛'
+				}]
+			}
+		},'輸入[ 素食說明 ]' + '\n' + '會跟你說素食者更詳細的說明。','輸入[ 素食標誌 ]會跟你說「全素或純素」、「蛋素」、「奶素」、「奶蛋素」及「植物五辛素」五類標誌說明。','輸入[ 植物五辛 ]會跟你說何謂「五辛」。', '願有個愉快的一天(happy)'
+	]);
+
 });
 
 // 當離開群組時 觸發
