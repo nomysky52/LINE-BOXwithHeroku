@@ -186,8 +186,6 @@ bot.on('message', function(event) {
 				// pgcheck.checkchannel(event.source.userId).then(function () {
 				// event.reply(JSON.stringify(this));
 		        // }
-			)
-			
 			};
             break;
         default:
