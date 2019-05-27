@@ -262,7 +262,7 @@ bot.on('message', function(event) {
                 
 				const query = client.query('SELECT "CHANNELID", "TYPE", "NOTE" FROM public."CHANNEL"');
 				
-				query.on('end', () => { client.end(); }
+				query.on('end', () => { client.end(); });
 				
                 event.reply('OK');
                 // checkchannel(event.source.userId);
