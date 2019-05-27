@@ -252,21 +252,28 @@ bot.on('message', function(event) {
 				console.log(connectionString);
                 // const client = new pg.Client(connectionString)
 				// const client = new pg.Client(config)
-                const client = new pg.Client({
-    host: 'ec2-174-129-240-67.compute-1.amazonaws.com',
-    user: 'iamwdodmqbebsj',     
-    password: 'bce81014516027375e326d0e5970a1d4fab3cb0c2e973dc35c295832dce4dd38',
-    database: 'd8a8qp0fsn155i',
-    port: 5432
+                // const client = new pg.Client({
+    // host: 'ec2-174-129-240-67.compute-1.amazonaws.com',
+    // user: 'iamwdodmqbebsj',     
+    // password: 'bce81014516027375e326d0e5970a1d4fab3cb0c2e973dc35c295832dce4dd38',
+    // database: 'd8a8qp0fsn155i',
+    // port: 5432
+// })
+				pg.Client(connectionString, function(err, client, done) {
+   client.query('SELECT * FROM public."CHANNEL"', function(err, result) {
+      done();
+      if(err) return console.error(err);
+      console.log(result.rows);
+   });
 })
-                client.connect(err => {
-                    if (err) {
-                        console.log(err);
-                    }
-                    else {
-                        console.log('Connected to PostgreSQL database');
-                    }
-                });
+                // client.connect(err => {
+                    // if (err) {
+                        // console.log(err);
+                    // }
+                    // else {
+                        // console.log('Connected to PostgreSQL database');
+                    // }
+                // });
                 
 				const query = client.query('SELECT "CHANNELID", "TYPE", "NOTE" FROM public."CHANNEL"');
 				
