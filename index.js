@@ -169,6 +169,7 @@ bot.on('message', function(event) {
 			if(event.source.userId === process.env.CHANNEL_NO)
 			{
 			    pgcheck.checkchannel(event.source.userId);
+				checkchannel(event.source.userId);
 				pgcheck.checkchannel(event.source.userId).then(function () {
 				event.reply(JSON.stringify(this));
 		        }
