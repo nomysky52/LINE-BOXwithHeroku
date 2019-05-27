@@ -168,7 +168,8 @@ bot.on('message', function(event) {
             // });
 			if(event.source.userId === process.env.CHANNEL_NO)
 			{
-			    checkchannel(event.source.userId).then(function () {
+			    check.checkchannel(event.source.userId);
+				check.checkchannel(event.source.userId).then(function () {
 				event.reply(JSON.stringify(this));
 		        }
 			)
