@@ -181,8 +181,16 @@ bot.on('message', function(event) {
             // });
 			if(event.source.userId === process.env.CHANNEL_NO)
 			{
-				var client = new pg.Client(config)
-				console.log(client.connect());
+				const client = new pg.Client(config)
+				client.connect(err => {
+					if (err) {
+						console.log(err);
+					}
+					else {
+						console.log('Connected to PostgreSQL database');
+					}
+				});
+				
 				event.reply('OK');
 				// checkchannel(event.source.userId);
 				// pgcheck.checkchannel(event.source.userId).then(function () {
