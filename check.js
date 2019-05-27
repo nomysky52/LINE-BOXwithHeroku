@@ -12,7 +12,7 @@ const config = {
 };
 
 class LineBot {
-	checkchannel(channelid) {
+	checkchannel = function(channelid) {
         const client = new pg.Client(config);
         client.connect();
         console.log('Connected to PostgreSQL database');
