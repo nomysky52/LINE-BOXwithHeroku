@@ -133,7 +133,7 @@ bot.on('message', function(event) {
 + '興渠：即為洋蔥。');
                     break;
                 case '為甚麼吃素?':
-                    event.reply(['有些人會說，如果你不忍心看到那些動物受苦，那你為什麼忍心殺害蔬菜或是水果，還有細菌？' + '\n' 
+                    event.reply('有些人會說，如果你不忍心看到那些動物受苦，那你為什麼忍心殺害蔬菜或是水果，還有細菌？' + '\n' 
 + '對很多人來說，Vegetarian、Vegan並不是什麼零跟一的問題' + '\n' 
 + '我們不想傷害動物，是因為我們可以清楚的感受到那些動物的痛苦，' + '\n' 
 + '我們都是先從關心自己本身開始，將同理心一點一點的擴散出去的，' + '\n' 
@@ -142,12 +142,7 @@ bot.on('message', function(event) {
 + '然後開始瞭解到其他種族、民族的感受，' + '\n' 
 + '然後自然而然地對動物們也同樣的將心比心。' + '\n' 
 + '這不是階層式的感受，一定要先怎樣然後怎樣。' + '\n' 
-,{
-    type: 'image',
-    originalContentUrl: 'https://farm9.staticflickr.com/8689/16968169827_c0ab54a550_z.jpg#',
-    previewImageUrl: 'https://farm9.staticflickr.com/8689/16968169827_c0ab54a550_z.jpg#'
-}
-]);
+);
                     break;
                 case '禮仁是帥哥':
                     event.reply('國道豬 是 禮仁');
@@ -163,10 +158,10 @@ bot.on('message', function(event) {
                     break;
                 case 'Picture':
                     event.reply({
-                        type: 'image',
-                        originalContentUrl: 'https://d.line-scdn.net/stf/line-lp/family/en-US/190X190_line_me.png',
-                        previewImageUrl: 'https://d.line-scdn.net/stf/line-lp/family/en-US/190X190_line_me.png'
-                    });
+						type: 'image',
+						originalContentUrl: 'https://farm9.staticflickr.com/8689/16968169827_c0ab54a550_z.jpg#',
+						previewImageUrl: 'https://farm9.staticflickr.com/8689/16968169827_c0ab54a550_z.jpg#'
+					});
                     break;
                 case 'Location':
                     event.reply({
@@ -326,27 +321,7 @@ bot.on('follow', function (event) {
     // bot.push(process.env.CHANNEL_NO, '[follow]' + messagepush);
     // bot.push(process.env.CHANNEL_NO, '[follow]' + '\n'+ JSON.stringify(event));
 	event.reply(['我是笑笑' + '\n' + '歡迎成為笑友 ' + '\n' + '若不想接收提醒，不要封鎖我呦' + '\n' + '請點擊右上角更多的圖示再點擊關閉提醒'
-		, {
-			type: 'template',
-			altText: 'this is a confirm template',
-			template: {
-			type: 'confirm',
-			text: '何謂素食?',
-			actions: [{
-				type: 'message',
-				label: '詳細素食者分類',
-				text: '素食說明'
-				}, {
-				type: 'message',
-				label: '素食的五類標誌',
-				text: '素食標誌'
-				}, {
-				type: 'message',
-				label: '何謂植物五辛？',
-				text: '植物五辛'
-				}]
-			}
-		}, '願有個愉快的一天(happy)'
+		, '願有個愉快的一天(happy)'
 	]);
 });
 
@@ -381,27 +356,7 @@ bot.on('join', function (event) {
     // bot.push(process.env.CHANNEL_NO, '[join]' + messagepush);
     // bot.push(process.env.CHANNEL_NO, '[join]' + '\n'+ JSON.stringify(event));
     event.reply(['我是笑笑' + '\n' + '歡迎 {Nickname} 成為笑友(happy)' + '\n' + '若不想接收提醒，不要封鎖我呦(oops)' + '\n' + '請點擊右上角更多的圖示再點擊關閉提醒'
-		, {
-			type: 'template',
-			altText: 'this is a confirm template',
-			template: {
-			type: 'confirm',
-			text: '何謂素食?',
-			actions: [{
-				type: 'message',
-				label: '詳細素食者分類',
-				text: '素食說明'
-				}, {
-				type: 'message',
-				label: '素食的五類標誌',
-				text: '素食標誌'
-				}, {
-				type: 'message',
-				label: '何謂植物五辛？',
-				text: '植物五辛'
-				}]
-			}
-		},'輸入[ 素食說明 ]' + '\n' + '會跟你說素食者更詳細的說明。','輸入[ 素食標誌 ]會跟你說「全素或純素」、「蛋素」、「奶素」、「奶蛋素」及「植物五辛素」五類標誌說明。','輸入[ 植物五辛 ]會跟你說何謂「五辛」。', '願有個愉快的一天(happy)'
+		,'輸入[ 素食說明 ]' + '\n' + '會跟你說素食者更詳細的說明。','輸入[ 素食標誌 ]會跟你說「全素或純素」、「蛋素」、「奶素」、「奶蛋素」及「植物五辛素」五類標誌說明。','輸入[ 植物五辛 ]會跟你說何謂「五辛」。', '願有個愉快的一天(happy)'
 	]);
 
 });
