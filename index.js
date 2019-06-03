@@ -248,15 +248,8 @@ bot.on('message', function(event) {
             if(event.source.userId === process.env.CHANNEL_NO)
             {
 				console.log(messagepush + event.message.packageId + ':' + event.message.stickerId);
-                // const client = new pg.Client(connectionString)
-				const client = new pg.Client(config)
-                // const client = new pg.Client({
-    // host: 'ec2-174-129-240-67.compute-1.amazonaws.com',
-    // user: 'iamwdodmqbebsj',     
-    // password: 'bce81014516027375e326d0e5970a1d4fab3cb0c2e973dc35c295832dce4dd38',
-    // database: 'd8a8qp0fsn155i',
-    // port: 5432
-// })
+                const client = new pg.Client(connectionString)
+				// const client = new pg.Client(config)
 				// pg.connect(connectionString, function(err, client, done) {
    // client.query('SELECT * FROM public."CHANNEL"', function(err, result) {
       // done();
@@ -273,11 +266,9 @@ bot.on('message', function(event) {
                     // }
                 // });
                 
-				const query = client.query('SELECT "CHANNELID", "TYPE", "NOTE" FROM public."CHANNEL"').then(
-					query.on('end', () => { console.log(query);client.end(); });
-				);
+				const query = client.query('SELECT "CHANNELID", "TYPE", "NOTE" FROM public."CHANNEL"');
 				
-				// query.on('end', () => { console.log(query);client.end(); });
+				query.on('end', () => { console.log(query);client.end(); });
 				
                 event.reply(JSON.stringify(query));
                 // checkchannel(event.source.userId);
