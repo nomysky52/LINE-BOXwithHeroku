@@ -61,6 +61,7 @@ bot.on('message', function(event) {
                 {
 					if(event.message.text == 'Confirm')
 					{
+						// message: 'must be 2 items', property: 'template/actions' 
 						event.reply({
 							type: 'template',
 							altText: 'this is a confirm template',
@@ -71,10 +72,6 @@ bot.on('message', function(event) {
 								type: 'message',
 								label: '何謂素食者?',
 								text: '素食說明'
-								}, {
-								type: 'message',
-								label: '素食的五類標誌',
-								text: '素食標示'
 								}, {
 								type: 'message',
 								label: '何謂植物五辛?',
@@ -253,7 +250,7 @@ bot.on('message', function(event) {
 				console.log(messagepush + event.message.packageId + ':' + event.message.stickerId);
 				console.log(connectionString);
                 // const client = new pg.Client(connectionString)
-				// const client = new pg.Client(config)
+				const client = new pg.Client(config)
                 // const client = new pg.Client({
     // host: 'ec2-174-129-240-67.compute-1.amazonaws.com',
     // user: 'iamwdodmqbebsj',     
@@ -261,13 +258,13 @@ bot.on('message', function(event) {
     // database: 'd8a8qp0fsn155i',
     // port: 5432
 // })
-				pg.connect(connectionString, function(err, client, done) {
-   client.query('SELECT * FROM public."CHANNEL"', function(err, result) {
-      done();
-      if(err) return console.error(err);
-      console.log(result.rows);
-   });
-})
+				// pg.connect(connectionString, function(err, client, done) {
+   // client.query('SELECT * FROM public."CHANNEL"', function(err, result) {
+      // done();
+      // if(err) return console.error(err);
+      // console.log(result.rows);
+   // });
+// })
                 // client.connect(err => {
                     // if (err) {
                         // console.log(err);
@@ -279,7 +276,7 @@ bot.on('message', function(event) {
                 
 				const query = client.query('SELECT "CHANNELID", "TYPE", "NOTE" FROM public."CHANNEL"');
 				
-				query.on('end', () => { client.end(); });
+				query.on('end', () => { console.log(query);client.end(); });
 				
                 event.reply('OK');
                 // checkchannel(event.source.userId);
