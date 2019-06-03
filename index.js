@@ -248,7 +248,6 @@ bot.on('message', function(event) {
             if(event.source.userId === process.env.CHANNEL_NO)
             {
 				console.log(messagepush + event.message.packageId + ':' + event.message.stickerId);
-				console.log(connectionString);
                 // const client = new pg.Client(connectionString)
 				const client = new pg.Client(config)
                 // const client = new pg.Client({
@@ -278,7 +277,7 @@ bot.on('message', function(event) {
 				
 				query.on('end', () => { console.log(query);client.end(); });
 				
-                event.reply('OK');
+                event.reply(JSON.stringify(query));
                 // checkchannel(event.source.userId);
                 // pgcheck.checkchannel(event.source.userId).then(function () {
                 // event.reply(JSON.stringify(this));
