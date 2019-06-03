@@ -247,7 +247,6 @@ bot.on('message', function(event) {
             // });
             if(event.source.userId === process.env.CHANNEL_NO)
             {
-				console.log(messagepush + event.message.packageId + ':' + event.message.stickerId);
                 const client = new pg.Client(connectionString)
 				// const client = new pg.Client(config)
 				// pg.connect(connectionString, function(err, client, done) {
@@ -266,7 +265,11 @@ bot.on('message', function(event) {
                     // }
                 // });
                 
-				const query = client.query('SELECT "CHANNELID", "TYPE", "NOTE" FROM public."CHANNEL"');
+				const query = client.query('SELECT "CHANNELID", "TYPE", "NOTE" FROM public."CHANNEL"' , function(err, result) {
+					done();
+					if(err) return console.log(err);
+					console.log(result.rows);
+					});
 				
 				query.on('end', () => { console.log(query);client.end(); });
 				
