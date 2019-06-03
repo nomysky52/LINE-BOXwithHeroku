@@ -26,8 +26,7 @@ const bot = linebot({
 // 當有人傳送訊息給Bot時 觸發
 bot.on('message', function(event) {
     var messagepush = 'userId:' + event.source.userId + '\n';
-    // var displayName = event.source.profile().then(function (profile) {
-        // // messagepush = messagepush + 'displayName:' + profile.displayName + '\n';
+    // event.source.profile().then(function (profile) {
         // bot.push(process.env.CHANNEL_NO, 'displayName:' + profile.displayName + '\n');
         // return profile.displayName;
     // });
@@ -67,25 +66,67 @@ bot.on('message', function(event) {
 							altText: 'this is a confirm template',
 							template: {
 							type: 'confirm',
-							text: 'Are you sure?',
+							text: '想了解素食?',
 							actions: [{
 								type: 'message',
-								label: 'Yes',
-								text: 'yes'
+								label: '何謂素食者?',
+								text: '素食說明'
 								}, {
 								type: 'message',
-								label: 'No',
-								text: 'no'
+								label: '素食的五類標誌',
+								text: '素食標示'
+								}, {
+								type: 'message',
+								label: '何謂植物五辛?',
+								text: '植物五辛'
 								}]
 							}
 						});
 						break;
 					}
-                    event.reply(messagepush + ':' + event.message.text);
-                    break;
+					else if(event.message.text == 'Member')
+					{
+						event.source.member().then(function (member) {
+							bot.push(process.env.CHANNEL_NO, JSON.stringify(member));
+							return event.reply(JSON.stringify(member));
+						});
+						break;
+					}
+					else if(event.message.text == 'Picture')
+					{
+						event.reply({
+							type: 'image',
+							originalContentUrl: 'https://farm9.staticflickr.com/8689/16968169827_c0ab54a550_z.jpg#',
+							previewImageUrl: 'https://farm9.staticflickr.com/8689/16968169827_c0ab54a550_z.jpg#'
+						});
+						break;
+					}
+					// else if(event.message.text == 'Location')
+					// {
+						// event.reply({
+							// type: 'location',
+							// title: 'LINE Plus Corporation',
+							// address: '1 Empire tower, Sathorn, Bangkok 10120, Thailand',
+							// latitude: 13.7202068,
+							// longitude: 100.5298698
+						// });
+						// break;
+					// }
+					else if(event.message.text == 'Multicast')
+					{
+						event.reply(messagepush + ':' + event.message.text);
+						break;
+					}
                 }
             }
-            switch (event.message.text) {                
+            switch (event.message.text) {
+                case '說明':
+                    event.reply(['輸入以下「關鍵字」' + '\n'
+, '「素食說明」:介紹一般素食者的區分。' + '\n' 
++ '「素食標示」:介紹[包裝食品宣稱為素食標示-2014.11.05修編]要點。' + '\n' 
++ '「植物五辛」:介紹何為植物五辛?' + '\n' 
+]);
+                    break;
                 case '素食說明':
                     event.reply(['素食者有分為' + '\n' 
 + '(1)嚴格素食者/純素主義者( Vegan / veganism )：' + '\n' 
@@ -124,16 +165,17 @@ bot.on('message', function(event) {
 ]);
                     break;
                 case '植物五辛':
-                    event.reply('何謂植物五辛？' + '\n' 
+                    event.reply(['何謂植物五辛？' + '\n' 
 + '植物五辛包括「蔥、蒜、韭、蕎及興渠」五類植物' + '\n' 
 + '蔥：含青蔥、紅蔥、革蔥、慈蔥、蘭蔥...等等蔥類。' + '\n' 
 + '蒜：含大蒜、蒜苗...等等蒜類。' + '\n' 
 + '韭：含韭菜、韭黃、韭菜花...等等韭類。' + '\n' 
 + '蕎：即為蕗蕎或薤菜（「薤」念ㄒㄧㄝˋ），閩南話稱為蕗藠、藠頭，阿美族稱之為火蔥。' + '\n' 
-+ '興渠：即為洋蔥。');
++ '興渠：即為洋蔥。'
+]);
                     break;
                 case '為甚麼吃素?':
-                    event.reply('有些人會說，如果你不忍心看到那些動物受苦，那你為什麼忍心殺害蔬菜或是水果，還有細菌？' + '\n' 
+                    event.reply(['有些人會說，如果你不忍心看到那些動物受苦，那你為什麼忍心殺害蔬菜或是水果，還有細菌？' + '\n' 
 + '對很多人來說，Vegetarian、Vegan並不是什麼零跟一的問題' + '\n' 
 + '我們不想傷害動物，是因為我們可以清楚的感受到那些動物的痛苦，' + '\n' 
 + '我們都是先從關心自己本身開始，將同理心一點一點的擴散出去的，' + '\n' 
@@ -142,38 +184,13 @@ bot.on('message', function(event) {
 + '然後開始瞭解到其他種族、民族的感受，' + '\n' 
 + '然後自然而然地對動物們也同樣的將心比心。' + '\n' 
 + '這不是階層式的感受，一定要先怎樣然後怎樣。' + '\n' 
-);
+]);
                     break;
                 case '禮仁是帥哥':
                     event.reply('國道豬 是 禮仁');
                     break;
                 case '你滾':
                     event.reply('國道豬');
-                    break;
-                case 'Member':
-                    event.source.member().then(function (member) {
-                        bot.push(process.env.CHANNEL_NO, JSON.stringify(member));
-                        return event.reply(JSON.stringify(member));
-                    });
-                    break;
-                case 'Picture':
-                    event.reply({
-						type: 'image',
-						originalContentUrl: 'https://farm9.staticflickr.com/8689/16968169827_c0ab54a550_z.jpg#',
-						previewImageUrl: 'https://farm9.staticflickr.com/8689/16968169827_c0ab54a550_z.jpg#'
-					});
-                    break;
-                case 'Location':
-                    event.reply({
-                        type: 'location',
-                        title: 'LINE Plus Corporation',
-                        address: '1 Empire tower, Sathorn, Bangkok 10120, Thailand',
-                        latitude: 13.7202068,
-                        longitude: 100.5298698
-                    });
-                    break;
-                case 'Multicast':
-                    bot.push(process.env.CHANNEL_NO, 'Multicast!');
                     break;
                 case 'Version':
                     event.reply('linebot@' + require('../package.json').version);
@@ -190,50 +207,40 @@ bot.on('message', function(event) {
             break;
         case 'image':
             // 紀錄 userId 傳了 image
-            //messagepush = messagepush + ':' + event.message.type
-            bot.push(process.env.CHANNEL_NO, messagepush);
-            bot.push(process.env.CHANNEL_NO, JSON.stringify(event));
-
-            // event.message.content().then(function (data) {
-               // const s = data.toString('hex').substring(0, 32);
-               // return bot.push(process.env.CHANNEL_NO, 'Nice picture! ' + s);
-               // }).catch(function (err) {
-               // return bot.push(process.env.CHANNEL_NO, err.toString());
-            // });
+            // messagepush = messagepush + ':' + event.message.type
+            // bot.push(process.env.CHANNEL_NO, messagepush);
+            // bot.push(process.env.CHANNEL_NO, JSON.stringify(event));
             break;
         case 'video':
             // 紀錄 userId 傳了 video
-            //messagepush = messagepush + ':' + event.message.type
-            bot.push(process.env.CHANNEL_NO, messagepush);
-            bot.push(process.env.CHANNEL_NO, JSON.stringify(event));
+            // messagepush = messagepush + ':' + event.message.type
+            // bot.push(process.env.CHANNEL_NO, messagepush);
+            // bot.push(process.env.CHANNEL_NO, JSON.stringify(event));
             break;
         case 'audio':
             // 紀錄 userId 傳了 audio
-            //messagepush = messagepush + ':' + event.message.type
-            //bot.push(process.env.CHANNEL_NO, messagepush);
-            bot.push(process.env.CHANNEL_NO, JSON.stringify(event));
+            // messagepush = messagepush + ':' + event.message.type
+            // bot.push(process.env.CHANNEL_NO, messagepush);
+            // bot.push(process.env.CHANNEL_NO, JSON.stringify(event));
             break;
         case 'file':
             // 紀錄 userId 傳了 file
-            //messagepush = messagepush + ':' + event.message.type
-            //bot.push(process.env.CHANNEL_NO, messagepush);
-            bot.push(process.env.CHANNEL_NO, JSON.stringify(event));
+            // messagepush = messagepush + ':' + event.message.type
+            // bot.push(process.env.CHANNEL_NO, messagepush);
+            // bot.push(process.env.CHANNEL_NO, JSON.stringify(event));
             break;
         case 'location':
             // 紀錄 userId 傳了 location
-            //messagepush = messagepush + ':' + event.message.type
-            //bot.push(process.env.CHANNEL_NO, [messagepush, 'Lat:' + event.message.latitude, 'Long:' + event.message.longitude]);
-            bot.push(process.env.CHANNEL_NO, JSON.stringify(event));
+            // messagepush = messagepush + ':' + event.message.type
+            // bot.push(process.env.CHANNEL_NO, [messagepush, 'Lat:' + event.message.latitude, 'Long:' + event.message.longitude]);
+            // bot.push(process.env.CHANNEL_NO, JSON.stringify(event));
             break;
         // 收到貼圖    
         case 'sticker':
-            // 紀錄 userId 傳了 sticker
-            //messagepush = messagepush + ':' + event.message.type
-			
-			if(event.source.groupId !== 'C7b558cc0f3c4b0672776b82c80c861f9')
-			{
-                bot.push(process.env.CHANNEL_NO, messagepush + '\n' + event.message.packageId + ':' + event.message.stickerId);
-			}
+			// if(event.source.groupId !== 'C7b558cc0f3c4b0672776b82c80c861f9')
+			// {
+                // bot.push(process.env.CHANNEL_NO, messagepush + '\n' + event.message.packageId + ':' + event.message.stickerId);
+			// }
 
             //// 傳送貼圖
             // bot.push(process.env.CHANNEL_NO, {
@@ -313,26 +320,14 @@ bot.on('message', function(event) {
 
 // 當添加為朋友（或未阻止）時 觸發
 bot.on('follow', function (event) {
-    // var messagepush = 'userId:' + event.source.userId
-    // if(typeof event.source.groupId !== "undefined")
-    // {
-        // messagepush = messagepush + 'groupId:' + event.source.groupId + '\n'
-    // }
-    // bot.push(process.env.CHANNEL_NO, '[follow]' + messagepush);
-    // bot.push(process.env.CHANNEL_NO, '[follow]' + '\n'+ JSON.stringify(event));
+    bot.push(process.env.CHANNEL_NO, '[follow]' + '\n'+ JSON.stringify(event));
 	event.reply(['我是笑笑' + '\n' + '歡迎成為笑友 ' + '\n' + '若不想接收提醒，不要封鎖我呦' + '\n' + '請點擊右上角更多的圖示再點擊關閉提醒'
-		, '願有個愉快的一天(happy)'
+		, '使用方法請填「說明」，願有個愉快的一天'
 	]);
 });
 
 // 當取消關注（或封鎖）時 觸發
 bot.on('unfollow', function (event) {
-    // var messagepush = 'userId:' + event.source.userId
-    // if(typeof event.source.groupId !== "undefined")
-    // {
-        // messagepush = messagepush + 'groupId:' + event.source.groupId + '\n'
-    // }
-    // bot.push(process.env.CHANNEL_NO, '[unfollow]' + messagepush);
     bot.push(process.env.CHANNEL_NO, '[unfollow]' + '\n'+ JSON.stringify(event));
 });
 
@@ -348,49 +343,24 @@ bot.on('memberLeft', function (event) {
 
 // 當加入邀請時 觸發
 bot.on('join', function (event) {
-    // var messagepush = 'userId:' + event.source.userId
-    // if(typeof event.source.groupId !== "undefined")
-    // {
-        // messagepush = messagepush + 'groupId:' + event.source.groupId + '\n'
-    // }
-    // bot.push(process.env.CHANNEL_NO, '[join]' + messagepush);
-    // bot.push(process.env.CHANNEL_NO, '[join]' + '\n'+ JSON.stringify(event));
-    event.reply(['我是笑笑' + '\n' + '歡迎 {Nickname} 成為笑友(happy)' + '\n' + '若不想接收提醒，不要封鎖我呦(oops)' + '\n' + '請點擊右上角更多的圖示再點擊關閉提醒'
-		,'輸入[ 素食說明 ]' + '\n' + '會跟你說素食者更詳細的說明。','輸入[ 素食標誌 ]會跟你說「全素或純素」、「蛋素」、「奶素」、「奶蛋素」及「植物五辛素」五類標誌說明。','輸入[ 植物五辛 ]會跟你說何謂「五辛」。', '願有個愉快的一天(happy)'
+    bot.push(process.env.CHANNEL_NO, '[join]' + '\n'+ JSON.stringify(event));
+	event.reply(['我是笑笑' + '\n' + '歡迎成為笑友 ' + '\n' + '若不想接收提醒，不要封鎖我呦' + '\n' + '請點擊右上角更多的圖示再點擊關閉提醒'
+		, '使用方法請填「說明」，願有個愉快的一天'
 	]);
-
 });
 
 // 當離開群組時 觸發
 bot.on('leave', function (event) {
-    // var messagepush = 'userId:' + event.source.userId
-    // if(typeof event.source.groupId !== "undefined")
-    // {
-        // messagepush = messagepush + 'groupId:' + event.source.groupId + '\n'
-    // }
-    // bot.push(process.env.CHANNEL_NO, '[leave]' + messagepush);
     bot.push(process.env.CHANNEL_NO, '[leave]' + '\n'+ JSON.stringify(event));
 });
 
 // 
 bot.on('postback', function (event) {
-    // var messagepush = 'userId:' + event.source.userId
-    // if(typeof event.source.groupId !== "undefined")
-    // {
-        // messagepush = messagepush + 'groupId:' + event.source.groupId + '\n'
-    // }
-    // bot.push(process.env.CHANNEL_NO, '[postback]' + messagepush);
     bot.push(process.env.CHANNEL_NO, '[postback]' + '\n'+ JSON.stringify(event));
 });
 
 // 
 bot.on('beacon',   function (event) {
-    // var messagepush = 'userId:' + event.source.userId
-    // if(typeof event.source.groupId !== "undefined")
-    // {
-        // messagepush = messagepush + 'groupId:' + event.source.groupId + '\n'
-    // }
-    // bot.push(process.env.CHANNEL_NO, '[beacon]' + messagepush);
     bot.push(process.env.CHANNEL_NO, '[beacon]' + '\n'+ JSON.stringify(event));
 });
 
