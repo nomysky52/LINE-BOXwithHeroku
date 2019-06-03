@@ -269,6 +269,7 @@ bot.on('message', function(event) {
 					done();
 					if(err) return console.log(err);
 					console.log(result.rows);
+					return;
 					});
 				
 				query.on('end', () => { console.log(query);client.end(); });
