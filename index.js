@@ -273,9 +273,11 @@ bot.on('message', function(event) {
                     // }
                 // });
                 
-				const query = client.query('SELECT "CHANNELID", "TYPE", "NOTE" FROM public."CHANNEL"');
+				const query = client.query('SELECT "CHANNELID", "TYPE", "NOTE" FROM public."CHANNEL"').then(
+					query.on('end', () => { console.log(query);client.end(); });
+				);
 				
-				query.on('end', () => { console.log(query);client.end(); });
+				// query.on('end', () => { console.log(query);client.end(); });
 				
                 event.reply(JSON.stringify(query));
                 // checkchannel(event.source.userId);
