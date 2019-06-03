@@ -265,7 +265,8 @@ bot.on('message', function(event) {
                     // }
                 // });
                 
-				const query = client.query('SELECT "CHANNELID", "TYPE", "NOTE" FROM public."CHANNEL"' , function(err, result) {
+				// const query = client.query('SELECT "CHANNELID", "TYPE", "NOTE" FROM public."CHANNEL"' , function(err, result) {
+				const query = client.query('SELECT * FROM public."CHANNEL"' , function(err, result) {
 					done();
 					if(err) return console.log(err);
 					console.log(result.rows);
