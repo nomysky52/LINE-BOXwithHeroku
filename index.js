@@ -266,15 +266,15 @@ bot.on('message', function(event) {
                 });
                 
 				// const query = client.query('SELECT "CHANNELID", "TYPE", "NOTE" FROM public."CHANNEL"' , function(err, result) {
-				// const query = client.query('SELECT * FROM public."CHANNEL"' , function(err, result) {
-					// console.log('1client : ' + JSON.stringify(client));
-					// console.log('2query : ' + JSON.stringify(query));
-					// console.log('3result : ' + JSON.stringify(result));
-					// done();
-					// if(err) return console.log(err);
-					// console.log(result.rows);
-					// return;
-					// });
+				const query = client.query('SELECT * FROM public."CHANNEL"' , function(err, result) {
+					console.log('1client : ' + JSON.stringify(client));
+					console.log('2query : ' + JSON.stringify(query));
+					console.log('3result : ' + JSON.stringify(result));
+					done();
+					if(err) return console.log(err);
+					console.log(result.rows);
+					return;
+					});
 				
 				// console.log('123 : ' + JSON.stringify(query));
 				query.on('end', () => { event.reply(JSON.stringify(query));client.end(); });
