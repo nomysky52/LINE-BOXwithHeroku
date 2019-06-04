@@ -256,6 +256,8 @@ bot.on('message', function(event) {
       // console.log(result.rows);
    // });
 // })
+                console.log('client : ' + JSON.stringify(client));
+				
                 client.connect(err => {
                     if (err) {
                         console.log(err);
@@ -279,7 +281,6 @@ bot.on('message', function(event) {
 				// console.log('123 : ' + JSON.stringify(query));
 				query.on('end', () => { event.reply(JSON.stringify(query));client.end(); });
 				
-                
                 // checkchannel(event.source.userId);
                 // pgcheck.checkchannel(event.source.userId).then(function () {
                 // event.reply(JSON.stringify(this));
