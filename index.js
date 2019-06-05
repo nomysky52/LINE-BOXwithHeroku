@@ -5,7 +5,14 @@ const linebot = require('./lib/linebot');
 //const pgcheck = require('./check');
 
 // 引用 postgresql SDK
-const pg = require('pg');
+//const pg = require('pg');
+const { Client } = require('pg');
+
+const client = new Client({
+  connectionString: process.env.DATABASE_URL,
+  ssl: true,
+});
+
 
 // DBClient設定檔
 const connectionString = process.env.DATABASE_URL;
@@ -119,9 +126,9 @@ bot.on('message', function(event) {
             switch (event.message.text) {
                 case '說明':
                     event.reply(['輸入以下「關鍵字」' + '\n'
-, '「素食說明」:介紹一般素食者的區分。' + '\n' 
-+ '「素食標示」:介紹[包裝食品宣稱為素食標示-2014.11.05修編]要點。' + '\n' 
-+ '「植物五辛」:介紹何為植物五辛?' + '\n' 
+, '「素食說明」:' + '\n' '介紹一般素食者的區分。' + '\n' 
++ '「素食標示」:' + '\n' '介紹[包裝食品宣稱為素食標示-2014.11.05修編]要點。' + '\n' 
++ '「植物五辛」:' + '\n' '介紹何為植物五辛?' + '\n' 
 ]);
                     break;
                 case '素食說明':
@@ -247,7 +254,7 @@ bot.on('message', function(event) {
             // });
             if(event.source.userId === process.env.CHANNEL_NO)
             {
-                const client = new pg.Client(connectionString)
+                // const client = new pg.Client(connectionString)
 				// const client = new pg.Client(config)
 				// pg.connect(connectionString, function(err, client, done) {
    // client.query('SELECT * FROM public."CHANNEL"', function(err, result) {
@@ -256,30 +263,41 @@ bot.on('message', function(event) {
       // console.log(result.rows);
    // });
 // })
-                console.log('client : ' + JSON.stringify(client));
+
+				client.connect();
+				console.log('client : ' + JSON.stringify(client));
 				
-                client.connect(err => {
-                    if (err) {
-                        console.log(err);
-                    }
-                    else {
-                        console.log('Connected to PostgreSQL database');
-                    }
-                });
+				client.query('SELECT * FROM public.CHANNEL;', (err, res) => {
+				  if (err) throw err;
+				  for (let row of res.rows) {
+					console.log(JSON.stringify(row));
+				  }
+				  client.end();
+				});
+				console.log('End client : ' + JSON.stringify(client));
+				
+                // client.connect(err => {
+                    // if (err) {
+                        // console.log(err);
+                    // }
+                    // else {
+                        // console.log('Connected to PostgreSQL database');
+                    // }
+                // });
                 
 				// const query = client.query('SELECT "CHANNELID", "TYPE", "NOTE" FROM public."CHANNEL"' , function(err, result) {
-				const query = client.query('SELECT * FROM public."CHANNEL"' , function(err, result) {
-					console.log('1client : ' + JSON.stringify(client));
-					console.log('2query : ' + JSON.stringify(query));
-					console.log('3result : ' + JSON.stringify(result));
-					done();
-					if(err) return console.log(err);
-					console.log(result.rows);
-					return;
-					});
+				// const query = client.query('SELECT * FROM public."CHANNEL"' , function(err, result) {
+					// console.log('1client : ' + JSON.stringify(client));
+					// console.log('2query : ' + JSON.stringify(query));
+					// console.log('3result : ' + JSON.stringify(result));
+					// done();
+					// if(err) return console.log(err);
+					// console.log(result.rows);
+					// return;
+					// });
 				
 				// console.log('123 : ' + JSON.stringify(query));
-				query.on('end', () => { event.reply(JSON.stringify(query));client.end(); });
+				// query.on('end', () => { event.reply(JSON.stringify(query));client.end(); });
 				
                 // checkchannel(event.source.userId);
                 // pgcheck.checkchannel(event.source.userId).then(function () {
@@ -323,6 +341,23 @@ bot.on('follow', function (event) {
 	event.reply(['我是笑笑' + '\n' + '歡迎成為笑友 ' + '\n' + '若不想接收提醒，不要封鎖我呦' + '\n' + '請點擊右上角更多的圖示再點擊關閉提醒'
 		, '使用方法請填「說明」，願有個愉快的一天'
 	]);
+	bot.push(event.source.userId , {
+							type: 'template',
+							altText: 'this is a confirm template',
+							template: {
+							type: 'confirm',
+							text: '想了解素食?',
+							actions: [{
+								type: 'message',
+								label: '何謂素食者?',
+								text: '素食說明'
+								}, {
+								type: 'message',
+								label: '何謂植物五辛?',
+								text: '植物五辛'
+								}]
+							}
+						});
 });
 
 // 當取消關注（或封鎖）時 觸發
@@ -346,6 +381,23 @@ bot.on('join', function (event) {
 	event.reply(['我是笑笑' + '\n' + '歡迎成為笑友 ' + '\n' + '若不想接收提醒，不要封鎖我呦' + '\n' + '請點擊右上角更多的圖示再點擊關閉提醒'
 		, '使用方法請填「說明」，願有個愉快的一天'
 	]);
+	bot.push(event.source.groupId , {
+							type: 'template',
+							altText: 'this is a confirm template',
+							template: {
+							type: 'confirm',
+							text: '想了解素食?',
+							actions: [{
+								type: 'message',
+								label: '何謂素食者?',
+								text: '素食說明'
+								}, {
+								type: 'message',
+								label: '何謂植物五辛?',
+								text: '植物五辛'
+								}]
+							}
+						});
 });
 
 // 當離開群組時 觸發
