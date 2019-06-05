@@ -16,7 +16,8 @@ const config = {
     user: 'iamwdodmqbebsj',     
     password: 'bce81014516027375e326d0e5970a1d4fab3cb0c2e973dc35c295832dce4dd38',
     database: 'd8a8qp0fsn155i',
-    port: 5432
+    port: 5432,
+	ssl: true,
 };
 
 // 用於辨識Line Channel的資訊
@@ -259,10 +260,8 @@ bot.on('message', function(event) {
    // });
 // })
 				
-				const client = new Client({
-				  connectionString: process.env.DATABASE_URL,
-				  ssl: true,
-				});
+				const client = new Client(config);
+				
 				console.log('client : ' + JSON.stringify(client));
 
 				client.connect();
