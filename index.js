@@ -262,12 +262,12 @@ bot.on('message', function(event) {
 				
 				const client = new Client(config);
 				
-				console.log('client : ' + JSON.stringify(client));
-				//client.connect();
+				// console.log('client : ' + JSON.stringify(client));
+				// client.connect();
 				
                 client.connect(err => {
                     if (err) {
-                        console.log('Connected ERR : ' + JSON.stringify(err));
+                        console.log('Connected ERR : ');
                         console.log(err);
                     }
                     else {
