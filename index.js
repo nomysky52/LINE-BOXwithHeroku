@@ -8,11 +8,6 @@ const linebot = require('./lib/linebot');
 //const pg = require('pg');
 const { Client } = require('pg');
 
-const client = new Client({
-  connectionString: process.env.DATABASE_URL,
-  ssl: true,
-});
-
 
 // DBClient設定檔
 const connectionString = process.env.DATABASE_URL;
@@ -263,11 +258,16 @@ bot.on('message', function(event) {
       // console.log(result.rows);
    // });
 // })
+				
+				const client = new Client({
+				  connectionString: process.env.DATABASE_URL,
+				  ssl: true,
+				});
 
 				client.connect();
-				console.log('client : ' + JSON.stringify(client));
 				
 				client.query('SELECT table_schema,table_name FROM information_schema.tables;', (err, res) => {
+				    console.log('client : ' + JSON.stringify(client));
 				    console.log('res : ' + JSON.stringify(res));
 				    if (err) console.log('ERR : ' + JSON.stringify(err));;
 				    for (let row of res.rows) {
@@ -275,7 +275,6 @@ bot.on('message', function(event) {
 				    }
 				    client.end();
 				});
-				console.log('End client : ' + JSON.stringify(client));
 				
                 // client.connect(err => {
                     // if (err) {
