@@ -267,12 +267,13 @@ bot.on('message', function(event) {
 				client.connect();
 				console.log('client : ' + JSON.stringify(client));
 				
-				client.query('SELECT * FROM public.CHANNEL;', (err, res) => {
-				  if (err) throw err;
-				  for (let row of res.rows) {
-					console.log(JSON.stringify(row));
-				  }
-				  client.end();
+				client.query('SELECT table_schema,table_name FROM information_schema.tables;', (err, res) => {
+				    console.log('res : ' + JSON.stringify(res));
+				    if (err) console.log('ERR : ' + JSON.stringify(err));;
+				    for (let row of res.rows) {
+					    console.log(JSON.stringify(row));
+				    }
+				    client.end();
 				});
 				console.log('End client : ' + JSON.stringify(client));
 				
