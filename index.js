@@ -263,11 +263,11 @@ bot.on('message', function(event) {
 				  connectionString: process.env.DATABASE_URL,
 				  ssl: true,
 				});
+				console.log('client : ' + JSON.stringify(client));
 
 				client.connect();
 				
 				client.query('SELECT table_schema,table_name FROM information_schema.tables;', (err, res) => {
-				    console.log('client : ' + JSON.stringify(client));
 				    console.log('res : ' + JSON.stringify(res));
 				    if (err) console.log('ERR : ' + JSON.stringify(err));;
 				    for (let row of res.rows) {
