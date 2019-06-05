@@ -5,8 +5,8 @@ const linebot = require('./lib/linebot');
 //const pgcheck = require('./check');
 
 // 引用 postgresql SDK
-const pg = require('pg');
-// const { Client } = require('pg');
+// const pg = require('pg');
+const { Client } = require('pg');
 
 // DBClient設定檔
 const connectionString = process.env.DATABASE_URL_;
@@ -250,7 +250,7 @@ bot.on('message', function(event) {
             if(event.source.userId === process.env.CHANNEL_NO)
             {
                 // const client = new pg.Client(connectionString)
-				const client = new pg.Client(config)
+				//const client = new pg.Client(config)
 				// pg.connect(connectionString, function(err, client, done) {
    // client.query('SELECT * FROM public."CHANNEL"', function(err, result) {
       // done();
@@ -258,9 +258,10 @@ bot.on('message', function(event) {
       // console.log(result.rows);
    // });
 // })
-				console.log(JSON.stringify(client));
 				
-				//const client = new Client(config);
+				const client = new Client(config);
+				
+				console.log(JSON.stringify(client));
 				
 				//client.connect();
                 client.connect(err => {
