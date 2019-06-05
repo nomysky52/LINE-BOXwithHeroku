@@ -258,7 +258,7 @@ bot.on('message', function(event) {
       // console.log(result.rows);
    // });
 // })
-				
+			    client.ssl = true;
 				console.log(JSON.stringify(client));
 				
 				//const client = new Client(config);
