@@ -259,8 +259,7 @@ bot.on('message', function(event) {
    // });
 // })
 				
-				
-				
+				console.log(JSON.stringify(client));
 				
 				//const client = new Client(config);
 				
