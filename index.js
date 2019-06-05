@@ -14,7 +14,7 @@ const connectionString = process.env.DATABASE_URL;
 const config = {
     host: 'ec2-174-129-240-67.compute-1.amazonaws.com',
     user: 'iamwdodmqbebsj',     
-    password: 'bce81014516027375e326d0e5970a1d4fab3cb0c2e973dc35c295832dce4dd38',
+    password: 'zxcv1234',
     database: 'd8a8qp0fsn155i',
     port: 5432,
 	ssl: true,
