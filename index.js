@@ -10,14 +10,14 @@ const pg = require('pg');
 
 // DBClient設定檔
 const connectionString = process.env.DATABASE_URL_;
-// const config = {
-    // host: 'ec2-174-129-240-67.compute-1.amazonaws.com',
-    // user: 'iamwdodmqbebsj',     
-    // password: 'zxcv1234',
-    // database: 'd8a8qp0fsn155i',
-    // port: 5432,
-	// ssl: true,
-// };
+const config = {
+    host: 'ec2-174-129-240-67.compute-1.amazonaws.com',
+    user: 'iamwdodmqbebsj',     
+    password: 'zxcv1234',
+    database: 'd8a8qp0fsn155i',
+    port: 5432,
+	ssl: true,
+};
 
 // 用於辨識Line Channel的資訊
 const bot = linebot({
