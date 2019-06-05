@@ -5,20 +5,19 @@ const linebot = require('./lib/linebot');
 //const pgcheck = require('./check');
 
 // 引用 postgresql SDK
-//const pg = require('pg');
-const { Client } = require('pg');
-
+const pg = require('pg');
+// const { Client } = require('pg');
 
 // DBClient設定檔
-const connectionString = process.env.DATABASE_URL2;
-const config = {
-    host: 'ec2-174-129-240-67.compute-1.amazonaws.com',
-    user: 'iamwdodmqbebsj',     
-    password: 'zxcv1234',
-    database: 'd8a8qp0fsn155i',
-    port: 5432,
-	ssl: true,
-};
+const connectionString = process.env.DATABASE_URL_;
+// const config = {
+    // host: 'ec2-174-129-240-67.compute-1.amazonaws.com',
+    // user: 'iamwdodmqbebsj',     
+    // password: 'zxcv1234',
+    // database: 'd8a8qp0fsn155i',
+    // port: 5432,
+	// ssl: true,
+// };
 
 // 用於辨識Line Channel的資訊
 const bot = linebot({
@@ -250,7 +249,7 @@ bot.on('message', function(event) {
             // });
             if(event.source.userId === process.env.CHANNEL_NO)
             {
-                // const client = new pg.Client(connectionString)
+                const client = new pg.Client(connectionString)
 				// const client = new pg.Client(config)
 				// pg.connect(connectionString, function(err, client, done) {
    // client.query('SELECT * FROM public."CHANNEL"', function(err, result) {
@@ -263,8 +262,7 @@ bot.on('message', function(event) {
 				
 				
 				
-				
-				const client = new Client(config);
+				//const client = new Client(config);
 				
 				//client.connect();
                 client.connect(err => {
@@ -273,24 +271,15 @@ bot.on('message', function(event) {
                     }
                     else {
                         console.log('Connected to PostgreSQL database');
+						client.query('SELECT "CHANNELID", "TYPE", "NOTE" FROM public."CHANNEL" ;', (err, res) => {
+							if (err) console.log('ERR : ' + JSON.stringify(err));;
+							for (let row of res.rows) {
+								console.log(JSON.stringify(row));
+							}
+							client.end();
+						});
                     }
                 });
-				
-				client.query('SELECT table_schema,table_name FROM information_schema.tables;', (err, res) => {
-				    console.log('res : ' + JSON.stringify(res));
-				    if (err) console.log('ERR : ' + JSON.stringify(err));;
-				    for (let row of res.rows) {
-					    console.log(JSON.stringify(row));
-				    }
-				    client.end();
-				});
-				
-				
-				
-				
-				
-				
-				
 				
                 // client.connect(err => {
                     // if (err) {
