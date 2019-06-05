@@ -262,7 +262,7 @@ bot.on('message', function(event) {
 				
 				const client = new Client(config);
 				
-				// console.log('client : ' + JSON.stringify(client));
+				console.log('client : ' + JSON.stringify(client));
 				// client.connect();
 				
                 client.connect(err => {
