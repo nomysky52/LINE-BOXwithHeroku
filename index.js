@@ -249,8 +249,8 @@ bot.on('message', function(event) {
             // });
             if(event.source.userId === process.env.CHANNEL_NO)
             {
-                const client = new pg.Client(connectionString)
-				// const client = new pg.Client(config)
+                // const client = new pg.Client(connectionString)
+				const client = new pg.Client(config)
 				// pg.connect(connectionString, function(err, client, done) {
    // client.query('SELECT * FROM public."CHANNEL"', function(err, result) {
       // done();
@@ -258,7 +258,6 @@ bot.on('message', function(event) {
       // console.log(result.rows);
    // });
 // })
-			    client.ssl = true;
 				console.log(JSON.stringify(client));
 				
 				//const client = new Client(config);
