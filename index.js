@@ -10,7 +10,7 @@ const { Client } = require('pg');
 
 
 // DBClient設定檔
-const connectionString = process.env.DATABASE_URL;
+const connectionString = process.env.DATABASE_URL2;
 const config = {
     host: 'ec2-174-129-240-67.compute-1.amazonaws.com',
     user: 'iamwdodmqbebsj',     
@@ -260,11 +260,21 @@ bot.on('message', function(event) {
    // });
 // })
 				
+				
+				
+				
+				
 				const client = new Client(config);
 				
-				console.log('client : ' + JSON.stringify(client));
-
-				client.connect();
+				//client.connect();
+                client.connect(err => {
+                    if (err) {
+                        console.log(err);
+                    }
+                    else {
+                        console.log('Connected to PostgreSQL database');
+                    }
+                });
 				
 				client.query('SELECT table_schema,table_name FROM information_schema.tables;', (err, res) => {
 				    console.log('res : ' + JSON.stringify(res));
@@ -274,6 +284,13 @@ bot.on('message', function(event) {
 				    }
 				    client.end();
 				});
+				
+				
+				
+				
+				
+				
+				
 				
                 // client.connect(err => {
                     // if (err) {
