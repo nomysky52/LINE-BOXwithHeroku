@@ -9,7 +9,7 @@ const linebot = require('./lib/linebot');
 const { Client } = require('pg');
 
 // DBClient設定檔
-const connectionString = process.env.DATABASE_URL_;
+//const connectionString = process.env.DATABASE_URL_;
 
 const config = {
     host: 'ec2-174-129-240-67.compute-1.amazonaws.com',
@@ -262,7 +262,7 @@ bot.on('message', function(event) {
 				
 				const client = new Client(config);
 				
-				console.log('client : ' + JSON.stringify(client));
+				//console.log('client : ' + JSON.stringify(client));
 				//client.connect();
 				
                 client.connect(err => {
@@ -274,22 +274,21 @@ bot.on('message', function(event) {
                     }
                 });
 				
-				client.query('SELECT "CHANNELID", "TYPE", "NOTE" FROM public."CHANNEL" ;', (err, res) => {
-					if (err) console.log('ERR : ' + JSON.stringify(err));;
-					for (let row of res.rows) {
-						console.log(JSON.stringify(row));
-					}
-					client.end();
-				});
-				
-				// client.query('SELECT table_schema,table_name FROM information_schema.tables;', (err, res) => {
-				    // console.log('res : ' + JSON.stringify(res));
-				    // if (err) console.log('ERR : ' + JSON.stringify(err));;
-				    // for (let row of res.rows) {
-					    // console.log(JSON.stringify(row));
-				    // }
-				    // client.end();
+				// client.query('SELECT "CHANNELID", "TYPE", "NOTE" FROM public."CHANNEL" ;', (err, res) => {
+					// if (err) console.log('ERR : ' + JSON.stringify(err));;
+					// for (let row of res.rows) {
+						// console.log(JSON.stringify(row));
+					// }
+					// client.end();
 				// });
+				
+				client.query('SELECT table_schema,table_name FROM information_schema.tables;', (err, res) => {
+				    if (err) console.log('ERR : ' + JSON.stringify(err));;
+				    for (let row of res.rows) {
+					    console.log(JSON.stringify(row));
+				    }
+				    client.end();
+				});
 				
                 // client.connect(err => {
                     // if (err) {
