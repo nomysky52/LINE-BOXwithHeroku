@@ -39,7 +39,8 @@ bot.on('message', function(event) {
         messagepush = messagepush + 'groupId:' + event.source.groupId + '\n'
     }
 
-    switch (event.message.type) {
+    switch (event.message.type)
+	{
         case 'text':
             if(event.source.groupId === process.env.CHANNEL_RECEIVE)
             {// 接收群組
