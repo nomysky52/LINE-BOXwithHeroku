@@ -1,7 +1,7 @@
 {
   "name": "linebot",
   "version": "1.0.0",
-  "description": "Using Node.js SDK for the LINE Messaging API ",
+  "description": "Node.js SDK for the LINE Messaging API ",
   "main": "index.js",
   "files": [
     "index.js",
