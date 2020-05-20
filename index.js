@@ -17,7 +17,7 @@ const config = {
     password: 'zxcv1234',
     database: 'd8a8qp0fsn155i',
     port: 5432,
-    ssl: true,
+	ssl: true,
 };
 
 // 用於辨識Line Channel的資訊
@@ -40,7 +40,7 @@ bot.on('message', function(event) {
     }
 
     switch (event.message.type)
-    {
+	{
         case 'text':
             if(event.source.groupId === process.env.CHANNEL_RECEIVE)
             {// 接收群組
@@ -56,68 +56,68 @@ bot.on('message', function(event) {
             {
                 if(typeof event.source.groupId !== "undefined")
                 {
-                    if(event.source.groupId !== 'C7b558cc0f3c4b0672776b82c80c861f9')
-                    {
-                        console.log(messagepush + ':' + event.message.text);
-                    }
+					if(event.source.groupId !== 'C7b558cc0f3c4b0672776b82c80c861f9')
+					{
+						console.log(messagepush + ':' + event.message.text);
+					}
                 }
                 else
                 {
-                    if(event.message.text == 'Confirm')
-                    {
-                        // message: 'must be 2 items', property: 'template/actions' 
-                        event.reply({
-                            type: 'template',
-                            altText: 'this is a confirm template',
-                            template: {
-                            type: 'confirm',
-                            text: '想了解素食?',
-                            actions: [{
-                                type: 'message',
-                                label: '何謂素食者?',
-                                text: '素食說明'
-                                }, {
-                                type: 'message',
-                                label: '何謂植物五辛?',
-                                text: '植物五辛'
-                                }]
-                            }
-                        });
-                        break;
-                    }
-                    else if(event.message.text == 'Member')
-                    {
-                        event.source.member().then(function (member) {
-                            bot.push(process.env.CHANNEL_NO, JSON.stringify(member));
-                            return event.reply(JSON.stringify(member));
-                        });
-                        break;
-                    }
-                    else if(event.message.text == 'Picture')
-                    {
-                        event.reply({
-                            type: 'image',
-                            originalContentUrl: 'https://farm9.staticflickr.com/8689/16968169827_c0ab54a550_z.jpg#',
-                            previewImageUrl: 'https://farm9.staticflickr.com/8689/16968169827_c0ab54a550_z.jpg#'
-                        });
-                        break;
-                    }
-                    // else if(event.message.text == 'Location')
-                    // {
-                        // event.reply({
-                            // type: 'location',
-                            // title: 'LINE Plus Corporation',
-                            // address: '1 Empire tower, Sathorn, Bangkok 10120, Thailand',
-                            // latitude: 13.7202068,
-                            // longitude: 100.5298698
-                                // });
-                            // break;
-                    // }
-                    else if(event.message.text == 'Multicast')
-                    {
-                        event.reply(messagepush + ':' + event.message.text);
-                        break;
-                    }
+					if(event.message.text == 'Confirm')
+					{
+						// message: 'must be 2 items', property: 'template/actions' 
+						event.reply({
+							type: 'template',
+							altText: 'this is a confirm template',
+							template: {
+							type: 'confirm',
+							text: '想了解素食?',
+							actions: [{
+								type: 'message',
+								label: '何謂素食者?',
+								text: '素食說明'
+								}, {
+								type: 'message',
+								label: '何謂植物五辛?',
+								text: '植物五辛'
+								}]
+							}
+						});
+						break;
+					}
+					else if(event.message.text == 'Member')
+					{
+						event.source.member().then(function (member) {
+							bot.push(process.env.CHANNEL_NO, JSON.stringify(member));
+							return event.reply(JSON.stringify(member));
+						});
+						break;
+					}
+					else if(event.message.text == 'Picture')
+					{
+						event.reply({
+							type: 'image',
+							originalContentUrl: 'https://farm9.staticflickr.com/8689/16968169827_c0ab54a550_z.jpg#',
+							previewImageUrl: 'https://farm9.staticflickr.com/8689/16968169827_c0ab54a550_z.jpg#'
+						});
+						break;
+					}
+					// else if(event.message.text == 'Location')
+					// {
+						// event.reply({
+							// type: 'location',
+							// title: 'LINE Plus Corporation',
+							// address: '1 Empire tower, Sathorn, Bangkok 10120, Thailand',
+							// latitude: 13.7202068,
+							// longitude: 100.5298698
+						// });
+						// break;
+					// }
+					else if(event.message.text == 'Multicast')
+					{
+						event.reply(messagepush + ':' + event.message.text);
+						break;
+					}
                 }
             }
             switch (event.message.text) {
@@ -154,7 +154,7 @@ bot.on('message', function(event) {
 ]);
                     break;
                 case '素食標示':
-                event.reply(['台灣[包裝食品宣稱為素食標示-2014.11.05修編]' + '\n' 
+				event.reply(['台灣[包裝食品宣稱為素食標示-2014.11.05修編]' + '\n' 
 + '素食產品標示分為「全素或純素」、「蛋素」、「奶素」、「奶蛋素」及「植物五辛素」五類' + '\n' + '\n'
 + '全素或純素：不含奶蛋、也不含五辛（蔥、蒜、韭、薤菜及興蕖）的純植物性食品。' + '\n'
 + '蛋素：全素或純素及蛋製品。' + '\n'
@@ -196,22 +196,13 @@ bot.on('message', function(event) {
                 case 'Version':
                     event.reply('linebot@' + require('../package.json').version);
                     break;
-                case '標記':
-                    if(typeof event.source.groupId !== "undefined")
-                    {
-                        event.source.member().then(function (member) {
-                            bot.push(process.env.CHANNEL_NO, JSON.stringify(member));
-                            return event.reply(JSON.stringify(member));
-                        });
-                    }
-                    break;
                 default:
                     // 回傳 userId 說了甚麼
-                    if(event.source.groupId !== 'C7b558cc0f3c4b0672776b82c80c861f9')
-                    {
+					if(event.source.groupId !== 'C7b558cc0f3c4b0672776b82c80c861f9')
+					{
                         messagepush = messagepush + ':' + event.message.text
                         bot.push(process.env.CHANNEL_NO, messagepush);
-                    }
+					}
                     break;
             }
             break;
@@ -247,10 +238,10 @@ bot.on('message', function(event) {
             break;
         // 收到貼圖    
         case 'sticker':
-            // if(event.source.groupId !== 'C7b558cc0f3c4b0672776b82c80c861f9')
-            // {
+			// if(event.source.groupId !== 'C7b558cc0f3c4b0672776b82c80c861f9')
+			// {
                 // bot.push(process.env.CHANNEL_NO, messagepush + '\n' + event.message.packageId + ':' + event.message.stickerId);
-            // }
+			// }
 
             //// 傳送貼圖
             // bot.push(process.env.CHANNEL_NO, {
@@ -261,20 +252,20 @@ bot.on('message', function(event) {
             if(event.source.userId === process.env.CHANNEL_NO)
             {
                 // const client = new pg.Client(connectionString)
-                //const client = new pg.Client(config)
-                // pg.connect(connectionString, function(err, client, done) {
+				//const client = new pg.Client(config)
+				// pg.connect(connectionString, function(err, client, done) {
    // client.query('SELECT * FROM public."CHANNEL"', function(err, result) {
       // done();
       // if(err) return console.error(err);
       // console.log(result.rows);
    // });
 // })
-                
-                const client = new Client(config);
-                
-                console.log('client : ' + JSON.stringify(client));
-                // client.connect();
-                
+				
+				const client = new Client(config);
+				
+				console.log('client : ' + JSON.stringify(client));
+				// client.connect();
+				
                 client.connect(err => {
                     if (err) {
                         console.log('Connected ERR : ');
@@ -284,24 +275,24 @@ bot.on('message', function(event) {
                         console.log('Connected to PostgreSQL database');
                     }
                 });
-                
-                // client.query('SELECT "CHANNELID", "TYPE", "NOTE" FROM public."CHANNEL" ;', (err, res) => {
-                    // if (err) console.log('ERR : ' + JSON.stringify(err));;
-                    // for (let row of res.rows) {
-                        // console.log(JSON.stringify(row));
-                    // }
-                    // client.end();
-                // });
-                
-                client.query('SELECT table_schema,table_name FROM information_schema.tables;', (err, res) => {
-                    console.log('res : ' + JSON.stringify(res));
-                    if (err) console.log('ERR : ' + JSON.stringify(err));;
-                    for (let row of res.rows) {
-                        console.log(JSON.stringify(row));
-                    }
-                    client.end();
-                });
-                
+				
+				// client.query('SELECT "CHANNELID", "TYPE", "NOTE" FROM public."CHANNEL" ;', (err, res) => {
+					// if (err) console.log('ERR : ' + JSON.stringify(err));;
+					// for (let row of res.rows) {
+						// console.log(JSON.stringify(row));
+					// }
+					// client.end();
+				// });
+				
+				client.query('SELECT table_schema,table_name FROM information_schema.tables;', (err, res) => {
+					console.log('res : ' + JSON.stringify(res));
+				    if (err) console.log('ERR : ' + JSON.stringify(err));;
+				    for (let row of res.rows) {
+					    console.log(JSON.stringify(row));
+				    }
+				    client.end();
+				});
+				
                 // client.connect(err => {
                     // if (err) {
                         // console.log(err);
@@ -311,20 +302,20 @@ bot.on('message', function(event) {
                     // }
                 // });
                 
-                // const query = client.query('SELECT "CHANNELID", "TYPE", "NOTE" FROM public."CHANNEL"' , function(err, result) {
-                // const query = client.query('SELECT * FROM public."CHANNEL"' , function(err, result) {
-                    // console.log('1client : ' + JSON.stringify(client));
-                    // console.log('2query : ' + JSON.stringify(query));
-                    // console.log('3result : ' + JSON.stringify(result));
-                    // done();
-                    // if(err) return console.log(err);
-                    // console.log(result.rows);
-                    // return;
-                    // });
-                
-                // console.log('123 : ' + JSON.stringify(query));
-                // query.on('end', () => { event.reply(JSON.stringify(query));client.end(); });
-                
+				// const query = client.query('SELECT "CHANNELID", "TYPE", "NOTE" FROM public."CHANNEL"' , function(err, result) {
+				// const query = client.query('SELECT * FROM public."CHANNEL"' , function(err, result) {
+					// console.log('1client : ' + JSON.stringify(client));
+					// console.log('2query : ' + JSON.stringify(query));
+					// console.log('3result : ' + JSON.stringify(result));
+					// done();
+					// if(err) return console.log(err);
+					// console.log(result.rows);
+					// return;
+					// });
+				
+				// console.log('123 : ' + JSON.stringify(query));
+				// query.on('end', () => { event.reply(JSON.stringify(query));client.end(); });
+				
                 // checkchannel(event.source.userId);
                 // pgcheck.checkchannel(event.source.userId).then(function () {
                 // event.reply(JSON.stringify(this));
@@ -364,26 +355,26 @@ bot.on('message', function(event) {
 // 當添加為朋友（或未阻止）時 觸發
 bot.on('follow', function (event) {
     bot.push(process.env.CHANNEL_NO, '[follow]' + '\n'+ JSON.stringify(event));
-    event.reply(['我是笑笑' + '\n' + '歡迎成為笑友 ' + '\n' + '若不想接收提醒，不要封鎖我呦' + '\n' + '請點擊右上角更多的圖示再點擊關閉提醒'
-        , '使用方法請填「說明」，願有個愉快的一天'
-    ]);
-    bot.push(event.source.userId , {
-                            type: 'template',
-                            altText: 'this is a confirm template',
-                            template: {
-                            type: 'confirm',
-                            text: '想了解素食?',
-                            actions: [{
-                                type: 'message',
-                                label: '何謂素食者?',
-                                text: '素食說明'
-                                }, {
-                                type: 'message',
-                                label: '何謂植物五辛?',
-                                text: '植物五辛'
-                                }]
-                            }
-                        });
+	event.reply(['我是笑笑' + '\n' + '歡迎成為笑友 ' + '\n' + '若不想接收提醒，不要封鎖我呦' + '\n' + '請點擊右上角更多的圖示再點擊關閉提醒'
+		, '使用方法請填「說明」，願有個愉快的一天'
+	]);
+	bot.push(event.source.userId , {
+							type: 'template',
+							altText: 'this is a confirm template',
+							template: {
+							type: 'confirm',
+							text: '想了解素食?',
+							actions: [{
+								type: 'message',
+								label: '何謂素食者?',
+								text: '素食說明'
+								}, {
+								type: 'message',
+								label: '何謂植物五辛?',
+								text: '植物五辛'
+								}]
+							}
+						});
 });
 
 // 當取消關注（或封鎖）時 觸發
@@ -404,26 +395,26 @@ bot.on('memberLeft', function (event) {
 // 當加入邀請時 觸發
 bot.on('join', function (event) {
     bot.push(process.env.CHANNEL_NO, '[join]' + '\n'+ JSON.stringify(event));
-    event.reply(['我是笑笑' + '\n' + '歡迎成為笑友 ' + '\n' + '若不想接收提醒，不要封鎖我呦' + '\n' + '請點擊右上角更多的圖示再點擊關閉提醒'
-        , '使用方法請填「說明」，願有個愉快的一天'
-    ]);
-    bot.push(event.source.groupId , {
-                            type: 'template',
-                            altText: 'this is a confirm template',
-                            template: {
-                            type: 'confirm',
-                            text: '想了解素食?',
-                            actions: [{
-                                type: 'message',
-                                label: '何謂素食者?',
-                                text: '素食說明'
-                                }, {
-                                type: 'message',
-                                label: '何謂植物五辛?',
-                                text: '植物五辛'
-                                }]
-                            }
-                        });
+	event.reply(['我是笑笑' + '\n' + '歡迎成為笑友 ' + '\n' + '若不想接收提醒，不要封鎖我呦' + '\n' + '請點擊右上角更多的圖示再點擊關閉提醒'
+		, '使用方法請填「說明」，願有個愉快的一天'
+	]);
+	bot.push(event.source.groupId , {
+							type: 'template',
+							altText: 'this is a confirm template',
+							template: {
+							type: 'confirm',
+							text: '想了解素食?',
+							actions: [{
+								type: 'message',
+								label: '何謂素食者?',
+								text: '素食說明'
+								}, {
+								type: 'message',
+								label: '何謂植物五辛?',
+								text: '植物五辛'
+								}]
+							}
+						});
 });
 
 // 當離開群組時 觸發
