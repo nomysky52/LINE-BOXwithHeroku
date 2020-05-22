@@ -196,6 +196,12 @@ bot.on('message', function(event) {
                 case 'Version':
                     event.reply('linebot@' + require('../package.json').version);
                     break;
+                case '標記':
+                    event.source.member().then(function (member) {
+						bot.push(process.env.CHANNEL_NO, JSON.stringify(member));
+						return event.reply(JSON.stringify(member));
+					});
+					break;
                 default:
                     // 回傳 userId 說了甚麼
 					if(event.source.groupId !== 'C7b558cc0f3c4b0672776b82c80c861f9')
