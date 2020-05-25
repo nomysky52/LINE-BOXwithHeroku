@@ -233,10 +233,11 @@ bot.on('message', function(event) {
             // messagepush = messagepush + ':' + event.message.type
             // bot.push(process.env.CHANNEL_NO, messagepush);
 			event.message.content().then(function (content) {
+				buffer=content;
 				// bot.push(process.env.CHANNEL_NO, JSON.stringify(content));
-				return event.reply(JSON.stringify(content));
+				return event.reply(buffer);
 			});
-            bot.push(process.env.CHANNEL_NO, JSON.stringify(event));
+            // bot.push(process.env.CHANNEL_NO, JSON.stringify(event));
             break;
         case 'video':
             // 紀錄 userId 傳了 video
