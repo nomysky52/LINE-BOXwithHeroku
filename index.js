@@ -232,6 +232,10 @@ bot.on('message', function(event) {
             // 紀錄 userId 傳了 image
             // messagepush = messagepush + ':' + event.message.type
             // bot.push(process.env.CHANNEL_NO, messagepush);
+			event.message.content().then(function (content) {
+				// bot.push(process.env.CHANNEL_NO, JSON.stringify(content));
+				return event.reply(JSON.stringify(content));
+			});
             bot.push(process.env.CHANNEL_NO, JSON.stringify(event));
             break;
         case 'video':
