@@ -85,14 +85,14 @@ bot.on('message', function(event) {
 						});
 						break;
 					}
-					// else if(event.message.text == 'Member')
-					// {
-						// event.source.member().then(function (member) {
-							// bot.push(process.env.CHANNEL_NO, JSON.stringify(member));
-							// return event.reply(JSON.stringify(member));
-						// });
-						// break;
-					// }
+					else if(event.message.text == 'Member')
+					{
+						event.source.member().then(function (member) {
+							bot.push(process.env.CHANNEL_NO, JSON.stringify(member));
+							return event.reply(JSON.stringify(member));
+						});
+						break;
+					}
 					else if(event.message.text == 'Picture')
 					{
 						event.reply({
@@ -197,10 +197,10 @@ bot.on('message', function(event) {
                     event.reply('linebot@' + require('../package.json').version);
                     break;
                 case '標記':
-                    // event.source.member().then(function (member) {
-						// bot.push(process.env.CHANNEL_NO, JSON.stringify(member));
-						// return event.reply(JSON.stringify(member));
-					// });
+                    event.source.member().then(function (member) {
+						bot.push(process.env.CHANNEL_NO, JSON.stringify(member));
+						return event.reply(JSON.stringify(member));
+					});
 					break;
                 default:
                     // 回傳 userId 說了甚麼
