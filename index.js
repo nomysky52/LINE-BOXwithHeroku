@@ -33,6 +33,9 @@ bot.on('message', function(event) {
     //來源群組
     if(typeof event.source.groupId !== "undefined")
 		messagepush = messagepush + 'groupId:' + event.source.groupId + '\n'
+    //來源ROOM
+    if(typeof event.source.roomId !== "undefined")
+		messagepush = messagepush + 'roomId:' + event.source.roomId + '\n'
 
     switch (event.message.type)
 	{
@@ -82,14 +85,22 @@ bot.on('message', function(event) {
 					}
 					// Access to this API is not available for your account
 					// 改付費功能
-					// else if(event.message.text == 'Member')
-					// {
-						// event.source.member().then(function (member) {
-							// bot.push(process.env.CHANNEL_NO, JSON.stringify(member));
-							// return event.reply(JSON.stringify(member));
-						// });
-						// break;
-					// }
+					else if(event.message.text == 'member')
+					{
+						event.source.member().then(function (member) {
+							// bot.push(process.env.channel_no, json.stringify(member));
+							return event.reply(json.stringify(member));
+						});
+						break;
+					}
+					else if(event.message.text == 'profile')
+					{
+						event.source.profile().then(function (profile) {
+							// bot.push(process.env.channel_no, json.stringify(profile));
+							return event.reply(json.stringify(profile));
+						});
+						break;
+					}
 					else if(event.message.text == 'Picture')
 					{
 						event.reply({
@@ -101,6 +112,10 @@ bot.on('message', function(event) {
 					}
 					else if(event.message.text == 'test')
 					{
+						event.source.member().then(function (member) {
+							bot.push(process.env.CHANNEL_NO, JSON.stringify(member));
+						return event.reply(JSON.stringify(member));
+						});
 						bot.getUserProfile(event.source.userId);
 						event.reply(bot.getUserProfile(event.source.userId));
 						break;
@@ -119,6 +134,7 @@ bot.on('message', function(event) {
 					// }
                 }
             }
+
             switch (event.message.text) {
                 case '說明':
                     event.reply(['輸入以下「關鍵字」' + '\n'
@@ -193,7 +209,7 @@ bot.on('message', function(event) {
                     event.reply('國道豬');
                     break;
                 case 'Version':
-                    event.reply('linebot@' + require('../package.json').version);
+                    event.reply('nomyskylinebot@' + require('../package.json').version);
                     break;
                 // case '標記':
                     // event.source.member().then(function (member) {
@@ -205,7 +221,8 @@ bot.on('message', function(event) {
                     // 回傳 userId 說了甚麼
 					if(event.source.groupId !== 'C7b558cc0f3c4b0672776b82c80c861f9')
 					{
-                        messagepush = messagepush + ':' + event.message.text
+                        messagepush = messagepush + ':' + event.message.text;
+						console.log(messagepush);
                         bot.push(process.env.CHANNEL_NO, messagepush);
 					}
                     break;
@@ -215,7 +232,7 @@ bot.on('message', function(event) {
             // 紀錄 userId 傳了 image
             // messagepush = messagepush + ':' + event.message.type
             // bot.push(process.env.CHANNEL_NO, messagepush);
-            // bot.push(process.env.CHANNEL_NO, JSON.stringify(event));
+            bot.push(process.env.CHANNEL_NO, JSON.stringify(event));
             break;
         case 'video':
             // 紀錄 userId 傳了 video
@@ -233,7 +250,7 @@ bot.on('message', function(event) {
             // 紀錄 userId 傳了 file
             // messagepush = messagepush + ':' + event.message.type
             // bot.push(process.env.CHANNEL_NO, messagepush);
-            // bot.push(process.env.CHANNEL_NO, JSON.stringify(event));
+            bot.push(process.env.CHANNEL_NO, JSON.stringify(event));
             break;
         case 'location':
             // 紀錄 userId 傳了 location
