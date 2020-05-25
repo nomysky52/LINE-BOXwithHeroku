@@ -102,10 +102,9 @@ bot.on('message', function(event) {
 					else if(event.message.text == 'test')
 					{
 						bot.getUserProfile(event.source.userId);
-						event.reply(JSON.stringify(bot.getUserProfile(event.source.userId)))
+						event.reply(bot.getUserProfile(event.source.userId));
 						break;
 					}
-					
 					// 給予地圖
 					// else if(event.message.text == 'Location')
 					// {
