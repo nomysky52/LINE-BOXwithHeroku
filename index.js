@@ -272,7 +272,7 @@ bot.on('message', function(event) {
 					);
 					)
 				);
-			}
+			});
             break;
         case 'video':
             // 紀錄 userId 傳了 video
