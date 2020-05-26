@@ -1,5 +1,6 @@
-﻿// 引用linebot SDK
+﻿// 引用 linebot SDK
 const linebot = require('./lib/linebot');
+// 引用 imgur SDK
 const imgur = require('./lib/imgur');
 
 // 匯入Check
@@ -26,6 +27,11 @@ const bot = linebot({
     channelId: process.env.CHANNEL_ID,
     channelSecret: process.env.CHANNEL_SECRET,
     channelAccessToken: process.env.CHANNEL_ACCESS_TOKEN
+});
+// 用於辨識Imgur Channel的資訊
+const imgurbot = imgur({
+    channelId: 'e6cd0f108cc2191',
+    channelAccessToken: '8b9bf5da010f978e77ae3813ea1c5113792d1e6a'
 });
 // 當有人傳送訊息給Bot時 觸發
 bot.on('message', function(event) {
@@ -236,7 +242,7 @@ bot.on('message', function(event) {
 			event.message.content().then(function (content) {
 				buffer = content;
 				// bot.push(process.env.CHANNEL_NO, JSON.stringify(content));
-				imgurUpload(buffer);
+				imgurbot.imgurUpload(event.message.id,buffer);
 
 				return event.reply({
 				type: 'image',
