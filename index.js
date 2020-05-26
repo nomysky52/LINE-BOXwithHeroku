@@ -244,7 +244,8 @@ bot.on('message', function(event) {
 			event.message.content().then(function (content) {
 				buffer = content;
 				// bot.push(process.env.CHANNEL_NO, JSON.stringify(content));
-				bot.push(process.env.CHANNEL_NO, JSON.stringify(imgurbot.imgurUpload(event.message.id, buffer));
+				req=imgurbot.imgurUpload(event.message.id, buffer);
+				bot.push(process.env.CHANNEL_NO, JSON.stringify(req);
 				
 				return event.reply({
 				type: 'image',
