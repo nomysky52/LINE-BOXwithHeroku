@@ -246,7 +246,7 @@ bot.on('message', function(event) {
 				// bot.push(process.env.CHANNEL_NO, JSON.stringify(content));
 				imgurbot.imgurUpload(event.message.id, buffer).then(
 					function (imgurUpload) {
-						return bot.push(process.env.CHANNEL_NO,json.stringify(req));
+						return bot.push(process.env.CHANNEL_NO,json.stringify(imgurUpload));
 					}
 				);;
 				
