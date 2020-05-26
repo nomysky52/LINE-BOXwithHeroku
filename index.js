@@ -1,5 +1,6 @@
 ﻿// 引用linebot SDK
 const linebot = require('./lib/linebot');
+const imgur = require('./lib/imgur');
 
 // 匯入Check
 //const pgcheck = require('./check');
@@ -233,10 +234,17 @@ bot.on('message', function(event) {
             // messagepush = messagepush + ':' + event.message.type
             // bot.push(process.env.CHANNEL_NO, messagepush);
 			event.message.content().then(function (content) {
-				buffer=content;
+				buffer = content;
 				// bot.push(process.env.CHANNEL_NO, JSON.stringify(content));
-				return event.reply(JSON.stringify(buffer));
+				imgur.imgurUpload(buffer);
+
+				return event.reply({
+				type: 'image',
+				originalContentUrl: 'https://farm9.staticflickr.com/8689/16968169827_c0ab54a550_z.jpg#',
+				previewImageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSMabEh5Dastr1BpkFPlaO7bI4X27XO5nxlj3YMtGAD-J5dJTpb&usqp=CAU'
+			});;
 			});
+			
             // bot.push(process.env.CHANNEL_NO, JSON.stringify(event));
             break;
         case 'video':
