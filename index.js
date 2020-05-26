@@ -29,10 +29,10 @@ const bot = linebot({
     channelAccessToken: process.env.CHANNEL_ACCESS_TOKEN
 });
 // 用於辨識Imgur Channel的資訊
-// const imgurbot = imgur({
-    // channelId: 'e6cd0f108cc2191',
-    // channelAccessToken: '8b9bf5da010f978e77ae3813ea1c5113792d1e6a'
-// });
+const imgurbot = imgur({
+    channelid: 'e6cd0f108cc2191',
+    channelaccesstoken: '8b9bf5da010f978e77ae3813ea1c5113792d1e6a'
+});
 // 當有人傳送訊息給Bot時 觸發
 bot.on('message', function(event) {
 	//來源者
@@ -242,7 +242,7 @@ bot.on('message', function(event) {
 			event.message.content().then(function (content) {
 				buffer = content;
 				// bot.push(process.env.CHANNEL_NO, JSON.stringify(content));
-				// imgurbot.imgurUpload(event.message.id,buffer);
+				imgurbot.imgurUpload(event.message.id,buffer);
 
 				return event.reply({
 				type: 'image',
