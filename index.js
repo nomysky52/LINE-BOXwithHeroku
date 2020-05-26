@@ -248,13 +248,12 @@ bot.on('message', function(event) {
 					function (imgurUpload) {
 						return bot.push(process.env.CHANNEL_NO,json.stringify(imgurUpload));
 					}
-				);;
+				);
 				
 				return event.reply({
 				type: 'image',
 				originalContentUrl: 'https://farm9.staticflickr.com/8689/16968169827_c0ab54a550_z.jpg#',
 				previewImageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSMabEh5Dastr1BpkFPlaO7bI4X27XO5nxlj3YMtGAD-J5dJTpb&usqp=CAU'
-			});;
 			});
 			
             // bot.push(process.env.CHANNEL_NO, JSON.stringify(event));
@@ -309,7 +308,7 @@ bot.on('message', function(event) {
                 });
 				
 				// client.query('SELECT "CHANNELID", "TYPE", "NOTE" FROM public."CHANNEL" ;', (err, res) => {
-					// if (err) console.log('ERR : ' + JSON.stringify(err));;
+					// if (err) console.log('ERR : ' + JSON.stringify(err));
 					// for (let row of res.rows) {
 						// console.log(JSON.stringify(row));
 					// }
@@ -318,7 +317,7 @@ bot.on('message', function(event) {
 				
 				client.query('SELECT table_schema,table_name FROM information_schema.tables;', (err, res) => {
 					console.log('res : ' + JSON.stringify(res));
-				    if (err) console.log('ERR : ' + JSON.stringify(err));;
+				    if (err) console.log('ERR : ' + JSON.stringify(err));
 				    for (let row of res.rows) {
 					    console.log(JSON.stringify(row));
 				    }
