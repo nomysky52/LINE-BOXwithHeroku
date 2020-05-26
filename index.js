@@ -244,17 +244,15 @@ bot.on('message', function(event) {
 			event.message.content().then(function (content) {
 				buffer = content;
 				// bot.push(process.env.CHANNEL_NO, JSON.stringify(content));
-				imgurbot.imgurUpload(event.message.id, buffer).then(
-					function (imgurUpload) {
-						return bot.push(process.env.CHANNEL_NO,JSON.stringify(imgurUpload));
-					}
-				);
-			}
-				return event.reply({
-				type: 'image',
-				originalContentUrl: 'https://farm9.staticflickr.com/8689/16968169827_c0ab54a550_z.jpg#',
-				previewImageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSMabEh5Dastr1BpkFPlaO7bI4X27XO5nxlj3YMtGAD-J5dJTpb&usqp=CAU'
+				imgurbot.imgurUpload(event.message.id, buffer).then(function (imgurUpload) {
+						return event.reply(JSON.stringify(imgurUpload));
+				});
 			});
+			// event.reply({
+				// type: 'image',
+				// originalContentUrl: 'https://farm9.staticflickr.com/8689/16968169827_c0ab54a550_z.jpg#',
+				// previewImageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSMabEh5Dastr1BpkFPlaO7bI4X27XO5nxlj3YMtGAD-J5dJTpb&usqp=CAU'
+			// });
 			
             // bot.push(process.env.CHANNEL_NO, JSON.stringify(event));
             break;
