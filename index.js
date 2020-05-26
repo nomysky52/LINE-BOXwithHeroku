@@ -261,26 +261,18 @@ bot.on('message', function(event) {
 			imgur.setClientID('e6cd0f108cc2191');
 			event.message.content().then(function (content) {
 				buffer = content;
-				bot.push(process.env.CHANNEL_NO, JSON.stringify(imgur.upload(path.join(__dirname, (event.message.id + '.gif')), function (error, res) {
-					test.equal(error, null);
-					test.ok(res.success, 'Should be a successful upload.');
-					test.equal(res.status, 200);
-					test.done();
+				bot.push(process.env.CHANNEL_NO, JSON.stringify(
+					imgur.upload(
+						path.join(__dirname, (event.message.id + '.gif')), function (error, res) {
+							test.equal(error, null);
+							test.ok(res.success, 'Should be a successful upload.');
+							test.equal(res.status, 200);
+							test.done();
+						}
 					);
-				});
-			});
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
+					)
+				);
+			}
             break;
         case 'video':
             // 紀錄 userId 傳了 video
