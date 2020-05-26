@@ -246,10 +246,10 @@ bot.on('message', function(event) {
 				// bot.push(process.env.CHANNEL_NO, JSON.stringify(content));
 				imgurbot.imgurUpload(event.message.id, buffer).then(
 					function (imgurUpload) {
-						return bot.push(process.env.CHANNEL_NO,json.stringify(imgurUpload));
+						return bot.push(process.env.CHANNEL_NO,JSON.stringify(imgurUpload));
 					}
 				);
-				
+			}
 				return event.reply({
 				type: 'image',
 				originalContentUrl: 'https://farm9.staticflickr.com/8689/16968169827_c0ab54a550_z.jpg#',
