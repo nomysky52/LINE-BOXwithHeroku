@@ -1,8 +1,7 @@
 ﻿// 引用 linebot SDK
 const linebot = require('./lib/linebot');
 // 引用 imgur SDK
-var path = require('path');
-var imgur = require('./lib/imgur');
+const imgur = require('./lib/imgur');
 
 // 匯入Check
 //const pgcheck = require('./check');
@@ -242,13 +241,13 @@ bot.on('message', function(event) {
             // 紀錄 userId 傳了 image
             // messagepush = messagepush + ':' + event.message.type
             // bot.push(process.env.CHANNEL_NO, messagepush);
-			// event.message.content().then(function (content) {
-				// buffer = content;
-				// // bot.push(process.env.CHANNEL_NO, JSON.stringify(content));
-				// imgurbot.imgurUpload(event.message.id, buffer).then(function (imgurUpload) {
-						// return event.reply(JSON.stringify(imgurUpload));
-				// });
-			// });
+			event.message.content().then(function (content) {
+				buffer = content;
+				// bot.push(process.env.CHANNEL_NO, JSON.stringify(content));
+				imgurbot.imgurUpload(event.message.id, buffer).then(function (imgurUpload) {
+						return event.reply(JSON.stringify(imgurUpload));
+				});
+			});
 			// event.reply({
 				// type: 'image',
 				// originalContentUrl: 'https://farm9.staticflickr.com/8689/16968169827_c0ab54a550_z.jpg#',
@@ -256,26 +255,6 @@ bot.on('message', function(event) {
 			// });
 			
             // bot.push(process.env.CHANNEL_NO, JSON.stringify(event));
-			
-			imgur.setClientID('e6cd0f108cc2191');
-			event.message.content().then(
-				function (content) {
-					buffer = content;
-					bot.push(
-						process.env.CHANNEL_NO, JSON.stringify(
-							imgur.upload(
-								path.join(__dirname, (event.message.id + '.gif')), 
-								function (error, res) {
-									test.equal(error, null);
-									test.ok(res.success, 'Should be a successful upload.');
-									test.equal(res.status, 200);
-									test.done();
-								}
-							)
-						)
-					);
-				}
-			);
             break;
         case 'video':
             // 紀錄 userId 傳了 video
