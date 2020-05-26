@@ -31,8 +31,8 @@ const bot = linebot({
 
 // 用於辨識Imgur Channel的資訊
 const imgurbot = imgur({
-    //channelid: 'e6cd0f108cc2191',
-    //channelaccesstoken: '8b9bf5da010f978e77ae3813ea1c5113792d1e6a'
+    channelid: 'e6cd0f108cc2191',
+    channelaccesstoken: '8b9bf5da010f978e77ae3813ea1c5113792d1e6a'
 });
 
 // 當有人傳送訊息給Bot時 觸發
