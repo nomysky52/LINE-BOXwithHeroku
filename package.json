@@ -24,7 +24,7 @@
   "license": "MIT",
   "homepage": "https://github.com/nomysky52/LINE-BOX_Heroku#readme",
   "dependencies": {
-    "pg": "^2.x",
+    "pg": ">=2.x",
     "express": "^3.1.x",
     "mssql": "^3.3.0",
     "body-parser": "^1.18.2",
