@@ -8,7 +8,7 @@ const imgur = require('./lib/imgur');
 
 // 引用 postgresql SDK
 // const pg = require('pg');
-const { Client } = require('pg');
+//const { Client } = require('pg');
 
 // DBClient設定檔
 //const connectionString = process.env.DATABASE_URL_;
