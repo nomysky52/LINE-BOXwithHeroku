@@ -341,6 +341,7 @@ bot.on('message', function(event) {
 				sqlDb.connect(CNX_config, function (err) {
 					if(err)
 						console.log(err);
+
 					var request = new sqlDb.Request();
 					request.query("select * from [dbo].[CHANNEL]", function (err, result) {
 						if(err)
