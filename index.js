@@ -36,7 +36,7 @@ const imgurbot = imgur({
 });
 
 // MSSQL
-var Connection = require('tedious').Connection;  
+var Connection = require('mssql').Connection;  
 var mssql_config = {  
 	server: 'nomysky52.mssql.somee.com',  //update me
 	authentication: {
@@ -52,7 +52,6 @@ var mssql_config = {
 		database: 'nomysky52'  //update me
 	}
 };
-
 
 
 var sql=require('mssql');
