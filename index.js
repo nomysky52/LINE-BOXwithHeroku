@@ -36,6 +36,25 @@ const imgurbot = imgur({
 });
 
 // MSSQL
+var Connection = require('tedious').Connection;  
+var mssql_config = {  
+	server: 'nomysky52.mssql.somee.com',  //update me
+	authentication: {
+		type: 'default',
+		options: {
+			userName: 'nomysky52_SQLLogin_1', //update me
+			password: '7rtxswzde4'  //update me
+		}
+	},
+	options: {
+		// If you are on Microsoft Azure, you need encryption:
+		encrypt: true,
+		database: 'nomysky52'  //update me
+	}
+};
+
+
+
 var sql=require('mssql');
 
 const CNX_config = {
@@ -339,6 +358,19 @@ bot.on('message', function(event) {
             // });
             if(event.source.userId === process.env.CHANNEL_NO)
             {
+				
+				var connection = new Connection(config);  
+				connection.on('connect', function(err) {  
+					// If no error, then good to proceed.
+					if(err)
+						console.log(err);
+					else
+						console.log("Connected");  
+				});  
+				
+				
+				
+				
 				//connect to your database
 				sql.connect(CNX_config,function (err) {
 					if(err)
