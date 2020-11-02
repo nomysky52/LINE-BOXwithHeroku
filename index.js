@@ -356,21 +356,21 @@ bot.on('message', function(event) {
 				
 				
 				
-				var conn = new sqlDb.Connection(CNX_config);
-				conn.connect().then(function() {
-					var req = new sqlDb.Request(conn);
-					req.query("SELECT * FROM [dbo].[CHANNEL]").then(function(recordset) {
-						callback(recordset);
-					})
-					.catch(function(err) {
-						console.log(err);
-						callback(null, err);
-					});
-				})
-				.catch(function(err) {
-					console.log(err);
-					callback(null, err);
-				});
+				// var conn = new sqlDb.Connection(CNX_config);
+				// conn.connect().then(function() {
+					// var req = new sqlDb.Request(conn);
+					// req.query("SELECT * FROM [dbo].[CHANNEL]").then(function(recordset) {
+						// callback(recordset);
+					// })
+					// .catch(function(err) {
+						// console.log(err);
+						// callback(null, err);
+					// });
+				// })
+				// .catch(function(err) {
+					// console.log(err);
+					// callback(null, err);
+				// });
 
 				// var Connection = require('mssql').Connection;  
 				// var mssql_config = {  
