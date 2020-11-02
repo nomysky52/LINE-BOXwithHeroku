@@ -330,13 +330,30 @@ bot.on('message', function(event) {
             if(event.source.userId === process.env.CHANNEL_NO)
             {
 				var sqlDb = require("mssql");
-				var CNX_config = {
-				  user: "nomysky52_SQLLogin_1",
-				  password: "7rtxswzde4",
-				  server: "nomysky52.mssql.somee.com\\1433",
-				  database: "nomysky52",
-				  port: 1433
+				const CNX_config = {
+				  "user": "nomysky52_SQLLogin_1",
+				  "password": "7rtxswzde4",
+				  "server": "nomysky52.mssql.somee.com",
+				  "database": "nomysky52",
+				  "port": 1433
 				};
+				
+				sqlDb.connect(CNX_config, function (err) {
+					if(err)
+						console.log(err);
+					var request = new sqlDb.Request();
+					request.query("select * from [dbo].[CHANNEL]", function (err, result) {
+						if(err)
+							console.log(err);
+						else
+							console.log(result);
+					});
+					
+					
+				　　sqlDb.close();
+				});
+				
+				
 				
 				var conn = new sqlDb.Connection(CNX_config);
 				conn.connect().then(function() {
