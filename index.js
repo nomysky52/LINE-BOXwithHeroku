@@ -341,16 +341,21 @@ bot.on('message', function(event) {
             {
 				//connect to your database
 				sql.connect(CNX_config,function (err) {
-					if(err) console.log(err);
+					if(err)
+						console.log(err);
+					else
+						console.log('sql.connect OK!');
 
 					//create Request object
 					var request=new sql.Request();
 
 					request.query('select * from CHANNEL',function(err,recordset){
-						if(err) console.log(err);
+						if(err)
+							console.log(err);
+						else
+							console.log('request.query OK!');
 
 						//send records as a response
-						console.log('MSSQL OK!');
 						//res.send(recordset);
 					});
 				});
