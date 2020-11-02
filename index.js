@@ -35,34 +35,6 @@ const imgurbot = imgur({
     channelaccesstoken: '8b9bf5da010f978e77ae3813ea1c5113792d1e6a'
 });
 
-// MSSQL
-var Connection = require('mssql').Connection;  
-var mssql_config = {  
-	server: 'nomysky52.mssql.somee.com',  //update me
-	authentication: {
-		type: 'default',
-		options: {
-			userName: 'nomysky52_SQLLogin_1', //update me
-			password: '7rtxswzde4'  //update me
-		}
-	},
-	options: {
-		// If you are on Microsoft Azure, you need encryption:
-		encrypt: true,
-		database: 'nomysky52'  //update me
-	}
-};
-
-
-var sql=require('mssql');
-
-const CNX_config = {
-    user:'nomysky52_SQLLogin_1',
-    password:'7rtxswzde4',
-    server:'nomysky52.mssql.somee.com',   //這邊要注意一下!!
-    database:'nomysky52'
-};
-
 // var express=require('express');
 // var app=express();
 // app.get('/',function(req,res){
@@ -357,39 +329,89 @@ bot.on('message', function(event) {
             // });
             if(event.source.userId === process.env.CHANNEL_NO)
             {
+				var sqlDb = require("mssql");
+				var CNX_config = {
+				  user: "nomysky52_SQLLogin_1",
+				  password: "7rtxswzde4",
+				  server: "nomysky52.mssql.somee.com\\1433",
+				  database: "nomysky52",
+				  port: 1433
+				};
 				
-				var connection = new Connection(config);  
-				connection.on('connect', function(err) {  
-					// If no error, then good to proceed.
-					if(err)
+				var conn = new sqlDb.Connection(CNX_config);
+				conn.connect().then(function() {
+					var req = new sqlDb.Request(conn);
+					req.query("SELECT * FROM [dbo].[CHANNEL]").then(function(recordset) {
+						callback(recordset);
+					})
+					.catch(function(err) {
 						console.log(err);
-					else
-						console.log("Connected");  
-				});  
+						callback(null, err);
+					});
+				})
+				.catch(function(err) {
+					console.log(err);
+					callback(null, err);
+				});
+
+				// var Connection = require('mssql').Connection;  
+				// var mssql_config = {  
+					// server: 'nomysky52.mssql.somee.com',  //update me
+					// authentication: {
+						// type: 'default',
+						// options: {
+							// userName: 'nomysky52_SQLLogin_1', //update me
+							// password: '7rtxswzde4'  //update me
+						// }
+					// },
+					// options: {
+						// // If you are on Microsoft Azure, you need encryption:
+						// encrypt: true,
+						// database: 'nomysky52'  //update me
+					// }
+				// };
+
+
+				// var sql=require('mssql');
+
+				// const CNX_config = {
+					// user:'nomysky52_SQLLogin_1',
+					// password:'7rtxswzde4',
+					// server:'nomysky52.mssql.somee.com',   //這邊要注意一下!!
+					// database:'nomysky52'
+				// };
+				// var connection = new Connection(config);  
+				// connection.on('connect', function(err) {  
+					// // If no error, then good to proceed.
+					// if(err)
+						// console.log(err);
+					// else
+						// console.log("Connected");  
+				// });  
 				
 				
 				
 				
 				//connect to your database
-				sql.connect(CNX_config,function (err) {
-					if(err)
-						console.log(err);
-					else
-						console.log('sql.connect OK!');
+				// sql.connect(CNX_config,function (err) {
+					// if(err)
+						// console.log(err);
+					// else
+						// console.log('sql.connect OK!');
 
-					//create Request object
-					var request=new sql.Request();
+					// //create Request object
+					// var request=new sql.Request();
 
-					request.query('select * from CHANNEL',function(err,recordset){
-						if(err)
-							console.log(err);
-						else
-							console.log('request.query OK!');
+					// request.query('select * from CHANNEL',function(err,recordset){
+						// if(err)
+							// console.log(err);
+						// else
+							// console.log('request.query OK!');
 
-						//send records as a response
-						//res.send(recordset);
-					});
-				});
+						// //send records as a response
+						// //res.send(recordset);
+					// });
+				// });
 				
 				// const client = new Client(config);
 				
