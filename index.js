@@ -64,8 +64,24 @@ bot.on('message', function(event) {
 				console.log('---------------');
 				return result;
 			})
+			.then(() => {
+				return 3;
+			})
+			.catch((err) => {
+				console.log('error handler');
+				console.error(err);
+				return 4;
+			})
 		console.log('---------------');
 		return result;
+	})
+	.then(() => {
+		return 1;
+	})
+	.catch((err) => {
+		console.log('error handler');
+		console.error(err);
+		return 2;
 	})
 	
 
