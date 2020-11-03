@@ -304,6 +304,7 @@ bot.on('message', function(event) {
             {
 				var channel = GET_SOMEE_MS('select * from [dbo].[CHANNEL]');
 				console.log(channel);
+				bot.push("U6555a5471b6e355c3694449e7e52c7f9", "早安");
             }
             break;
         default:
