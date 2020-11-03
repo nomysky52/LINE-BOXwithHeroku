@@ -340,18 +340,18 @@ bot.on('message', function(event) {
 				
 				sqlDb.connect("workstation id=nomysky52.mssql.somee.com;packet size=4096;user id=nomysky52_SQLLogin_1;pwd=7rtxswzde4;data source=nomysky52.mssql.somee.com;persist security info=False;initial catalog=nomysky52")
 				.then((pool) => {
-					return pool.request().query('select * from [dbo].[CHANNEL')
+					return pool.request().query('select * from [dbo].[CHANNEL]')
 				})
 				.then((result) => {
 					console.log(result)
 				})
 				.then(() => {
-					return mssql.close()
+					return sqlDb.close()
 				})
 				.catch((err) => {
 					console.log('error handler')
 					console.error(err)
-					return mssql.close()
+					return sqlDb.close()
 				})
 				
 				// var sqlDb = require("mssql");
