@@ -297,7 +297,8 @@ bot.on('message', function(event) {
             // });
             if(event.source.userId === process.env.CHANNEL_NO)
             {
-				console.log(SOMEE_MS('select * from [dbo].[CHANNEL]'));
+				var channel = SOMEE_MS('select * from [dbo].[CHANNEL]');
+				console.log(channel);
             }
             break;
         default:
