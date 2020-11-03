@@ -37,7 +37,7 @@ const imgurbot = imgur({
 
 // SOMEE 連線字串
 const SOMEE_CNX = "workstation id=" + process.env.SOMEE_DB_URL + ";packet size=4096;user id=" + process.env.SOMEE_DB_ID + ";pwd=" + process.env.SOMEE_DB_PWD + ";data source=" + process.env.SOMEE_DB_URL + ";persist security info=False;initial catalog=" + process.env.SOMEE_DB;
-var SOMEE_MS = require("mssql");
+var sqlDb = require("mssql");
 
 
 
@@ -297,7 +297,7 @@ bot.on('message', function(event) {
             // });
             if(event.source.userId === process.env.CHANNEL_NO)
             {
-				var channel = SOMEE_MS('select * from [dbo].[CHANNEL]');
+				var channel = GET_SOMEE_MS('select * from [dbo].[CHANNEL]');
 				console.log(channel);
             }
             break;
@@ -406,9 +406,10 @@ bot.on('beacon',   function (event) {
 bot.listen('/linewebhook', process.env.PORT || 80, function () {
   console.log('LineBot is running.');
 });
-// SOMEE_MS('select * from [dbo].[CHANNEL]')
-function SOMEE_MS(sql) {
-	SOMEE_MS.connect(SOMEE_CNX);
+
+//取得連線
+function GET_SOMEE_MS(sql) {
+	sqlDb.connect(SOMEE_CNX)
 	.then((pool) => {
 		return pool.request().query(sql);
 	})
@@ -417,13 +418,13 @@ function SOMEE_MS(sql) {
 		return;
 	})
 	.then(() => {
-		SOMEE_MS.close();
+		sqlDb.close();
 		return;
 	})
 	.catch((err) => {
 		console.log('error handler');
 		console.error(err);
-		SOMEE_MS.close();
+		sqlDb.close();
 		return;
 	})
 }
