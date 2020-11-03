@@ -340,12 +340,12 @@ bot.on('message', function(event) {
 				
 				sqlDb.connect("workstation id=nomysky52.mssql.somee.com;packet size=4096;user id=nomysky52_SQLLogin_1;pwd=7rtxswzde4;data source=nomysky52.mssql.somee.com;persist security info=False;initial catalog=nomysky52", function (err) {
 					if(err)
-						console.log(err);
+						console.log("sqlDb.connect:"+err);
 
 					var request = new sqlDb.Request();
 					request.query("select * from [dbo].[CHANNEL]", function (err, result) {
 						if(err)
-							console.log(err);
+							console.log("request.query:"+err);
 						else
 							console.log(result);
 					});
