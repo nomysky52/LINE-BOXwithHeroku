@@ -447,4 +447,5 @@ function GET_SOMEE_MS(sql) {
 		sqlDb.close();
 		return;
 	})
+	console.log('--connect-end--');
 }
