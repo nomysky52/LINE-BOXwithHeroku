@@ -56,9 +56,8 @@ bot.on('message', function(event) {
 		console.log(channel);
 	else {
 		console.log('--INSERT INTO--');
-		console.log(channel);
-		console.log('---------------');
 		channel = GET_SOMEE_MS("INSERT INTO [dbo].[CHANNEL]([CHANNELID],[TYPE],[NOTE])VALUES('"+event.source.userId+"',9999,'')");
+		console.log('---------------');
 		console.log(channel);
 		console.log('---------------');
 	}
@@ -422,9 +421,17 @@ bot.listen('/linewebhook', process.env.PORT || 80, function () {
 function GET_SOMEE_MS(sql) {
 	sqlDb.connect(SOMEE_CNX)
 	.then((pool) => {
-		return pool.request().query(sql);
+		console.log('--pool---------');
+		console.log(pool);
+		console.log('---------------');
+		console.log(pool.request().query(sql));
+		console.log('---------------');
+		return ;
 	})
 	.then((result) => {
+		console.log('--result-------');
+		console.log(result);
+		console.log('---------------');
 		return result;
 	})
 	.then(() => {
