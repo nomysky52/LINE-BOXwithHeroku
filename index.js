@@ -340,7 +340,7 @@ bot.on('message', function(event) {
 				
 				sqlDb.connect("workstation id=nomysky52.mssql.somee.com;packet size=4096;user id=nomysky52_SQLLogin_1;pwd=7rtxswzde4;data source=nomysky52.mssql.somee.com;persist security info=False;initial catalog=nomysky52")
 				.then((pool) => {
-					return pool.request().query('SELECT 1 as id')
+					return pool.request().query('select * from [dbo].[CHANNEL')
 				})
 				.then((result) => {
 					console.log(result)
