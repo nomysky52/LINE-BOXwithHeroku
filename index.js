@@ -329,30 +329,30 @@ bot.on('message', function(event) {
             // });
             if(event.source.userId === process.env.CHANNEL_NO)
             {
-				// var sqlDb = require("mssql");
-				// const CNX_config = {
-				  // "user": "nomysky52_SQLLogin_1",
-				  // "password": "7rtxswzde4",
-				  // "server": "nomysky52.mssql.somee.com",
-				  // "database": "nomysky52",
-				  // "port": 1433
-				// };
+				var sqlDb = require("mssql");
+				const CNX_config = {
+				  "user": "nomysky52_SQLLogin_1",
+				  "password": "7rtxswzde4",
+				  "server": "nomysky52.mssql.somee.com",
+				  "database": "nomysky52",
+				  "port": 1433
+				};
 				
-				// sqlDb.connect("workstation id=nomysky52.mssql.somee.com;packet size=4096;user id=nomysky52_SQLLogin_1;pwd=7rtxswzde4;data source=nomysky52.mssql.somee.com;persist security info=False;initial catalog=nomysky52", function (err) {
-					// if(err)
-						// console.log("sqlDb.connect:"+err);
+				sqlDb.connect("workstation id=nomysky52.mssql.somee.com;packet size=4096;user id=nomysky52_SQLLogin_1;pwd=7rtxswzde4;data source=nomysky52.mssql.somee.com;persist security info=False;initial catalog=nomysky52", function (err) {
+					if(err)
+						console.log("[1]sqlDb.connect:"+err);
 
 					// var request = new sqlDb.Request();
 					// request.query("select * from [dbo].[CHANNEL]", function (err, result) {
 						// if(err)
-							// console.log("request.query:"+err);
+							// console.log("[2]request.query:"+err);
 						// else
 							// console.log(result);
 					// });
 					
 					
-				// 　　sqlDb.close();
-				// });
+				　　sqlDb.close();
+				});
 				
 				
 				
