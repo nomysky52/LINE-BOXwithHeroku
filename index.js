@@ -425,8 +425,7 @@ function GET_SOMEE_MS(sql) {
 		return pool.request().query(sql);
 	})
 	.then((result) => {
-		console.log(result);
-		return;
+		return result;
 	})
 	.then(() => {
 		sqlDb.close();
