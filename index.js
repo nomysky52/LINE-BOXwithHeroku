@@ -51,22 +51,23 @@ bot.on('message', function(event) {
 		messagepush = messagepush + 'roomId:' + event.source.roomId + '\n';
 
 	console.log("select [CHANNELID],[TYPE],[NOTE] from [dbo].[CHANNEL] where [CHANNELID] = '"+event.source.userId+"'");
-	GET_SOMEE_MS("select [CHANNELID],[TYPE],[NOTE] from [dbo].[CHANNEL] where [CHANNELID] = '"+event.source.userId+"'").then(
-		(result) => {
+	GET_SOMEE_MS("select [CHANNELID],[TYPE],[NOTE] from [dbo].[CHANNEL] where [CHANNELID] = '"+event.source.userId+"'")
+	.then( (result) => {
 		console.log('--result-------');
 		if(result)
 			console.log(result);
 		else
-			GET_SOMEE_MS("INSERT INTO [dbo].[CHANNEL]([CHANNELID],[TYPE],[NOTE])VALUES('"+event.source.userId+"',9999,'')").then(
-				(result) => {
-					console.log('--INSERT INTO--');
-					console.log(result);
-					console.log('---------------');
-				}
-			)
+			GET_SOMEE_MS("INSERT INTO [dbo].[CHANNEL]([CHANNELID],[TYPE],[NOTE])VALUES('"+event.source.userId+"',9999,'')")
+			.then( (result) => {
+				console.log('--INSERT INTO--');
+				console.log(result);
+				console.log('---------------');
+				return result;
+			})
 		console.log('---------------');
-		}
-	)
+		return result;
+	})
+	
 
     switch (event.message.type)
 	{
@@ -443,14 +444,12 @@ function GET_SOMEE_MS(sql) {
 		return result;
 	})
 	.then(() => {
-		sqlDb.close();
-		return;
+		return sqlDb.close();
 	})
 	.catch((err) => {
 		console.log('error handler');
 		console.error(err);
-		sqlDb.close();
-		return;
+		return sqlDb.close();
 	})
 	console.log('--connect-end--');
 }
