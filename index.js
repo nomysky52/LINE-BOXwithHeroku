@@ -338,20 +338,20 @@ bot.on('message', function(event) {
 				  "port": 1433
 				};
 				
-				sqlDb.connect(CNX_config)
+				sqlDb.connect("workstation id=nomysky52.mssql.somee.com;packet size=4096;user id=nomysky52_SQLLogin_1;pwd=7rtxswzde4;data source=nomysky52.mssql.somee.com;persist security info=False;initial catalog=nomysky52")
 				.then((pool) => {
 					return pool.request().query('SELECT 1 as id')
 				})
 				.then((result) => {
-				console.log(result)
+					console.log(result)
 				})
 				.then(() => {
-				return mssql.close()
+					return mssql.close()
 				})
 				.catch((err) => {
-				console.log('error handler')
-				console.error(err)
-				return mssql.close()
+					console.log('error handler')
+					console.error(err)
+					return mssql.close()
 				})
 				
 				// var sqlDb = require("mssql");
