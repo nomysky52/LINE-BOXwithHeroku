@@ -39,19 +39,24 @@ const imgurbot = imgur({
 const SOMEE_CNX = "workstation id=" + process.env.SOMEE_DB_URL + ";packet size=4096;user id=" + process.env.SOMEE_DB_ID + ";pwd=" + process.env.SOMEE_DB_PWD + ";data source=" + process.env.SOMEE_DB_URL + ";persist security info=False;initial catalog=" + process.env.SOMEE_DB;
 var sqlDb = require("mssql");
 
-
-
-
 // 當有人傳送訊息給Bot時 觸發
 bot.on('message', function(event) {
 	//來源者
     var messagepush = 'userId:' + event.source.userId + '\n';
     //來源群組
     if(typeof event.source.groupId !== "undefined")
-		messagepush = messagepush + 'groupId:' + event.source.groupId + '\n'
+		messagepush = messagepush + 'groupId:' + event.source.groupId + '\n';
     //來源ROOM
     if(typeof event.source.roomId !== "undefined")
-		messagepush = messagepush + 'roomId:' + event.source.roomId + '\n'
+		messagepush = messagepush + 'roomId:' + event.source.roomId + '\n';
+
+	var channel = GET_SOMEE_MS("select [CHANNELID],[TYPE],[NOTE] from [dbo].[CHANNEL] where [CHANNELID] = '"+event.source.userId+"'");
+	if(channel)
+		console.log(channel);
+	else {
+		channel = GET_SOMEE_MS("INSERT INTO [dbo].[CHANNEL]([CHANNELID],[TYPE],[NOTE])VALUES('"+event.source.userId+"',9999,'')");
+		console.log(channel);
+	}
 
     switch (event.message.type)
 	{
