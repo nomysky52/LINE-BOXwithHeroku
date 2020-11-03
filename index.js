@@ -419,11 +419,14 @@ bot.listen('/linewebhook', process.env.PORT || 80, function () {
 
 //取得連線
 function GET_SOMEE_MS(sql) {
+	console.log('--GET_SOMEE_MS-');
+	console.log(sql);
+	console.log('---------------');
 	sqlDb.connect(SOMEE_CNX)
 	.then((pool) => {
 		console.log('--pool---------');
 		console.log(pool);
-		console.log('---------------');
+		console.log('--pool.request().query(sql)');
 		console.log(pool.request().query(sql));
 		console.log('---------------');
 		return ;
