@@ -35,41 +35,8 @@ const imgurbot = imgur({
     channelaccesstoken: '8b9bf5da010f978e77ae3813ea1c5113792d1e6a'
 });
 
-// var express=require('express');
-// var app=express();
-// app.get('/',function(req,res){
-	// var sql=require('mssql');
-
-// const CNX_config = {
-    // user:'nomysky52_SQLLogin_1',
-    // password:'7rtxswzde4',
-    // server:'nomysky52.mssql.somee.com',   //這邊要注意一下!!
-    // database:'nomysky52'
-// };
- 
-// //connect to your database
- // sql.connect(CNX_config,function (err) {
-   // if(err) console.log(err);
-// //create Request object
-   // var request=new sql.Request();
-// request.query('select * from CHANNEL',function(err,recordset){
-   // if(err) console.log(err);
- 
-// //send records as a response
-   // res.send(recordset);
-   // });
- // });
- 
-// });
- 
-// var server=app.listen(5050,function(){
- // console.log('Server is running!');
-// });
-
-
-
 // MSSQL連線字串
-var sql=require('mssql');
+//var sql=require('mssql');
 
 
 
