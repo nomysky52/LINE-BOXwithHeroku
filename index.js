@@ -35,8 +35,9 @@ const imgurbot = imgur({
     channelaccesstoken: '8b9bf5da010f978e77ae3813ea1c5113792d1e6a'
 });
 
-// MSSQL連線字串
-//var sql=require('mssql');
+// SOMEE 連線字串
+const SOMEE_CNX = "workstation id=" + process.env.SOMEE_DB_URL + ";packet size=4096;user id=" + process.env.SOMEE_DB_ID + ";pwd=" + process.env.SOMEE_DB_PWD + ";data source=" + process.env.SOMEE_DB_URL + ";persist security info=False;initial catalog=" + process.env.SOMEE_DB;
+var SOMEE_MS = require("mssql");
 
 
 
@@ -296,194 +297,8 @@ bot.on('message', function(event) {
             // });
             if(event.source.userId === process.env.CHANNEL_NO)
             {
-				var sqlDb = require("mssql");
-				const CNX_config = {
-				  "user": "nomysky52_SQLLogin_1",
-				  "password": "7rtxswzde4",
-				  "server": "nomysky52.mssql.somee.com",
-				  "database": "nomysky52",
-				  "port": 1433
-				};
-				
-				sqlDb.connect("workstation id=nomysky52.mssql.somee.com;packet size=4096;user id=nomysky52_SQLLogin_1;pwd=7rtxswzde4;data source=nomysky52.mssql.somee.com;persist security info=False;initial catalog=nomysky52")
-				.then((pool) => {
-					return pool.request().query('select * from [dbo].[CHANNEL]')
-				})
-				.then((result) => {
-					console.log(result)
-				})
-				.then(() => {
-					return sqlDb.close()
-				})
-				.catch((err) => {
-					console.log('error handler')
-					console.error(err)
-					return sqlDb.close()
-				})
-				
-				// var sqlDb = require("mssql");
-				// const CNX_config = {
-				  // "user": "nomysky52_SQLLogin_1",
-				  // "password": "7rtxswzde4",
-				  // "server": "nomysky52.mssql.somee.com",
-				  // "database": "nomysky52",
-				  // "port": 1433
-				// };
-				
-				// sqlDb.connect("workstation id=nomysky52.mssql.somee.com;packet size=4096;user id=nomysky52_SQLLogin_1;pwd=7rtxswzde4;data source=nomysky52.mssql.somee.com;persist security info=False;initial catalog=nomysky52", function (err) {
-					// if(err)
-						// console.log("[1]sqlDb.connect:"+err);
-					// sqlDb.
-
-					// // var request = new sqlDb.Request();
-					// // request.query("select * from [dbo].[CHANNEL]", function (err, result) {
-						// // if(err)
-							// // console.log("[2]request.query:"+err);
-						// // else
-							// // console.log(result);
-					// // });
-					
-					
-				// 　　sqlDb.close();
-				// });
-				
-				
-				
-				// var conn = new sqlDb.Connection(CNX_config);
-				// conn.connect().then(function() {
-					// var req = new sqlDb.Request(conn);
-					// req.query("SELECT * FROM [dbo].[CHANNEL]").then(function(recordset) {
-						// callback(recordset);
-					// })
-					// .catch(function(err) {
-						// console.log(err);
-						// callback(null, err);
-					// });
-				// })
-				// .catch(function(err) {
-					// console.log(err);
-					// callback(null, err);
-				// });
-
-				// var Connection = require('mssql').Connection;  
-				// var mssql_config = {  
-					// server: 'nomysky52.mssql.somee.com',  //update me
-					// authentication: {
-						// type: 'default',
-						// options: {
-							// userName: 'nomysky52_SQLLogin_1', //update me
-							// password: '7rtxswzde4'  //update me
-						// }
-					// },
-					// options: {
-						// // If you are on Microsoft Azure, you need encryption:
-						// encrypt: true,
-						// database: 'nomysky52'  //update me
-					// }
-				// };
-
-
-				// var sql=require('mssql');
-
-				// const CNX_config = {
-					// user:'nomysky52_SQLLogin_1',
-					// password:'7rtxswzde4',
-					// server:'nomysky52.mssql.somee.com',   //這邊要注意一下!!
-					// database:'nomysky52'
-				// };
-				// var connection = new Connection(config);  
-				// connection.on('connect', function(err) {  
-					// // If no error, then good to proceed.
-					// if(err)
-						// console.log(err);
-					// else
-						// console.log("Connected");  
-				// });  
-				
-				
-				
-				
-				//connect to your database
-				// sql.connect(CNX_config,function (err) {
-					// if(err)
-						// console.log(err);
-					// else
-						// console.log('sql.connect OK!');
-
-					// //create Request object
-					// var request=new sql.Request();
-
-					// request.query('select * from CHANNEL',function(err,recordset){
-						// if(err)
-							// console.log(err);
-						// else
-							// console.log('request.query OK!');
-
-						// //send records as a response
-						// //res.send(recordset);
-					// });
-				// });
-				
-				// const client = new Client(config);
-				
-				// console.log('client : ' + JSON.stringify(client));
-				// // client.connect();
-				
-                // client.connect(err => {
-                    // if (err) {
-                        // console.log('Connected ERR : ');
-                        // console.log(err);
-                    // }
-                    // else {
-                        // console.log('Connected to PostgreSQL database');
-                    // }
-                // });
-				
-				// client.query('SELECT "CHANNELID", "TYPE", "NOTE" FROM public."CHANNEL" ;', (err, res) => {
-					// if (err) console.log('ERR : ' + JSON.stringify(err));
-					// for (let row of res.rows) {
-						// console.log(JSON.stringify(row));
-					// }
-					// client.end();
-				// });
-				
-				// client.query('SELECT table_schema,table_name FROM information_schema.tables;', (err, res) => {
-					// console.log('res : ' + JSON.stringify(res));
-				    // if (err) console.log('ERR : ' + JSON.stringify(err));
-				    // for (let row of res.rows) {
-					    // console.log(JSON.stringify(row));
-				    // }
-				    // client.end();
-				// });
-				
-                // client.connect(err => {
-                    // if (err) {
-                        // console.log(err);
-                    // }
-                    // else {
-                        // console.log('Connected to PostgreSQL database');
-                    // }
-                // });
-                
-				// const query = client.query('SELECT "CHANNELID", "TYPE", "NOTE" FROM public."CHANNEL"' , function(err, result) {
-				// const query = client.query('SELECT * FROM public."CHANNEL"' , function(err, result) {
-					// console.log('1client : ' + JSON.stringify(client));
-					// console.log('2query : ' + JSON.stringify(query));
-					// console.log('3result : ' + JSON.stringify(result));
-					// done();
-					// if(err) return console.log(err);
-					// console.log(result.rows);
-					// return;
-					// });
-				
-				// console.log('123 : ' + JSON.stringify(query));
-				// query.on('end', () => { event.reply(JSON.stringify(query));client.end(); });
-				
-                // checkchannel(event.source.userId);
-                // pgcheck.checkchannel(event.source.userId).then(function () {
-                // event.reply(JSON.stringify(this));
-                // }
-            };
+				console.log(SOMEE_MS('select * from [dbo].[CHANNEL]'));
+            }
             break;
         default:
             // 紀錄 userId 傳了 未知類別
@@ -590,3 +405,24 @@ bot.on('beacon',   function (event) {
 bot.listen('/linewebhook', process.env.PORT || 80, function () {
   console.log('LineBot is running.');
 });
+// SOMEE_MS('select * from [dbo].[CHANNEL]')
+function SOMEE_MS(sql) {
+	SOMEE_MS.connect(SOMEE_CNX);
+	.then((pool) => {
+		return pool.request().query(sql);
+	})
+	.then((result) => {
+		console.log(result);
+		return;
+	})
+	.then(() => {
+		SOMEE_MS.close();
+		return;
+	})
+	.catch((err) => {
+		console.log('error handler');
+		console.error(err);
+		SOMEE_MS.close();
+		return;
+	})
+}
