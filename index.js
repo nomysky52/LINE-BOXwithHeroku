@@ -52,14 +52,12 @@ bot.on('message', function(event) {
 
 	console.log("select [CHANNELID],[TYPE],[NOTE] from [dbo].[CHANNEL] where [CHANNELID] = '"+event.source.userId+"'");
 	GET_SOMEE_MS("select [CHANNELID],[TYPE],[NOTE] from [dbo].[CHANNEL] where [CHANNELID] = '"+event.source.userId+"'")
-	.then( (result) => {
-		console.log('--result-------');
+	.then( (result) => {console.log('--result-------');
 		if(result)
 			console.log(result);
 		else
 			GET_SOMEE_MS("INSERT INTO [dbo].[CHANNEL]([CHANNELID],[TYPE],[NOTE])VALUES('"+event.source.userId+"',9999,'')")
-			.then( (result) => {
-				console.log('--INSERT INTO--');
+			.then( (result) => {console.log('--INSERT INTO--');
 				console.log(result);
 				console.log('---------------');
 				return result;
