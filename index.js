@@ -50,12 +50,17 @@ bot.on('message', function(event) {
     if(typeof event.source.roomId !== "undefined")
 		messagepush = messagepush + 'roomId:' + event.source.roomId + '\n';
 
+	console.log("select [CHANNELID],[TYPE],[NOTE] from [dbo].[CHANNEL] where [CHANNELID] = '"+event.source.userId+"'");
 	var channel = GET_SOMEE_MS("select [CHANNELID],[TYPE],[NOTE] from [dbo].[CHANNEL] where [CHANNELID] = '"+event.source.userId+"'");
 	if(channel)
 		console.log(channel);
 	else {
+		console.log('--INSERT INTO--');
+		console.log(channel);
+		console.log('---------------');
 		channel = GET_SOMEE_MS("INSERT INTO [dbo].[CHANNEL]([CHANNELID],[TYPE],[NOTE])VALUES('"+event.source.userId+"',9999,'')");
 		console.log(channel);
+		console.log('---------------');
 	}
 
     switch (event.message.type)
