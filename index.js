@@ -51,7 +51,9 @@ bot.on('message', function(event) {
 		messagepush = messagepush + 'roomId:' + event.source.roomId + '\n';
 	
 	GET_SOMEE_MS("IF NOT EXISTS(select [CHANNELID],[TYPE],[NOTE] from [dbo].[CHANNEL] where [CHANNELID] = '"+event.source.userId+"')INSERT INTO [dbo].[CHANNEL]([CHANNELID],[TYPE],[NOTE])VALUES('"+event.source.userId+"',9999,'');SELECT 1")
-	.then( (result) => {console.log('--result-------');
+	.then( 
+		setTimeout(function(){ 
+		(result) => {console.log('--result-------');
 		if(result)
 			console.log(result);
 		else
@@ -71,6 +73,7 @@ bot.on('message', function(event) {
 			})
 		console.log('---------------');
 		return result;
+		}, 5000); 
 	})
 	.then(() => {
 		return 1;
