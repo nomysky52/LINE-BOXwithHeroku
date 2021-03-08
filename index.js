@@ -50,7 +50,7 @@ bot.on('message', function(event) {
     if(typeof event.source.roomId !== "undefined")
 		messagepush = messagepush + 'roomId:' + event.source.roomId + '\n';
 	
-	GET_SOMEE_MS("IF NOT EXISTS(select [CHANNELID],[TYPE],[NOTE] from [dbo].[CHANNEL] where [CHANNELID] = '"+event.source.userId+"')INSERT INTO [dbo].[CHANNEL]([CHANNELID],[TYPE],[NOTE])VALUES('"+event.source.userId+"',9999,'')")
+	GET_SOMEE_MS("IF NOT EXISTS(select [CHANNELID],[TYPE],[NOTE] from [dbo].[CHANNEL] where [CHANNELID] = '"+event.source.userId+"')INSERT INTO [dbo].[CHANNEL]([CHANNELID],[TYPE],[NOTE])VALUES('"+event.source.userId+"',9999,'');SELECT 1")
 	.then( (result) => {console.log('--result-------');
 		if(result)
 			console.log(result);
@@ -443,13 +443,15 @@ function GET_SOMEE_MS(sql) {
 	console.log(sql);
 	console.log('---------------');
 	sqlDb.connect(SOMEE_CNX)
-	.then((result) => {
+	.then(
+		(result) => {
 		console.log('--result-------');
 		console.log(result);
 		console.log('---------------');
 		return result;
 	})
-	.then((pool) => {
+	.then(
+		(pool) => {
 		console.log('--pool---------');
 		console.log(pool);
 		console.log('--pool.request().query(sql)');
