@@ -77,11 +77,11 @@ bot.on('message', function(event) {
 	// .then(() => {
 		// return 1;
 	// })
-	.catch((err) => {
-		console.log('error handler');
-		console.error(err);
-		return 2;
-	})
+	// .catch((err) => {
+		// console.log('error handler');
+		// console.error(err);
+		// return 2;
+	// })
 	
 
     switch (event.message.type)
