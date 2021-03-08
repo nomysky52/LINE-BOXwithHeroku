@@ -53,27 +53,27 @@ bot.on('message', function(event) {
 	var result = 0;
 	
 	GET_SOMEE_MS("select [CHANNELID],[TYPE],[NOTE] from [dbo].[CHANNEL] where [CHANNELID] = '"+event.source.userId+"'")
-	.then( (result) => {console.log('--result-------');
-		if(result)
-			console.log(result);
-		else
-			GET_SOMEE_MS("INSERT INTO [dbo].[CHANNEL]([CHANNELID],[TYPE],[NOTE])VALUES('"+event.source.userId+"',9999,'')")
-			.then( (result) => {console.log('--INSERT INTO--');
-				console.log(result);
-				console.log('---------------');
-				return result;
-			})
-			.then(() => {
-				return 3;
-			})
-			.catch((err) => {
-				console.log('error handler');
-				console.error(err);
-				return 4;
-			})
-		console.log('---------------');
-		return result;
-	})
+	// .then( (result) => {console.log('--result-------');
+		// if(result)
+			// console.log(result);
+		// else
+			// GET_SOMEE_MS("INSERT INTO [dbo].[CHANNEL]([CHANNELID],[TYPE],[NOTE])VALUES('"+event.source.userId+"',9999,'')")
+			// .then( (result) => {console.log('--INSERT INTO--');
+				// console.log(result);
+				// console.log('---------------');
+				// return result;
+			// })
+			// .then(() => {
+				// return 3;
+			// })
+			// .catch((err) => {
+				// console.log('error handler');
+				// console.error(err);
+				// return 4;
+			// })
+		// console.log('---------------');
+		// return result;
+	// })
 	.then(() => {
 		return 1;
 	})
@@ -452,12 +452,12 @@ function GET_SOMEE_MS(sql) {
 		console.log(pool.request().query(sql));
 		console.log('---------------');
 	})
-	// .then((result) => {
-		// console.log('--result-------');
-		// console.log(result);
-		// console.log('---------------');
-		// return result;
-	// })
+	.then((result) => {
+		console.log('--result-------');
+		console.log(result);
+		console.log('---------------');
+		return result;
+	})
 	.then(() => {
 		console.log('--sqlDb.close()-------');
 		return sqlDb.close();
