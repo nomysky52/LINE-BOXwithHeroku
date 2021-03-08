@@ -49,7 +49,9 @@ bot.on('message', function(event) {
     //來源ROOM
     if(typeof event.source.roomId !== "undefined")
 		messagepush = messagepush + 'roomId:' + event.source.roomId + '\n';
-
+	
+	var result = 0;
+	
 	GET_SOMEE_MS("select [CHANNELID],[TYPE],[NOTE] from [dbo].[CHANNEL] where [CHANNELID] = '"+event.source.userId+"'")
 	.then( (result) => {console.log('--result-------');
 		if(result)
