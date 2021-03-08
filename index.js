@@ -52,36 +52,36 @@ bot.on('message', function(event) {
 	
 	var result = 0;
 	
-	GET_SOMEE_MS("IF NOT EXISTS(select [CHANNELID],[TYPE],[NOTE] from [dbo].[CHANNEL] where [CHANNELID] = '"+event.source.userId+"')INSERT INTO [dbo].[CHANNEL]([CHANNELID],[TYPE],[NOTE])VALUES('"+event.source.userId+"',9999,'')")
-	// .then( (result) => {console.log('--result-------');
-		// if(result)
-			// console.log(result);
-		// else
-			// GET_SOMEE_MS("INSERT INTO [dbo].[CHANNEL]([CHANNELID],[TYPE],[NOTE])VALUES('"+event.source.userId+"',9999,'')")
-			// .then( (result) => {console.log('--INSERT INTO--');
-				// console.log(result);
-				// console.log('---------------');
-				// return result;
-			// })
-			// .then(() => {
-				// return 3;
-			// })
-			// .catch((err) => {
-				// console.log('error handler');
-				// console.error(err);
-				// return 4;
-			// })
-		// console.log('---------------');
-		// return result;
-	// })
-	// .then(() => {
-		// return 1;
-	// })
-	// .catch((err) => {
-		// console.log('error handler');
-		// console.error(err);
-		// return 2;
-	// })
+	await GET_SOMEE_MS("IF NOT EXISTS(select [CHANNELID],[TYPE],[NOTE] from [dbo].[CHANNEL] where [CHANNELID] = '"+event.source.userId+"')INSERT INTO [dbo].[CHANNEL]([CHANNELID],[TYPE],[NOTE])VALUES('"+event.source.userId+"',9999,'')")
+	.then( (result) => {console.log('--result-------');
+		if(result)
+			console.log(result);
+		else
+			get_somee_ms("insert into [dbo].[channel]([channelid],[type],[note])values('"+event.source.userid+"',9999,'')")
+			.then( (result) => {console.log('--insert into--');
+				console.log(result);
+				console.log('---------------');
+				return result;
+			})
+			.then(() => {
+				return 3;
+			})
+			.catch((err) => {
+				console.log('error handler');
+				console.error(err);
+				return 4;
+			})
+		console.log('---------------');
+		return result;
+	})
+	.then(() => {
+		return 1;
+	})
+	.catch((err) => {
+		console.log('error handler');
+		console.error(err);
+		return 2;
+	})
 	
 
     switch (event.message.type)
@@ -444,46 +444,29 @@ function GET_SOMEE_MS(sql) {
 	console.log('--GET_SOMEE_MS-');
 	console.log(sql);
 	console.log('---------------');
-	sqlDb.connect(SOMEE_CNX,function (err) {
-		console.log('--connect-function (err)--');
-		if(err) console.log(err);
-		
-		//create Request object
-		var request=new sql.Request();
-		console.log('--connect-new sql.Request()--');
-		request.query(sql,function(err,recordset){
-			console.log('--connect-function(err,recordset)--');
-			if(err) console.log(err);
-			
-			//send records as a response
-			console.log('--connect-send records as a response--');
-			res.send(recordset);
-			console.log('--connect-res.send(recordset--');
-		});
-	});
-   // )
-	// .then((pool) => {
-		// console.log('--pool---------');
-		// console.log(pool);
-		// console.log('--pool.request().query(sql)');
-		// console.log(pool.request().query(sql));
-		// console.log('---------------');
-	// })
-	// .then((result) => {
-		// console.log('--result-------');
-		// console.log(result);
-		// console.log('---------------');
-		// return result;
-	// })
-	// .then(() => {
-		// console.log('--sqlDb.close()-------');
-		// return sqlDb.close();
-		// console.log('---------------');
-	// })
-	// .catch((err) => {
-		// console.log('error handler');
-		// console.error(err);
-		// return sqlDb.close();
-	// })
-	console.log('--connect-end--');
+	await sqlDb.connect(SOMEE_CNX)
+	.then((pool) => {
+		console.log('--pool---------');
+		console.log(pool);
+		console.log('--pool.request().query(sql)');
+		console.log(pool.request().query(sql));
+		console.log('---------------');
+	})
+	.then((result) => {
+		console.log('--result-------');
+		console.log(result);
+		console.log('---------------');
+		return result;
+	})
+	.then(() => {
+		console.log('--sqlDb.close()-------');
+		return sqlDb.close();
+		console.log('---------------');
+	})
+	.catch((err) => {
+		console.log('error handler');
+		console.error(err);
+		return sqlDb.close();
+	})
+	//console.log('--connect-end--');
 }
