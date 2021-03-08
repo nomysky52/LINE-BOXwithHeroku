@@ -452,12 +452,12 @@ function GET_SOMEE_MS(sql) {
 		console.log(pool.request().query(sql));
 		console.log('---------------');
 	})
-	.then((result) => {
-		console.log('--result-------');
-		console.log(result);
-		console.log('---------------');
-		return result;
-	})
+	// .then((result) => {
+		// console.log('--result-------');
+		// console.log(result);
+		// console.log('---------------');
+		// return result;
+	// })
 	.then(() => {
 		console.log('--sqlDb.close()-------');
 		return sqlDb.close();
