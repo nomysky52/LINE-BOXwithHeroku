@@ -50,7 +50,6 @@ bot.on('message', function(event) {
     if(typeof event.source.roomId !== "undefined")
 		messagepush = messagepush + 'roomId:' + event.source.roomId + '\n';
 
-	console.log("select [CHANNELID],[TYPE],[NOTE] from [dbo].[CHANNEL] where [CHANNELID] = '"+event.source.userId+"'");
 	GET_SOMEE_MS("select [CHANNELID],[TYPE],[NOTE] from [dbo].[CHANNEL] where [CHANNELID] = '"+event.source.userId+"'")
 	.then( (result) => {console.log('--result-------');
 		if(result)
@@ -458,7 +457,9 @@ function GET_SOMEE_MS(sql) {
 		return result;
 	})
 	.then(() => {
+		console.log('--sqlDb.close()-------');
 		return sqlDb.close();
+		console.log('---------------');
 	})
 	.catch((err) => {
 		console.log('error handler');
