@@ -73,8 +73,9 @@ bot.on('message', function(event) {
 			})
 		console.log('---------------');
 		return result;
+		}
 		}, 5000); 
-	})
+	)
 	.then(() => {
 		return 1;
 	})
