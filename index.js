@@ -428,12 +428,27 @@ bot.listen('/linewebhook', process.env.PORT || 80, function () {
 });
 
 //取得連線
-function GET_SOMEE_MS(sql) {
+async function GET_SOMEE_MS(sql) {
 	console.log('--GET_SOMEE_MS-');
 	console.log(sql);
 	console.log('---------------');
 		
-	run(sql)
+	const client = new sqlDb.ConnectionPool(SOMEE_config)
+	try {
+		console.time('connect')
+		const pool = await client.connect()
+		console.timeEnd('connect')
+		const request = pool.request()
+		console.time('query')
+		await request.query(sql)
+		console.timeEnd('query')
+		console.time('query')
+		await request.query(sql)
+		console.timeEnd('query')
+	}
+	finally {
+		await client.close()
+	}
 
 	console.log('------------------------------');
 	console.log('--sqlDb.connect(SOMEE_CNX)--');
@@ -468,20 +483,5 @@ function GET_SOMEE_MS(sql) {
 }
 
 function run (sql) {
-	const client = new sqlDb.ConnectionPool(SOMEE_config)
-	try {
-		console.time('connect')
-		const pool = await client.connect()
-		console.timeEnd('connect')
-		const request = pool.request()
-		console.time('query')
-		await request.query(sql)
-		console.timeEnd('query')
-		console.time('query')
-		await request.query(sql)
-		console.timeEnd('query')
-	}
-	finally {
-		await client.close()
-	}
+	
 }
