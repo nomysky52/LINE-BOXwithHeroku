@@ -38,12 +38,24 @@ const imgurbot = imgur({
 // SOMEE 連線字串
 const SOMEE_CNX = "workstation id=" + process.env.SOMEE_DB_URL + ";packet size=4096;user id=" + process.env.SOMEE_DB_ID + ";pwd=" + process.env.SOMEE_DB_PWD + ";data source=" + process.env.SOMEE_DB_URL + ";persist security info=False;initial catalog=" + process.env.SOMEE_DB;
 
-var SOMEE_config={
-    user:process.env.SOMEE_DB_ID,
-    password:process.env.SOMEE_DB_PWD,
-    server:process.env.SOMEE_DB_URL,   //這邊要注意一下!!
-    database:process.env.SOMEE_DB_URL
- };
+const SOMEE_config = {
+  password: process.env.SOMEE_DB_PWD,
+  database: process.env.SOMEE_DB_URL,
+  stream: false,
+  options: {
+    trustServerCertificate: true,
+    enableArithAbort: true,
+    encrypt: true,
+    abortTransactionOnError: false,
+  },
+  pool: {
+    max: 1,
+    min: 0,
+  },
+  port: 1433,
+  user: process.env.SOMEE_DB_ID,
+  server: process.env.SOMEE_DB_URL,
+}
 
 var sqlDb = require("mssql");
 
@@ -420,18 +432,8 @@ function GET_SOMEE_MS(sql) {
 	console.log('--GET_SOMEE_MS-');
 	console.log(sql);
 	console.log('---------------');
-	//connect to your database
-	sqlDb.connect(SOMEE_config,function (err) {
-		if(err) console.log(err);
 		
-		//create Request object
-		var request=new sql.Request();
-		request.query(sql,function(err,recordset){
-			if(err) console.log(err);
-			//send records as a response
-			res.send(recordset);
-		});
-	});
+	run(sql)
 
 	console.log('------------------------------');
 	console.log('--sqlDb.connect(SOMEE_CNX)--');
@@ -463,4 +465,23 @@ function GET_SOMEE_MS(sql) {
 		return sqlDb.close();
 	})
 	//console.log('--connect-end--');
+}
+
+async function run (sql) {
+	const client = new sqlDb.ConnectionPool(SOMEE_config)
+	try {
+		console.time('connect')
+		const pool = await client.connect()
+		console.timeEnd('connect')
+		const request = pool.request()
+		console.time('query')
+		await request.query(sql)
+		console.timeEnd('query')
+		console.time('query')
+		await request.query(sql)
+		console.timeEnd('query')
+	}
+	finally {
+		await client.close()
+	}
 }
