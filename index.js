@@ -52,7 +52,7 @@ const SOMEE_config = {
     max: 1,
     min: 0,
   },
-  //port: 1433,
+  port: ,
   user: process.env.SOMEE_DB_ID,
   server: process.env.SOMEE_DB_URL,
 }
