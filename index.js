@@ -467,7 +467,7 @@ function GET_SOMEE_MS(sql) {
 	//console.log('--connect-end--');
 }
 
-sync function run (sql) {
+function run (sql) {
 	const client = new sqlDb.ConnectionPool(SOMEE_config)
 	try {
 		console.time('connect')
