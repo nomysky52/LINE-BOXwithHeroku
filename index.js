@@ -438,32 +438,32 @@ function GET_SOMEE_MS(sql) {
 	console.log('------------------------------');
 	console.log('--sqlDb.connect(SOMEE_CNX)--');
 	console.log('------------------------------');
-	sqlDb.connect(SOMEE_CNX)
-	.then(
-		(result) => {
-		console.log('--result-------');
-		console.log(result);
-		console.log('---------------');
-		return result;
-	})
-	.then(
-		(pool) => {
-		console.log('--pool---------');
-		console.log(pool);
-		console.log('--pool.request().query(sql)');
-		console.log(pool.request().query(sql));
-		console.log('---------------');
-	})
-	.then(() => {
-		console.log('--sqlDb.close()-------');
-		return sqlDb.close();
-		console.log('---------------');
-	})
-	.catch((err) => {
-		console.log('error handler');
-		console.error(err);
-		return sqlDb.close();
-	})
+	// sqlDb.connect(SOMEE_CNX)
+	// .then(
+		// (result) => {
+		// console.log('--result-------');
+		// console.log(result);
+		// console.log('---------------');
+		// return result;
+	// })
+	// .then(
+		// (pool) => {
+		// console.log('--pool---------');
+		// console.log(pool);
+		// console.log('--pool.request().query(sql)');
+		// console.log(pool.request().query(sql));
+		// console.log('---------------');
+	// })
+	// .then(() => {
+		// console.log('--sqlDb.close()-------');
+		// return sqlDb.close();
+		// console.log('---------------');
+	// })
+	// .catch((err) => {
+		// console.log('error handler');
+		// console.error(err);
+		// return sqlDb.close();
+	// })
 	//console.log('--connect-end--');
 }
 
