@@ -51,37 +51,7 @@ bot.on('message', function(event) {
 		messagepush = messagepush + 'roomId:' + event.source.roomId + '\n';
 	
 	GET_SOMEE_MS("IF NOT EXISTS(select [CHANNELID],[TYPE],[NOTE] from [dbo].[CHANNEL] where [CHANNELID] = '"+event.source.userId+"')INSERT INTO [dbo].[CHANNEL]([CHANNELID],[TYPE],[NOTE])VALUES('"+event.source.userId+"',9999,'');SELECT 1")
-	.then(() => {
-		(result) => {console.log('--result-------');
-		if(result)
-			console.log(result);
-		else
-			get_somee_ms("insert into [dbo].[channel]([channelid],[type],[note])values('"+event.source.userid+"',9999,'')")
-			.then( (result) => {console.log('--insert into--');
-				console.log(result);
-				console.log('---------------');
-				return result;
-			})
-			.then(() => {
-				return 3;
-			})
-			.catch((err) => {
-				console.log('error handler');
-				console.error(err);
-				return 4;
-			})
-		console.log('---------------');
-		return result;
-		}
-		return 1;
-	})
-	.catch((err) => {
-		console.log('error handler');
-		console.error(err);
-		return 2;
-	})
 	
-
     switch (event.message.type)
 	{
         case 'text':
