@@ -52,7 +52,7 @@ const SOMEE_config = {
     max: 1,
     min: 0,
   },
-  port: 1433,
+  //port: 1433,
   user: process.env.SOMEE_DB_ID,
   server: process.env.SOMEE_DB_URL,
 }
@@ -467,7 +467,7 @@ function GET_SOMEE_MS(sql) {
 	//console.log('--connect-end--');
 }
 
-async function run (sql) {
+sync function run (sql) {
 	const client = new sqlDb.ConnectionPool(SOMEE_config)
 	try {
 		console.time('connect')
