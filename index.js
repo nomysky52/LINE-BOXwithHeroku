@@ -421,7 +421,7 @@ function GET_SOMEE_MS(sql) {
 	console.log(sql);
 	console.log('---------------');
 	//connect to your database
-	sql.connect(config,function (err) {
+	sqlDb.connect(SOMEE_config,function (err) {
 		if(err) console.log(err);
 		
 		//create Request object
