@@ -400,13 +400,7 @@ async function GET_SOMEE_MS(sql) {
 	console.log('--GET_SOMEE_MS-');
 	console.log(sql);
 	console.log('---------------');
-	console.log('---------------');
-	console.log('---------------');
-	console.log('---------------');
 	console.log(SOMEE_config);
-	console.log('---------------');
-	console.log('---------------');
-	console.log('---------------');
 	console.log('---------------');
 		
 	const client = new sqlDb.ConnectionPool(SOMEE_config)
