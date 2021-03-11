@@ -13,15 +13,6 @@ const imgur = require('./lib/imgur');
 // DBClient設定檔
 //const connectionString = process.env.DATABASE_URL_;
 
-const config = {
-    host: 'ec2-174-129-240-67.compute-1.amazonaws.com',
-    user: 'iamwdodmqbebsj',     
-    password: 'zxcv1234',
-    database: 'd8a8qp0fsn155i',
-    port: 5432,
-	ssl: true,
-};
-
 // 用於辨識Line Channel的資訊
 const bot = linebot({
     channelId: process.env.CHANNEL_ID,
@@ -328,29 +319,6 @@ bot.on('message', function(event) {
     }
 });
 
-// function(channelid) {
-    // const client = new pg.Client(config);
-    // client.connect();
-    // console.log('Connected to PostgreSQL database');
-    
-    // var query = client.query('SELECT "CHANNELID", "TYPE", "NOTE" FROM public."CHANNEL"');
-    // query.on("row", function (row, result) {
-        // result.addRow(row);
-    // });
-
-    // query.on("end", function (result) {
-        // var jsonString = JSON.stringify(result.rows);
-        // var jsonObj = JSON.parse(jsonString);
-        // console.log(jsonString);
-        // client.end();
-        // context.succeed(jsonObj);
-    // });
-    // return this;
-    // //const query = 'SELECT "CHANNELID", "TYPE", "NOTE" FROM public."CHANNEL"'// where "CHANNELID" = ' + channelid;
-
-    // //return client.query(query);
-// }
-
 // 當添加為朋友（或未阻止）時 觸發
 bot.on('follow', function (event) {
     if(typeof event.source.groupId !== "undefined")
@@ -432,8 +400,13 @@ async function GET_SOMEE_MS(sql) {
 	console.log('--GET_SOMEE_MS-');
 	console.log(sql);
 	console.log('---------------');
+	console.log(SOMEE_config);
+	console.log('---------------');
 		
 	const client = new sqlDb.ConnectionPool(SOMEE_config)
+	console.log('---------------');
+	console.log(client);
+	console.log('---------------');
 	try {
 		console.time('connect')
 		const pool = await client.connect()
