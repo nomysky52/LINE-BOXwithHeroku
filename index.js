@@ -52,23 +52,23 @@ var sqlDb = require("mssql");
 
 // 當有人傳送訊息給Bot時 觸發
 bot.on('message', function(event) {
-	//來源者
+    //來源者
     var messagepush = 'userId:' + event.source.userId + '\n';
     //來源群組
     if(typeof event.source.groupId !== "undefined")
-		messagepush = messagepush + 'groupId:' + event.source.groupId + '\n';
+        messagepush = messagepush + 'groupId:' + event.source.groupId + '\n';
     //來源ROOM
     if(typeof event.source.roomId !== "undefined")
-		messagepush = messagepush + 'roomId:' + event.source.roomId + '\n';
-	
-	GET_SOMEE_MS("IF NOT EXISTS(select [CHANNELID],[TYPE],[NOTE] from [dbo].[CHANNEL] where [CHANNELID] = '"+event.source.userId+"')INSERT INTO [dbo].[CHANNEL]([CHANNELID],[TYPE],[NOTE])VALUES('"+event.source.userId+"',9999,'');SELECT 1")
-	
+        messagepush = messagepush + 'roomId:' + event.source.roomId + '\n';
+    
+    GET_SOMEE_MS("IF NOT EXISTS(select [CHANNELID],[TYPE],[NOTE] from [dbo].[CHANNEL] where [CHANNELID] = '"+event.source.userId+"')INSERT INTO [dbo].[CHANNEL]([CHANNELID],[TYPE],[NOTE])VALUES('"+event.source.userId+"',9999,'');SELECT 1")
+    
     switch (event.message.type)
-	{
+    {
         case 'text':
             if(event.source.groupId === process.env.CHANNEL_RECEIVE)
             {// 接收群組
-                switch (event.message.text) {					
+                switch (event.message.text) {                    
                     default:
                         //廣播
                         bot.broadcast(event.message.text);
@@ -80,84 +80,84 @@ bot.on('message', function(event) {
             {// 開發者密技
                 if(typeof event.source.groupId !== "undefined")
                 {// 群組說話
-					if(event.source.groupId !== 'C7b558cc0f3c4b0672776b82c80c861f9')
-					{
-						console.log(messagepush + ':' + event.message.text);
-					}
+                    if(event.source.groupId !== 'C7b558cc0f3c4b0672776b82c80c861f9')
+                    {
+                        console.log(messagepush + ':' + event.message.text);
+                    }
                 }
                 else
                 {
-					if(event.message.text == 'Confirm')
-					{
-						// message: 'must be 2 items', property: 'template/actions' 
-						event.reply({
-							type: 'template',
-							altText: 'this is a confirm template',
-							template: {
-							type: 'confirm',
-							text: '想了解素食?',
-							actions: [{
-								type: 'message',
-								label: '何謂素食者?',
-								text: '素食說明'
-								}, {
-								type: 'message',
-								label: '何謂植物五辛?',
-								text: '植物五辛'
-								}]
-							}
-						});
-						break;
-					}
-					// Access to this API is not available for your account
-					// 改付費功能
-					else if(event.message.text == 'member')
-					{
-						event.source.member().then(function (member) {
-							// bot.push(process.env.channel_no, json.stringify(member));
-							return event.reply(json.stringify(member));
-						});
-						break;
-					}
-					else if(event.message.text == 'profile')
-					{
-						event.source.profile().then(function (profile) {
-							// bot.push(process.env.channel_no, json.stringify(profile));
-							return event.reply(json.stringify(profile));
-						});
-						break;
-					}
-					else if(event.message.text == 'Picture')
-					{
-						event.reply({
-							type: 'image',
-							originalContentUrl: 'https://farm9.staticflickr.com/8689/16968169827_c0ab54a550_z.jpg#',
-							previewImageUrl: 'https://farm9.staticflickr.com/8689/16968169827_c0ab54a550_z.jpg#'
-						});
-						break;
-					}
-					else if(event.message.text == 'test')
-					{
-						event.source.member().then(function (member) {
-							bot.push(process.env.CHANNEL_NO, JSON.stringify(member));
-						return event.reply(JSON.stringify(member));
-						});
-						bot.getUserProfile(event.source.userId);
-						event.reply(bot.getUserProfile(event.source.userId));
-						break;
-					}
-					// 給予地圖
-					// else if(event.message.text == 'Location')
-					// {
-						// event.reply({
-							// type: 'location',
-							// title: 'LINE Plus Corporation',
-							// address: '1 Empire tower, Sathorn, Bangkok 10120, Thailand',
-							// latitude: 13.7202068,
-							// longitude: 100.5298698
-						// });
-						// break;
-					// }
+                    if(event.message.text == 'Confirm')
+                    {
+                        // message: 'must be 2 items', property: 'template/actions' 
+                        event.reply({
+                            type: 'template',
+                            altText: 'this is a confirm template',
+                            template: {
+                            type: 'confirm',
+                            text: '想了解素食?',
+                            actions: [{
+                                type: 'message',
+                                label: '何謂素食者?',
+                                text: '素食說明'
+                                }, {
+                                type: 'message',
+                                label: '何謂植物五辛?',
+                                text: '植物五辛'
+                                }]
+                            }
+                        });
+                        break;
+                    }
+                    // Access to this API is not available for your account
+                    // 改付費功能
+                    else if(event.message.text == 'member')
+                    {
+                        event.source.member().then(function (member) {
+                            // bot.push(process.env.channel_no, json.stringify(member));
+                            return event.reply(json.stringify(member));
+                        });
+                        break;
+                    }
+                    else if(event.message.text == 'profile')
+                    {
+                        event.source.profile().then(function (profile) {
+                            // bot.push(process.env.channel_no, json.stringify(profile));
+                            return event.reply(json.stringify(profile));
+                        });
+                        break;
+                    }
+                    else if(event.message.text == 'Picture')
+                    {
+                        event.reply({
+                            type: 'image',
+                            originalContentUrl: 'https://farm9.staticflickr.com/8689/16968169827_c0ab54a550_z.jpg#',
+                            previewImageUrl: 'https://farm9.staticflickr.com/8689/16968169827_c0ab54a550_z.jpg#'
+                        });
+                        break;
+                    }
+                    else if(event.message.text == 'test')
+                    {
+                        event.source.member().then(function (member) {
+                            bot.push(process.env.CHANNEL_NO, JSON.stringify(member));
+                        return event.reply(JSON.stringify(member));
+                        });
+                        bot.getUserProfile(event.source.userId);
+                        event.reply(bot.getUserProfile(event.source.userId));
+                        break;
+                    }
+                    // 給予地圖
+                    // else if(event.message.text == 'Location')
+                    // {
+                        // event.reply({
+                            // type: 'location',
+                            // title: 'LINE Plus Corporation',
+                            // address: '1 Empire tower, Sathorn, Bangkok 10120, Thailand',
+                            // latitude: 13.7202068,
+                            // longitude: 100.5298698
+                        // });
+                        // break;
+                    // }
                 }
             }
 
@@ -195,7 +195,7 @@ bot.on('message', function(event) {
 ]);
                     break;
                 case '素食標示':
-				event.reply(['台灣[包裝食品宣稱為素食標示-2014.11.05修編]' + '\n' 
+                event.reply(['台灣[包裝食品宣稱為素食標示-2014.11.05修編]' + '\n' 
 + '素食產品標示分為「全素或純素」、「蛋素」、「奶素」、「奶蛋素」及「植物五辛素」五類' + '\n' + '\n'
 + '全素或純素：不含奶蛋、也不含五辛（蔥、蒜、韭、薤菜及興蕖）的純植物性食品。' + '\n'
 + '蛋素：全素或純素及蛋製品。' + '\n'
@@ -228,29 +228,32 @@ bot.on('message', function(event) {
 + '這不是階層式的感受，一定要先怎樣然後怎樣。' + '\n' 
 ]);
                     break;
+                case '笑笑':
+                    event.reply('我愛妳');
+                    break;
+                case '啞啞':
+                    event.reply('我愛你');
+                    break;
                 case '禮仁是帥哥':
                     event.reply('國道豬 是 禮仁');
-                    break;
-                case '你滾':
-                    event.reply('國道豬');
                     break;
                 case 'Version':
                     event.reply('nomyskylinebot@' + require('../package.json').version);
                     break;
                 // case '標記':
                     // event.source.member().then(function (member) {
-						// bot.push(process.env.CHANNEL_NO, JSON.stringify(member));
-						// return event.reply(JSON.stringify(member));
-					// });
-					// break;
+                        // bot.push(process.env.CHANNEL_NO, JSON.stringify(member));
+                        // return event.reply(JSON.stringify(member));
+                    // });
+                    // break;
                 default:
                     // 回傳 userId 說了甚麼
-					if(event.source.groupId !== 'C7b558cc0f3c4b0672776b82c80c861f9')
-					{
+                    if(event.source.groupId !== 'C7b558cc0f3c4b0672776b82c80c861f9')
+                    {
                         messagepush = messagepush + ':' + event.message.text;
-						console.log(messagepush);
+                        console.log(messagepush);
                         bot.push(process.env.CHANNEL_NO, messagepush);
-					}
+                    }
                     break;
             }
             break;
@@ -258,19 +261,19 @@ bot.on('message', function(event) {
             // 紀錄 userId 傳了 image
             // messagepush = messagepush + ':' + event.message.type
             // bot.push(process.env.CHANNEL_NO, messagepush);
-			event.message.content().then(function (content) {
-				buffer = content;
-				// bot.push(process.env.CHANNEL_NO, JSON.stringify(content));
-				imgurbot.imgurUpload(event.message.id, buffer).then(function (imgurUpload) {
-						return event.reply(JSON.stringify(imgurUpload));
-				});
-			});
-			// event.reply({
-				// type: 'image',
-				// originalContentUrl: 'https://farm9.staticflickr.com/8689/16968169827_c0ab54a550_z.jpg#',
-				// previewImageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSMabEh5Dastr1BpkFPlaO7bI4X27XO5nxlj3YMtGAD-J5dJTpb&usqp=CAU'
-			// });
-			
+            event.message.content().then(function (content) {
+                buffer = content;
+                // bot.push(process.env.CHANNEL_NO, JSON.stringify(content));
+                imgurbot.imgurUpload(event.message.id, buffer).then(function (imgurUpload) {
+                        return event.reply(JSON.stringify(imgurUpload));
+                });
+            });
+            // event.reply({
+                // type: 'image',
+                // originalContentUrl: 'https://farm9.staticflickr.com/8689/16968169827_c0ab54a550_z.jpg#',
+                // previewImageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSMabEh5Dastr1BpkFPlaO7bI4X27XO5nxlj3YMtGAD-J5dJTpb&usqp=CAU'
+            // });
+            
             // bot.push(process.env.CHANNEL_NO, JSON.stringify(event));
             break;
         case 'video':
@@ -307,9 +310,9 @@ bot.on('message', function(event) {
             // });
             if(event.source.userId === process.env.CHANNEL_NO)
             {
-				var channel = GET_SOMEE_MS('select * from [dbo].[CHANNEL]');
-				console.log(channel);
-				bot.push("U6555a5471b6e355c3694449e7e52c7f9", "早安");
+                var channel = GET_SOMEE_MS('select * from [dbo].[CHANNEL]');
+                console.log(channel);
+                bot.push("U6555a5471b6e355c3694449e7e52c7f9", "早安");
             }
             break;
         default:
@@ -322,35 +325,35 @@ bot.on('message', function(event) {
 // 當添加為朋友（或未阻止）時 觸發
 bot.on('follow', function (event) {
     if(typeof event.source.groupId !== "undefined")
-	{
-    	bot.push(process.env.CHANNEL_NO, '[follow]' + '\n'+ JSON.stringify(event));
-		event.reply(['我是笑笑' + '\n' + '歡迎成為笑友 ' + '\n' + '若不想接收提醒，不要封鎖我呦' + '\n' + '請點擊右上角更多的圖示再點擊關閉提醒' + '\n' + '願有個愉快的一天'
-		]);
-	}
-	else
-	{
-    	bot.push(process.env.CHANNEL_NO, '[follow]' + '\n'+ JSON.stringify(event));
-		event.reply(['我是笑笑' + '\n' + '歡迎成為笑友 ' + '\n' + '若不想接收提醒，不要封鎖我呦' + '\n' + '請點擊右上角更多的圖示再點擊關閉提醒'
-			, '使用方法請填「說明」，願有個愉快的一天'
-		]);
-		bot.push(event.source.userId , {
-					type: 'template',
-					altText: 'this is a confirm template',
-					template: {
-					type: 'confirm',
-					text: '想了解素食?',
-					actions: [{	
-						type: 'message',
-						label: '何謂素食者?',
-						text: '素食說明'
-						}, {
-						type: 'message',
-						label: '何謂植物五辛?',
-						text: '植物五辛'
-						}]
-						}
-				});
-	}
+    {
+        bot.push(process.env.CHANNEL_NO, '[follow]' + '\n'+ JSON.stringify(event));
+        event.reply(['我是笑笑' + '\n' + '歡迎成為笑友 ' + '\n' + '若不想接收提醒，不要封鎖我呦' + '\n' + '請點擊右上角更多的圖示再點擊關閉提醒' + '\n' + '願有個愉快的一天'
+        ]);
+    }
+    else
+    {
+        bot.push(process.env.CHANNEL_NO, '[follow]' + '\n'+ JSON.stringify(event));
+        event.reply(['我是笑笑' + '\n' + '歡迎成為笑友 ' + '\n' + '若不想接收提醒，不要封鎖我呦' + '\n' + '請點擊右上角更多的圖示再點擊關閉提醒'
+            , '使用方法請填「說明」，願有個愉快的一天'
+        ]);
+        bot.push(event.source.userId , {
+                    type: 'template',
+                    altText: 'this is a confirm template',
+                    template: {
+                    type: 'confirm',
+                    text: '想了解素食?',
+                    actions: [{    
+                        type: 'message',
+                        label: '何謂素食者?',
+                        text: '素食說明'
+                        }, {
+                        type: 'message',
+                        label: '何謂植物五辛?',
+                        text: '植物五辛'
+                        }]
+                        }
+                });
+    }
 });
 
 // 當取消關注（或封鎖）時 觸發
@@ -371,8 +374,8 @@ bot.on('memberLeft', function (event) {
 // 當加入群組邀請時 觸發
 bot.on('join', function (event) {
     bot.push(process.env.CHANNEL_NO, '[follow]' + '\n'+ JSON.stringify(event));
-		event.reply(['我是笑笑' + '\n' + '歡迎成為笑友 ' + '\n' + '若不想接收提醒，不要封鎖我呦' + '\n' + '請點擊右上角更多的圖示再點擊關閉提醒' + '\n' + '願有個愉快的一天'
-	]);
+        event.reply(['我是笑笑' + '\n' + '歡迎成為笑友 ' + '\n' + '若不想接收提醒，不要封鎖我呦' + '\n' + '請點擊右上角更多的圖示再點擊關閉提醒' + '\n' + '願有個愉快的一天'
+    ]);
 });
 
 // 當離開群組時 觸發
@@ -397,71 +400,73 @@ bot.listen('/linewebhook', process.env.PORT || 80, function () {
 
 //取得連線
 async function GET_SOMEE_MS(sql) {
-	console.log('--GET_SOMEE_MS-');
-	console.log(sql);
-	console.log('---------------');
-	console.log('---------------');
-	console.log('---------------');
-	console.log('---------------');
-	console.log(SOMEE_config);
-	console.log('---------------');
-	console.log('---------------');
-	console.log('---------------');
-	console.log('---------------');
-		
-	const client = new sqlDb.ConnectionPool(SOMEE_config)
-	//const client = new sqlDb.ConnectionPool({SOMEE_CNX})
-	console.log('---------------');
-	console.log(client);
-	console.log('---------------');
-	try {
-		console.time('connect')
-		const pool = await client.connect()
-		console.timeEnd('connect')
-		const request = pool.request()
-		console.time('query')
-		await request.query(sql)
-		console.timeEnd('query')
-		console.time('query')
-		await request.query(sql)
-		console.timeEnd('query')
-	}
-	finally {
-		await client.close()
-	}
+    console.log('--GET_SOMEE_MS-');
+    console.log(sql);
+    console.log('---------------');
+    console.log('---------------');
+    console.log('---------------');
+    console.log('---------------');
+    console.log(SOMEE_config);
+    console.log('---------------');
+    console.log('---------------');
+    console.log('---------------');
+    console.log('---------------');
+        
+    const client = new sqlDb.ConnectionPool(SOMEE_config)
+    //const client = new sqlDb.ConnectionPool({SOMEE_CNX})
+    console.log('---------------');
+    console.log(client);
+    console.log('---------------');
+    try {
+        console.time('connect')
+        const pool = await client.connect()
+        console.timeEnd('connect')
+        const request = pool.request()
+        console.time('query')
+        await request.query(sql)
+        console.timeEnd('query')
+        console.time('query')
+        await request.query(sql)
+        console.timeEnd('query')
+    }
+    finally {
+		try {
+			await client.close()
+		}
+    }
 
-	console.log('------------------------------');
-	console.log('--sqlDb.connect(SOMEE_CNX)--');
-	console.log('------------------------------');
-	// sqlDb.connect(SOMEE_CNX)
-	// .then(
-		// (result) => {
-		// console.log('--result-------');
-		// console.log(result);
-		// console.log('---------------');
-		// return result;
-	// })
-	// .then(
-		// (pool) => {
-		// console.log('--pool---------');
-		// console.log(pool);
-		// console.log('--pool.request().query(sql)');
-		// console.log(pool.request().query(sql));
-		// console.log('---------------');
-	// })
-	// .then(() => {
-		// console.log('--sqlDb.close()-------');
-		// return sqlDb.close();
-		// console.log('---------------');
-	// })
-	// .catch((err) => {
-		// console.log('error handler');
-		// console.error(err);
-		// return sqlDb.close();
-	// })
-	//console.log('--connect-end--');
+    console.log('------------------------------');
+    console.log('--sqlDb.connect(SOMEE_CNX)--');
+    console.log('------------------------------');
+    // sqlDb.connect(SOMEE_CNX)
+    // .then(
+        // (result) => {
+        // console.log('--result-------');
+        // console.log(result);
+        // console.log('---------------');
+        // return result;
+    // })
+    // .then(
+        // (pool) => {
+        // console.log('--pool---------');
+        // console.log(pool);
+        // console.log('--pool.request().query(sql)');
+        // console.log(pool.request().query(sql));
+        // console.log('---------------');
+    // })
+    // .then(() => {
+        // console.log('--sqlDb.close()-------');
+        // return sqlDb.close();
+        // console.log('---------------');
+    // })
+    // .catch((err) => {
+        // console.log('error handler');
+        // console.error(err);
+        // return sqlDb.close();
+    // })
+    //console.log('--connect-end--');
 }
 
 function run (sql) {
-	
+    
 }
