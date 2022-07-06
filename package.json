@@ -24,13 +24,13 @@
   "license": "MIT",
   "homepage": "https://github.com/nomysky52/LINE-BOX_Heroku#readme",
   "dependencies": {
-    "pg": ">=2.x",
-    "express": ">=3.1.x",
-    "mssql": ">=3.3.0",
-    "body-parser": "^1.18.2",
+    "pg": ">=8.x",
+    "express": ">=4.17.x",
+    "mssql": ">=6.2.2",
+    "body-parser": "^1.19.0",
     "debug": "^4.1.1",
-    "node-fetch": "^2.5.0",
-    "eslint-utils": ">=1.4.1",
+    "node-fetch": "^3.1.1",
+    "eslint-utils": ">=1.4.3",
     "lodash": ">=4.17.13"
   },
   "devDependencies": {
