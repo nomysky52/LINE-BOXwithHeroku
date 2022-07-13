@@ -4,11 +4,7 @@ const linebot = require('./lib/linebot');
 const imgur = require('./lib/imgur');
 
 // 匯入Check
-//const pgcheck = require('./check');
-
-// 引用 postgresql SDK
-// const pg = require('pg');
-//const { Client } = require('pg');
+const pgcheck = require('./controller/check');
 
 // DBClient設定檔
 //const connectionString = process.env.DATABASE_URL_;
@@ -48,10 +44,11 @@ const SOMEE_config = {
   server: process.env.SOMEE_DB_URL,
 }
 
-var sqlDb = require("mssql");
+//var sqlDb = require("mssql");
 
 // 當有人傳送訊息給Bot時 觸發
 bot.on('message', function(event) {
+	console.log('[bot.on]Run';
     //來源者
     var messagepush = 'userId:' + event.source.userId + '\n';
     //來源群組
@@ -61,7 +58,7 @@ bot.on('message', function(event) {
     if(typeof event.source.roomId !== "undefined")
         messagepush = messagepush + 'roomId:' + event.source.roomId + '\n';
 	console.log('event : ' + JSON.stringify(event));
-    
+
     GET_SOMEE_MS("IF NOT EXISTS(select [CHANNELID],[TYPE],[NOTE] from [dbo].[CHANNEL] where [CHANNELID] = '"+event.source.userId+"')INSERT INTO [dbo].[CHANNEL]([CHANNELID],[TYPE],[NOTE])VALUES('"+event.source.userId+"',9999,'');SELECT 1")
     
     switch (event.message.type)

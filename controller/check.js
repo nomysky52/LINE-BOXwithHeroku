@@ -33,28 +33,3 @@ var checkchannel = function(channelid) {
 
 	//return client.query(query);
 }
-
-// class LineBot {
-	// var checkchannel = function(channelid) {
-        // const client = new pg.Client(config);
-        // client.connect();
-        // console.log('Connected to PostgreSQL database');
-		
-		// var query = client.query('SELECT "CHANNELID", "TYPE", "NOTE" FROM public."CHANNEL"');
-        // query.on("row", function (row, result) {
-			// result.addRow(row);
-		// });
-
-		// query.on("end", function (result) {
-			// var jsonString = JSON.stringify(result.rows);
-			// var jsonObj = JSON.parse(jsonString);
-			// console.log(jsonString);
-			// client.end();
-			// context.succeed(jsonObj);
-		// });
-
-	    // //const query = 'SELECT "CHANNELID", "TYPE", "NOTE" FROM public."CHANNEL"'// where "CHANNELID" = ' + channelid;
-	
-        // //return client.query(query);
-    // }
-// }

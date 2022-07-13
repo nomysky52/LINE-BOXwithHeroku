@@ -5,6 +5,8 @@
   "main": "index.js",
   "files": [
     "index.js",
+    "controller/**",
+    "model/**",
     "lib/**"
   ],
   "scripts": {
