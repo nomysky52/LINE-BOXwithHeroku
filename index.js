@@ -59,8 +59,6 @@ bot.on('message', function(event) {
         messagepush = messagepush + 'roomId:' + event.source.roomId + '\n';
 	console.log('event : ' + JSON.stringify(event));
 
-    GET_SOMEE_MS("IF NOT EXISTS(select [CHANNELID],[TYPE],[NOTE] from [dbo].[CHANNEL] where [CHANNELID] = '"+event.source.userId+"')INSERT INTO [dbo].[CHANNEL]([CHANNELID],[TYPE],[NOTE])VALUES('"+event.source.userId+"',9999,'');SELECT 1")
-    
     switch (event.message.type)
     {
         case 'text':
@@ -350,7 +348,7 @@ bot.on('follow', function (event) {
                         text: '植物五辛'
                         }]
                         }
-                });
+        });
     }
 });
 
@@ -395,78 +393,3 @@ bot.on('beacon',   function (event) {
 bot.listen('/linewebhook', process.env.PORT || 80, function () {
   console.log('LineBot is running.');
 });
-
-//取得連線
-async function GET_SOMEE_MS(sql) {
-    console.log('--GET_SOMEE_MS-');
-    console.log(sql);
-    console.log('---------------');
-    console.log('---------------');
-    console.log('---------------');
-    console.log('---------------');
-    console.log(SOMEE_config);
-    console.log('---------------');
-    console.log('---------------');
-    console.log('---------------');
-    console.log('---------------');
-        
-    const client = new sqlDb.ConnectionPool(SOMEE_config)
-    //const client = new sqlDb.ConnectionPool({SOMEE_CNX})
-    console.log('---------------');
-    console.log(client);
-    console.log('---------------');
-    try {
-        console.time('connect')
-        const pool = await client.connect()
-        console.timeEnd('connect')
-        const request = pool.request()
-        console.time('query')
-        await request.query(sql)
-        console.timeEnd('query')
-        console.time('query')
-        await request.query(sql)
-        console.timeEnd('query')
-    }
-    finally {
-		try {
-			await client.close()
-		}
-		catch{
-		}
-    }
-
-    console.log('------------------------------');
-    console.log('--sqlDb.connect(SOMEE_CNX)--');
-    console.log('------------------------------');
-    // sqlDb.connect(SOMEE_CNX)
-    // .then(
-        // (result) => {
-        // console.log('--result-------');
-        // console.log(result);
-        // console.log('---------------');
-        // return result;
-    // })
-    // .then(
-        // (pool) => {
-        // console.log('--pool---------');
-        // console.log(pool);
-        // console.log('--pool.request().query(sql)');
-        // console.log(pool.request().query(sql));
-        // console.log('---------------');
-    // })
-    // .then(() => {
-        // console.log('--sqlDb.close()-------');
-        // return sqlDb.close();
-        // console.log('---------------');
-    // })
-    // .catch((err) => {
-        // console.log('error handler');
-        // console.error(err);
-        // return sqlDb.close();
-    // })
-    //console.log('--connect-end--');
-}
-
-function run (sql) {
-    
-}
