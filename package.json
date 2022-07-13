@@ -22,15 +22,5 @@
   ],
   "author": "Chaing",
   "license": "MIT",
-  "homepage": "https://github.com/nomysky52/LINE-BOX_Heroku#readme",
-  "dependencies": {
-    "express": ">=4.17.x",
-    "body-parser": "^1.19.0",
-    "node-fetch": "^3.1.1"
-  },
-  "devDependencies": {
-    "eslint": "^5.16.0",
-    "mocha": "^6.1.4",
-    "nock": "^10.0.6"
-  }
+  "homepage": "https://github.com/nomysky52/LINE-BOX_Heroku#readme"
 }
