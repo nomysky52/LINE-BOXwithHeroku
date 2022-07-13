@@ -48,7 +48,7 @@ const SOMEE_config = {
 
 // 當有人傳送訊息給Bot時 觸發
 bot.on('message', function(event) {
-	console.log('[bot.on]Run';
+	console.log('[bot.on]Run');
     //來源者
     var messagepush = 'userId:' + event.source.userId + '\n';
     //來源群組
