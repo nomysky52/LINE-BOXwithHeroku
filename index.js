@@ -1,10 +1,8 @@
 ﻿// 引用 linebot SDK
-const linebot = require('./lib/linebot');
-// 引用 imgur SDK
-const imgur = require('./lib/imgur');
+import linebot from "./lib/linebot";
 
-// 匯入Check
-const pgcheck = require('./controller/check');
+// 引用 imgur SDK
+import imgur from "./lib/imgur";
 
 // DBClient設定檔
 //const connectionString = process.env.DATABASE_URL_;
