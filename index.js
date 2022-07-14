@@ -2,7 +2,7 @@
 import linebot from "./lib/linebot.js";
 
 // 引用 imgur SDK
-import imgur from "./lib/imgur.js";
+// import imgur from "./lib/imgur.js";
 
 // DBClient設定檔
 //const connectionString = process.env.DATABASE_URL_;
