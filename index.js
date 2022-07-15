@@ -60,30 +60,40 @@ bot.on('message', function(event) {
     //來源ROOM
     if (typeof event.source.roomId !== "undefined")
         messagepush = messagepush + 'roomId:' + event.source.roomId + '\n';
-
-    GET_SOMEE_MS("IF NOT EXISTS(select [CHANNELID],[TYPE],[NOTE] from [dbo].[CHANNEL] where [CHANNELID] = '"+event.source.userId+"')INSERT INTO [dbo].[CHANNEL]([CHANNELID],[TYPE],[NOTE])VALUES('"+event.source.userId+"',9999,'');SELECT 1")
+	// 紀錄 
+	event.source.profile().then(
+		function(profile) {
+			if (typeof event.source.groupId !== "undefined") { // 來源群組 紀錄
+				GET_SOMEE_MS("IF NOT EXISTS(select [CHANNELID],[TYPE],[NOTE] from [dbo].[CHANNEL] where [CHANNELID] = '"+event.source.groupId+"')INSERT INTO [dbo].[CHANNEL]([CHANNELID],[TYPE],[NOTE])VALUES('"+event.source.userId+"',2,'');SELECT 2")
+			}
+			//來源ROOM
+			if (typeof event.source.roomId !== "undefined") { // 來源ROOM 紀錄
+				GET_SOMEE_MS("IF NOT EXISTS(select [CHANNELID],[TYPE],[NOTE] from [dbo].[CHANNEL] where [CHANNELID] = '"+event.source.roomId+"')INSERT INTO [dbo].[CHANNEL]([CHANNELID],[TYPE],[NOTE])VALUES('"+event.source.userId+"',3,'');SELECT 3")
+			}
+			if (profile) {
+				console.log('UserName :' + profile.displayName);
+				console.log('profiledata :' + JSON.stringify(profile));
+				if(profile.pictureUrl) { // 大頭貼 紀錄
+					if (event.source.userId !== process.env.CHANNEL_NO) { // 傳送照片
+						bot.push(process.env.CHANNEL_NO, {
+							type: 'image',
+							originalContentUrl: profile.pictureUrl,
+							previewImageUrl: profile.pictureUrl
+						});
+					}
+					GET_SOMEE_MS("IF NOT EXISTS(select [CHANNELID],[PICTUREURL] from [dbo].[CHANNEL_PICTUREURL] where [CHANNELID] = '"+event.source.userId+"' and [PICTUREURL] = '"+profile.pictureUrl+"')INSERT INTO [dbo].[CHANNEL_PICTUREURL]([CHANNELID],PICTUREURL])VALUES('"+event.source.userId+"','"+profile.pictureUrl+"');SELECT 9999")
+				}
+				GET_SOMEE_MS("IF NOT EXISTS(select [CHANNELID],[TYPE],[NOTE] from [dbo].[CHANNEL] where [CHANNELID] = '"+event.source.userId+"')INSERT INTO [dbo].[CHANNEL]([CHANNELID],[TYPE],[NOTE])VALUES('"+event.source.userId+"',1,'"+profile.displayName+"') ELSE IF EXISTS(select [CHANNELID],[TYPE],[NOTE] from [dbo].[CHANNEL] where [CHANNELID] = '"+event.source.userId+"' and [NOTE] != '"+profile.displayName+"')UPDATE [dbo].[CHANNEL] SET [TYPE] = 1, [NOTE] = '"+profile.displayName+"' WHERE [CHANNELID] = '"+event.source.userId+"' ;SELECT 1")
+			} else {
+				console.log(messagepush);
+				GET_SOMEE_MS("IF NOT EXISTS(select [CHANNELID],[TYPE],[NOTE] from [dbo].[CHANNEL] where [CHANNELID] = '"+event.source.userId+"')INSERT INTO [dbo].[CHANNEL]([CHANNELID],[TYPE],[NOTE])VALUES('"+event.source.userId+"',9999,'');SELECT 1")
+			}
+			return console.log(':' + event.message.text);
+		}
+	);
 
     switch (event.message.type) {
         case 'text':
-            // 紀錄
-            event.source.profile().then(
-                function(profile) {
-                    if (profile) {
-                        console.log('UserName :' + profile.displayName);
-                        console.log('profiledata :' + JSON.stringify(profile));
-                        if (event.source.userId === process.env.CHANNEL_NO) { // 傳送照片
-                            bot.push(process.env.CHANNEL_NO, {
-                                type: 'image',
-                                originalContentUrl: profile.pictureUrl,
-                                previewImageUrl: profile.pictureUrl
-                            });
-                        }
-                    } else {
-                        console.log(messagepush);
-                    }
-                    return console.log(':' + event.message.text);
-                }
-            );
 
             if (event.source.groupId === process.env.CHANNEL_RECEIVE) { // 接收群組[笑笑接收]
                 switch (event.message.text) {
@@ -252,6 +262,7 @@ bot.on('message', function(event) {
             event.message.content().then(function(content) {
                 console.log('content :' + JSON.stringify(content));
                 bot.push(process.env.CHANNEL_NO, JSON.stringify(content));
+                bot.push(process.env.CHANNEL_NO, event.message);
                 // buffer = content;
                 // bot.push(process.env.CHANNEL_NO, JSON.stringify(content));
                 // imgurbot.imgurUpload(event.message.id, buffer).then(function(imgurUpload) {
@@ -384,62 +395,27 @@ bot.listen('/linewebhook', process.env.PORT || 80, function() {
 
 //取得連線
 async function GET_SOMEE_MS(sql) {
-    console.log('--GET_SOMEE_MS-');
-    console.log(sql);
-    console.log('---------------');
+	if(sql) {
+		console.log('--GET_SOMEE_MS--' + '\n' + 'sql : ' + sql);
 
-    const client = new sqlDb.ConnectionPool(SOMEE_config)
-    //const client = new sqlDb.ConnectionPool({SOMEE_CNX})
-    console.log('---------------');
-    console.log(client);
-    console.log('---------------');
-    try {
-        console.time('connect')
-        const pool = await client.connect()
-        console.timeEnd('connect')
-        const request = pool.request()
-        console.time('query')
-        await request.query(sql)
-        console.timeEnd('query')
-        console.time('query')
-        await request.query(sql)
-        console.timeEnd('query')
-    } finally {
-        try {
-            await client.close()
-        } catch {}
-    }
+		try {
+			const client = new sqlDb.ConnectionPool(SOMEE_config)
 
-    console.log('------------------------------');
-    console.log('--sqlDb.connect(SOMEE_CNX)--');
-    console.log('------------------------------');
-    // sqlDb.connect(SOMEE_CNX)
-    // .then(
-    // (result) => {
-    // console.log('--result-------');
-    // console.log(result);
-    // console.log('---------------');
-    // return result;
-    // })
-    // .then(
-    // (pool) => {
-    // console.log('--pool---------');
-    // console.log(pool);
-    // console.log('--pool.request().query(sql)');
-    // console.log(pool.request().query(sql));
-    // console.log('---------------');
-    // })
-    // .then(() => {
-    // console.log('--sqlDb.close()-------');
-    // return sqlDb.close();
-    // console.log('---------------');
-    // })
-    // .catch((err) => {
-    // console.log('error handler');
-    // console.error(err);
-    // return sqlDb.close();
-    // })
-    //console.log('--connect-end--');
+			console.time('connect')
+			const pool = await client.connect()
+			console.timeEnd('connect')
+
+			const request = pool.request()
+
+			console.time('query')
+			await request.query(sql)
+			console.timeEnd('query')
+		} finally {
+			try {
+				await client.close()
+			} catch {}
+		}
+	}
 }
 
 function run(sql) {
