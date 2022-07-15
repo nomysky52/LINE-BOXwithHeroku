@@ -71,13 +71,13 @@ bot.on('message', function(event) {
                 switch (event.message.text) {                    
                     default:
                         //廣播
-						console.log('廣播 :' + event.message.text);
+                        console.log(messagepush + '廣播:' + event.message.text);
                         bot.broadcast(event.message.text);
                         break;
                 }
                 break;
             }
-            else if(event.source.userId === process.env.CHANNEL_NO)
+            else if(event.source.userId === process.env.CHANNEL_NO) // 開發者
             {// 開發者密技
                 if(typeof event.source.groupId !== "undefined")
                 {// 群組說話
@@ -143,7 +143,6 @@ bot.on('message', function(event) {
                         event.source.member().then(function (member) {
                         return event.reply(JSON.stringify(member));
                         });
-                        bot.getUserProfile(event.source.userId);
                         event.reply(bot.getUserProfile(event.source.userId));
                         break;
                     }
@@ -168,7 +167,31 @@ bot.on('message', function(event) {
 , '「素食者分類」:' + '\n' + '介紹一般素食者的區分。' + '\n' 
 + '「素食標示」:' + '\n' + '介紹[包裝食品宣稱為素食標示-2014.11.05修編]要點。' + '\n' 
 + '「植物五辛」:' + '\n' + '介紹何為植物五辛?' + '\n' 
-]);
+                        ,{
+                            type: 'template',
+                            altText: 'this is a confirm template',
+                            template: {
+                            type: 'confirm',
+                            text: '關鍵字',
+                            actions: [{
+                                type: 'message',
+                                label: '何謂素食者?',
+                                text: '素食者分類'
+                                }, {
+                                type: 'message',
+                                label: '何謂植物五辛?',
+                                text: '植物五辛'
+                                }, {
+                                type: 'message',
+                                label: '素食標示',
+                                text: '素食標示'
+                                }, {
+                                type: 'message',
+                                label: '笑笑為甚麼吃素?',
+                                text: '為甚麼吃素'
+                                }]
+                            }
+                        }]);
                     break;
                 case '素食者分類':
                     event.reply(['素食者有分為' + '\n' 
@@ -196,7 +219,7 @@ bot.on('message', function(event) {
 ]);
                     break;
                 case '素食標示':
-                event.reply(['台灣[包裝食品宣稱為素食標示-2014.11.05修編]' + '\n' 
+                    event.reply(['台灣[包裝食品宣稱為素食標示-2014.11.05修編]' + '\n' 
 + '素食產品標示分為「全素或純素」、「蛋素」、「奶素」、「奶蛋素」及「植物五辛素」五類' + '\n' + '\n'
 + '全素或純素：不含奶蛋、也不含五辛（蔥、蒜、韭、薤菜及興蕖）的純植物性食品。' + '\n'
 + '蛋素：全素或純素及蛋製品。' + '\n'
@@ -230,16 +253,13 @@ bot.on('message', function(event) {
 ]);
                     break;
                 case '笑笑':
-                    event.reply('我愛妳');
+                    event.reply('最帥了');
                     break;
                 case '啞啞':
-                    event.reply('我愛你');
-                    break;
-                case '禮仁是帥哥':
-                    event.reply('國道豬 是 禮仁');
+                    event.reply('最美了');
                     break;
                 case 'Version':
-                    event.reply('nomyskylinebot@' + require('../package.json').version);
+                    event.reply('nomyskylinebot@' + require('./package.json').version);
                     break;
                 // case '標記':
                     // event.source.member().then(function (member) {
