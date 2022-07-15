@@ -1,5 +1,5 @@
 ﻿// 引用 linebot SDK
-import linebot from "./lib/linebot.js";
+import LineBot from "./lib/linebot.js";
 
 // 引用 imgur SDK
 // import imgur from "./lib/imgur.js";
@@ -8,7 +8,7 @@ import linebot from "./lib/linebot.js";
 //const connectionString = process.env.DATABASE_URL_;
 
 // 用於辨識Line Channel的資訊
-const bot = linebot({
+const bot = LineBot({
     channelId: process.env.CHANNEL_ID,
     channelSecret: process.env.CHANNEL_SECRET,
     channelAccessToken: process.env.CHANNEL_ACCESS_TOKEN
