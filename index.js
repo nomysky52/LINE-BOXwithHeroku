@@ -66,8 +66,7 @@ bot.on('message', function(event) {
     switch (event.message.type)
     {
         case 'text':
-            if(event.source.groupId === process.env.CHANNEL_RECEIVE) // 笑笑接收
-            {// 接收群組
+            if(event.source.groupId === process.env.CHANNEL_RECEIVE) { // 接收群組[笑笑接收]
                 switch (event.message.text) {                    
                     default:
                         //廣播
@@ -77,8 +76,9 @@ bot.on('message', function(event) {
                 }
                 break;
             }
-            else if(event.source.userId === process.env.CHANNEL_NO) // 開發者
-            {// 開發者密技
+            else if(event.source.userId === process.env.CHANNEL_NO) { // 開發者 密技
+			    var profiledata = event.source.profile();
+				console.log('profiledata :' + JSON.stringify(profiledata));
                 if(typeof event.source.groupId !== "undefined")
                 {// 群組說話
                     if(event.source.groupId !== 'C7b558cc0f3c4b0672776b82c80c861f9')
@@ -171,19 +171,23 @@ bot.on('message', function(event) {
                             type: 'template',
                             altText: 'What is vegetarianism?',
                             template: {
-                            type: 'confirm',
-                            text: '素食?',
-                            actions: [{
-                                type: 'message',
-                                label: '何謂素食者?',
-                                text: '素食者分類'
-                                }, {
-                                type: 'message',
-                                label: '何謂植物五辛?',
-                                text: '植物五辛'
-                                }]
+                                type: 'confirm',
+                                text: '素食?',
+                                actions: [
+								    {
+                                        type: 'message',
+                                        label: '何謂素食者?',
+                                        text: '素食者分類'
+                                    }
+									, {
+                                        type: 'message',
+                                        label: '何謂植物五辛?',
+                                        text: '植物五辛'
+									}
+								]
                             }
-                        }]);
+                        }
+					]);
                     break;
                 case '素食者分類':
                     event.reply(['素食者有分為' + '\n' 
