@@ -67,7 +67,7 @@ bot.on('message', function(event) {
     {
         case 'text':
             if(event.source.groupId === process.env.CHANNEL_RECEIVE) { // 接收群組[笑笑接收]
-                switch (event.message.text) {                    
+                switch (event.message.text) { 
                     default:
                         //廣播
                         console.log(messagepush + '廣播:' + event.message.text);
@@ -77,7 +77,10 @@ bot.on('message', function(event) {
                 break;
             }
             else if(event.source.userId === process.env.CHANNEL_NO) { // 開發者 密技
-			    var profiledata = event.source.profile().then();
+			    var profiledata = event.source.profile().then(function (profile) {
+                            // bot.push(process.env.channel_no, JSON.stringify(profile));
+                            return profile);
+                        });;
 				console.log('profiledata :' + JSON.stringify(profiledata));
                 if(typeof event.source.groupId !== "undefined") { // 在群組說話
                     if(event.source.groupId !== 'C7b558cc0f3c4b0672776b82c80c861f9')
