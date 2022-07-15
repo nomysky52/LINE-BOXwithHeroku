@@ -433,6 +433,8 @@ async function GET_SOMEE_MS(sql) {
 		try {
 			await client.close()
 		}
+		catch {
+		}
     }
 
     console.log('------------------------------');
