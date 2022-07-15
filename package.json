@@ -26,9 +26,19 @@
   "author": "Chaing",
   "license": "MIT",
   "homepage": "https://github.com/nomysky52/LINE-BOX_Heroku#readme",
-  "type": "module",
   "dependencies": {
+    "pg": ">=8.x",
+    "express": ">=4.17.x",
+    "mssql": ">=6.2.2",
     "body-parser": "^1.19.0",
-    "node-fetch": "^3.1.1"
+    "debug": "^4.1.1",
+    "node-fetch": "^3.1.1",
+    "eslint-utils": ">=1.4.3",
+    "lodash": ">=4.17.13"
+  },
+  "devDependencies": {
+    "eslint": "^5.16.0",
+    "mocha": "^6.1.4",
+    "nock": "^10.0.6"
   }
 }
