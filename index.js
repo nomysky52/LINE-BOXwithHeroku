@@ -6,7 +6,7 @@ import http from "http";
 import fetch from "node-fetch";
 import bodyParser from "body-parser";
 
-class LineBot extends EventEmitter 
+export class LineBot extends EventEmitter 
 {
     // 構造函數/建構子
     constructor(options) {
@@ -380,11 +380,11 @@ class LineBot extends EventEmitter
 
 } // class LineBot
 
-function createBot(options) {
+export function createBot(options) {
     return new LineBot(options);
 }
 
-module.exports = createBot;
+//module.exports = createBot;
 module.exports.LineBot = LineBot;
 
 // 用於辨識Line Channel的資訊
