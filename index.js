@@ -61,7 +61,7 @@ bot.on('message', function(event) {
     if(typeof event.source.roomId !== "undefined")
         messagepush = messagepush + 'roomId:' + event.source.roomId + '\n';
     
-    GET_SOMEE_MS("IF NOT EXISTS(select [CHANNELID],[TYPE],[NOTE] from [dbo].[CHANNEL] where [CHANNELID] = '"+event.source.userId+"')INSERT INTO [dbo].[CHANNEL]([CHANNELID],[TYPE],[NOTE])VALUES('"+event.source.userId+"',9999,'');SELECT 1")
+    // GET_SOMEE_MS("IF NOT EXISTS(select [CHANNELID],[TYPE],[NOTE] from [dbo].[CHANNEL] where [CHANNELID] = '"+event.source.userId+"')INSERT INTO [dbo].[CHANNEL]([CHANNELID],[TYPE],[NOTE])VALUES('"+event.source.userId+"',9999,'');SELECT 1")
     
     switch (event.message.type)
     {
