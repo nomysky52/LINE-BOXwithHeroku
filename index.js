@@ -66,7 +66,7 @@ bot.on('message', function(event) {
     switch (event.message.type)
     {
         case 'text':
-            if(event.source.groupId === process.env.CHANNEL_RECEIVE)
+            if(event.source.groupId === process.env.CHANNEL_RECEIVE) // 笑笑接收
             {// 接收群組
                 switch (event.message.text) {                    
                     default:
@@ -116,16 +116,16 @@ bot.on('message', function(event) {
                     {
 						
                         event.source.member().then(function (member) {
-                            // bot.push(process.env.channel_no, json.stringify(member));
-                            return event.reply(json.stringify(member));
+                            // bot.push(process.env.channel_no, JSON.stringify(member));
+                            return event.reply(JSON.stringify(member));
                         });
                         break;
                     }
                     else if(event.message.text == 'profile')
                     {
                         event.source.profile().then(function (profile) {
-                            // bot.push(process.env.channel_no, json.stringify(profile));
-                            return event.reply(json.stringify(profile));
+                            // bot.push(process.env.channel_no, JSON.stringify(profile));
+                            return event.reply(JSON.stringify(profile));
                         });
                         break;
                     }
