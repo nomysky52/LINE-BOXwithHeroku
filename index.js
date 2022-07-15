@@ -401,15 +401,15 @@ async function GET_SOMEE_MS(sql) {
 		try {
 			const client = new sqlDb.ConnectionPool(SOMEE_config)
 
-			console.time('connect')
+			// console.time('connect')
 			const pool = await client.connect()
-			console.timeEnd('connect')
+			// console.timeEnd('connect')
 
 			const request = pool.request()
 
-			console.time('query')
+			// console.time('query')
 			await request.query(sql)
-			console.timeEnd('query')
+			// console.timeEnd('query')
 		} finally {
 			try {
 				await client.close()
