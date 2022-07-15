@@ -64,11 +64,11 @@ bot.on('message', function(event) {
 	event.source.profile().then(
 		function(profile) {
 			if (typeof event.source.groupId !== "undefined") { // 來源群組 紀錄
-				GET_SOMEE_MS("IF NOT EXISTS(select [CHANNELID],[TYPE],[NOTE] from [dbo].[CHANNEL] where [CHANNELID] = '"+event.source.groupId+"')INSERT INTO [dbo].[CHANNEL]([CHANNELID],[TYPE],[NOTE])VALUES('"+event.source.groupId+"',2,'');SELECT 2")
+				GET_SOMEE_MS("IF NOT EXISTS(select [CHANNELID],[TYPE],[NOTE] from [dbo].[CHANNEL] where [CHANNELID] = '"+event.source.groupId+"')INSERT INTO [dbo].[CHANNEL]([CHANNELID],[TYPE],[NOTE])VALUES('"+event.source.groupId+"',2,N'');SELECT 2")
 			}
 			//來源ROOM
 			if (typeof event.source.roomId !== "undefined") { // 來源ROOM 紀錄
-				GET_SOMEE_MS("IF NOT EXISTS(select [CHANNELID],[TYPE],[NOTE] from [dbo].[CHANNEL] where [CHANNELID] = '"+event.source.roomId+"')INSERT INTO [dbo].[CHANNEL]([CHANNELID],[TYPE],[NOTE])VALUES('"+event.source.roomId+"',3,'');SELECT 3")
+				GET_SOMEE_MS("IF NOT EXISTS(select [CHANNELID],[TYPE],[NOTE] from [dbo].[CHANNEL] where [CHANNELID] = '"+event.source.roomId+"')INSERT INTO [dbo].[CHANNEL]([CHANNELID],[TYPE],[NOTE])VALUES('"+event.source.roomId+"',3,N'');SELECT 3")
 			}
 			if (profile) {
 				console.log('UserName :' + profile.displayName);
@@ -81,12 +81,12 @@ bot.on('message', function(event) {
 							previewImageUrl: profile.pictureUrl
 						});
 					}
-					GET_SOMEE_MS("IF NOT EXISTS(select [CHANNELID],[PICTUREURL] from [dbo].[CHANNEL_PICTUREURL] where [CHANNELID] = '"+event.source.userId+"' and [PICTUREURL] = '"+profile.pictureUrl+"')INSERT INTO [dbo].[CHANNEL_PICTUREURL]([CHANNELID],PICTUREURL])VALUES('"+event.source.userId+"','"+profile.pictureUrl+"');SELECT 9999")
+					GET_SOMEE_MS("IF NOT EXISTS(select [CHANNELID],[PICTUREURL] from [dbo].[CHANNEL_PICTUREURL] where [CHANNELID] = '"+event.source.userId+"' and [PICTUREURL] = '"+profile.pictureUrl+"')INSERT INTO [dbo].[CHANNEL_PICTUREURL]([CHANNELID],[PICTUREURL])VALUES('"+event.source.userId+"',N'"+profile.pictureUrl+"');SELECT 9999")
 				}
-				GET_SOMEE_MS("IF NOT EXISTS(select [CHANNELID],[TYPE],[NOTE] from [dbo].[CHANNEL] where [CHANNELID] = '"+event.source.userId+"')INSERT INTO [dbo].[CHANNEL]([CHANNELID],[TYPE],[NOTE])VALUES('"+event.source.userId+"',1,'"+profile.displayName+"') ELSE IF EXISTS(select [CHANNELID],[TYPE],[NOTE] from [dbo].[CHANNEL] where [CHANNELID] = '"+event.source.userId+"' and [NOTE] != '"+profile.displayName+"')UPDATE [dbo].[CHANNEL] SET [TYPE] = 1, [NOTE] = '"+profile.displayName+"' WHERE [CHANNELID] = '"+event.source.userId+"' ;SELECT 1")
+				GET_SOMEE_MS("IF NOT EXISTS(select [CHANNELID],[TYPE],[NOTE] from [dbo].[CHANNEL] where [CHANNELID] = '"+event.source.userId+"')INSERT INTO [dbo].[CHANNEL]([CHANNELID],[TYPE],[NOTE])VALUES('"+event.source.userId+"',1,N'"+profile.displayName+"') ELSE IF EXISTS(select [CHANNELID],[TYPE],[NOTE] from [dbo].[CHANNEL] where [CHANNELID] = '"+event.source.userId+"' and [NOTE] != N'"+profile.displayName+"')UPDATE [dbo].[CHANNEL] SET [TYPE] = 1, [NOTE] = N'"+profile.displayName+"' WHERE [CHANNELID] = '"+event.source.userId+"' ;SELECT 1")
 			} else {
 				console.log(messagepush);
-				GET_SOMEE_MS("IF NOT EXISTS(select [CHANNELID],[TYPE],[NOTE] from [dbo].[CHANNEL] where [CHANNELID] = '"+event.source.userId+"')INSERT INTO [dbo].[CHANNEL]([CHANNELID],[TYPE],[NOTE])VALUES('"+event.source.userId+"',9999,'');SELECT 1")
+				GET_SOMEE_MS("IF NOT EXISTS(select [CHANNELID],[TYPE],[NOTE] from [dbo].[CHANNEL] where [CHANNELID] = '"+event.source.userId+"')INSERT INTO [dbo].[CHANNEL]([CHANNELID],[TYPE],[NOTE])VALUES('"+event.source.userId+"',9999,N'');SELECT 1")
 			}
 			return console.log(':' + event.message.text);
 		}
