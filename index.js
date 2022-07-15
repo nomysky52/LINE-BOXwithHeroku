@@ -66,6 +66,18 @@ bot.on('message', function(event) {
     switch (event.message.type)
     {
         case 'text':
+			event.source.profile().then(
+				function (profile) { 
+					console.log(messagepush); 
+					if(profile) {
+						console.log('UserName :' + profile.displayName ); 
+						console.log(messagepush + ':' + event.message.text + '\n' + 'profiledata :' + JSON.stringify(profile) ); 
+					}
+					console.log(':' + event.message.text); 
+					return console.log(messagepush + ':' + event.message.text + '\n' + 'profiledata :' + JSON.stringify(profile) ); 
+				}
+			);
+
             if(event.source.groupId === process.env.CHANNEL_RECEIVE) { // 接收群組[笑笑接收]
                 switch (event.message.text) { 
                     default:
@@ -77,36 +89,24 @@ bot.on('message', function(event) {
                 break;
             }
             else if(event.source.userId === process.env.CHANNEL_NO) { // 開發者 密技
-			    event.source.profile().then(function (profile) { return console.log('profiledata :' + JSON.stringify(profile) ); });
-
-				
-                if(typeof event.source.groupId !== "undefined") { // 在群組說話
-                    if(event.source.groupId !== 'C7b558cc0f3c4b0672776b82c80c861f9')
-                    {
+			    if(event.message.text == 'profile') {
+					event.source.profile().then(function (profile) {
+						// bot.push(process.env.channel_no, JSON.stringify(profile));
+						return event.reply(JSON.stringify(profile));
+					});
+					break;
+				}
+                else if(typeof event.source.groupId !== "undefined") { // 在群組說話
+                    if(event.source.groupId !== 'C7b558cc0f3c4b0672776b82c80c861f9') {
                         console.log(messagepush + ':' + event.message.text);
                     }
                 }
-                else
-                {
-                    if(event.message.text == 'Confirm')
+                else {
+                    if(event.message.text == 'profile')
                     {
-                        // message: 'must be 2 items', property: 'template/actions' 
-                        event.reply({
-                            type: 'template',
-                            altText: 'this is a confirm template',
-                            template: {
-                            type: 'confirm',
-                            text: '想了解素食?',
-                            actions: [{
-                                type: 'message',
-                                label: '何謂素食者?',
-                                text: '素食說明'
-                                }, {
-                                type: 'message',
-                                label: '何謂植物五辛?',
-                                text: '植物五辛'
-                                }]
-                            }
+                        event.source.profile().then(function (profile) {
+                            // bot.push(process.env.channel_no, JSON.stringify(profile));
+                            return event.reply(JSON.stringify(profile));
                         });
                         break;
                     }
@@ -121,14 +121,6 @@ bot.on('message', function(event) {
                         // });
                         // break;
                     // }
-                    else if(event.message.text == 'profile')
-                    {
-                        event.source.profile().then(function (profile) {
-                            // bot.push(process.env.channel_no, JSON.stringify(profile));
-                            return event.reply(JSON.stringify(profile));
-                        });
-                        break;
-                    }
                     else if(event.message.text == 'Picture')
                     {
                         event.reply({
