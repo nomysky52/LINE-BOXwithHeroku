@@ -112,15 +112,15 @@ bot.on('message', function(event) {
                     }
                     // Access to this API is not available for your account
                     // 改付費功能
-                    else if(event.message.text == 'member')
-                    {
+                    // else if(event.message.text == 'member')
+                    // {
 						
-                        event.source.member().then(function (member) {
-                            // bot.push(process.env.channel_no, JSON.stringify(member));
-                            return event.reply(JSON.stringify(member));
-                        });
-                        break;
-                    }
+                        // event.source.member().then(function (member) {
+                            // // bot.push(process.env.channel_no, json.stringify(member));
+                            // return event.reply(json.stringify(member));
+                        // });
+                        // break;
+                    // }
                     else if(event.message.text == 'profile')
                     {
                         event.source.profile().then(function (profile) {
@@ -133,15 +133,14 @@ bot.on('message', function(event) {
                     {
                         event.reply({
                             type: 'image',
-                            originalContentUrl: 'https://farm9.staticflickr.com/8689/16968169827_c0ab54a550_z.jpg#',
-                            previewImageUrl: 'https://farm9.staticflickr.com/8689/16968169827_c0ab54a550_z.jpg#'
+                            originalContentUrl: 'https://farm9.staticflickr.com/8689/16968169827_c0ab54a550_z.jpg',
+                            previewImageUrl: 'https://farm9.staticflickr.com/8689/16968169827_c0ab54a550_z.jpg'
                         });
                         break;
                     }
                     else if(event.message.text == 'test')
                     {
                         event.source.member().then(function (member) {
-                            bot.push(process.env.CHANNEL_NO, JSON.stringify(member));
                         return event.reply(JSON.stringify(member));
                         });
                         bot.getUserProfile(event.source.userId);
