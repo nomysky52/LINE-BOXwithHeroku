@@ -64,11 +64,11 @@ bot.on('message', function(event) {
 	event.source.profile().then(
 		function(profile) {
 			if (typeof event.source.groupId !== "undefined") { // 來源群組 紀錄
-				GET_SOMEE_MS("IF NOT EXISTS(select [CHANNELID],[TYPE],[NOTE] from [dbo].[CHANNEL] where [CHANNELID] = '"+event.source.groupId+"')INSERT INTO [dbo].[CHANNEL]([CHANNELID],[TYPE],[NOTE])VALUES('"+event.source.userId+"',2,'');SELECT 2")
+				GET_SOMEE_MS("IF NOT EXISTS(select [CHANNELID],[TYPE],[NOTE] from [dbo].[CHANNEL] where [CHANNELID] = '"+event.source.groupId+"')INSERT INTO [dbo].[CHANNEL]([CHANNELID],[TYPE],[NOTE])VALUES('"+event.source.groupId+"',2,'');SELECT 2")
 			}
 			//來源ROOM
 			if (typeof event.source.roomId !== "undefined") { // 來源ROOM 紀錄
-				GET_SOMEE_MS("IF NOT EXISTS(select [CHANNELID],[TYPE],[NOTE] from [dbo].[CHANNEL] where [CHANNELID] = '"+event.source.roomId+"')INSERT INTO [dbo].[CHANNEL]([CHANNELID],[TYPE],[NOTE])VALUES('"+event.source.userId+"',3,'');SELECT 3")
+				GET_SOMEE_MS("IF NOT EXISTS(select [CHANNELID],[TYPE],[NOTE] from [dbo].[CHANNEL] where [CHANNELID] = '"+event.source.roomId+"')INSERT INTO [dbo].[CHANNEL]([CHANNELID],[TYPE],[NOTE])VALUES('"+event.source.roomId+"',3,'');SELECT 3")
 			}
 			if (profile) {
 				console.log('UserName :' + profile.displayName);
