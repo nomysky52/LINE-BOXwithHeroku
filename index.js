@@ -72,7 +72,7 @@ bot.on('message', function(event) {
                         console.log('UserName :' + profile.displayName);
                         console.log('profiledata :' + JSON.stringify(profile));
                         if (event.source.userId === process.env.CHANNEL_NO) { // 傳送照片
-                            event.push(process.env.CHANNEL_NO, {
+                            bot.push(process.env.CHANNEL_NO, {
                                 type: 'image',
                                 originalContentUrl: profile.pictureUrl,
                                 previewImageUrl: profile.pictureUrl
