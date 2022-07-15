@@ -60,9 +60,9 @@ bot.on('message', function(event) {
     //來源ROOM
     if(typeof event.source.roomId !== "undefined")
         messagepush = messagepush + 'roomId:' + event.source.roomId + '\n';
-    
+
     // GET_SOMEE_MS("IF NOT EXISTS(select [CHANNELID],[TYPE],[NOTE] from [dbo].[CHANNEL] where [CHANNELID] = '"+event.source.userId+"')INSERT INTO [dbo].[CHANNEL]([CHANNELID],[TYPE],[NOTE])VALUES('"+event.source.userId+"',9999,'');SELECT 1")
-    
+
     switch (event.message.type)
     {
         case 'text':
@@ -71,6 +71,7 @@ bot.on('message', function(event) {
                 switch (event.message.text) {                    
                     default:
                         //廣播
+						console.log('廣播 :' + event.message.text);
                         bot.broadcast(event.message.text);
                         break;
                 }
@@ -113,6 +114,7 @@ bot.on('message', function(event) {
                     // 改付費功能
                     else if(event.message.text == 'member')
                     {
+						
                         event.source.member().then(function (member) {
                             // bot.push(process.env.channel_no, json.stringify(member));
                             return event.reply(json.stringify(member));
