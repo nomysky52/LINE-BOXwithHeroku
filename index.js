@@ -31,7 +31,7 @@ const SOMEE_CNX = "workstation id=" + process.env.SOMEE_DB_URL + ";packet size=4
 
 const SOMEE_config = {
     password: process.env.SOMEE_DB_PWD,
-    database: process.env.SOMEE_DB_URL,
+    database: process.env.SOMEE_DB,
     stream: false,
     options: {
         trustServerCertificate: true,
@@ -386,14 +386,6 @@ bot.listen('/linewebhook', process.env.PORT || 80, function() {
 async function GET_SOMEE_MS(sql) {
     console.log('--GET_SOMEE_MS-');
     console.log(sql);
-    console.log('---------------');
-    console.log('---------------');
-    console.log('---------------');
-    console.log('---------------');
-    console.log(SOMEE_config);
-    console.log('---------------');
-    console.log('---------------');
-    console.log('---------------');
     console.log('---------------');
 
     const client = new sqlDb.ConnectionPool(SOMEE_config)
