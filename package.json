@@ -1,6 +1,6 @@
 {
   "name": "linebot",
-  "version": "1.5.2",
+  "version": "1.5.3",
   "lockfileVersion": 1,
   "description": "Node.js SDK for the LINE Messaging API",
   "main": "index.js",
@@ -35,10 +35,5 @@
     "node-fetch": "2.6.6",
     "eslint-utils": ">=1.4.3",
     "lodash": ">=4.17.13"
-  },
-  "devDependencies": {
-    "eslint": "^5.16.0",
-    "mocha": "^6.1.4",
-    "nock": "^10.0.6"
   }
 }
