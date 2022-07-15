@@ -88,28 +88,28 @@ bot.on('message', function(event) {
                 }
                 else
                 {
-                    if(event.message.text == 'Confirm')
-                    {
-                        // message: 'must be 2 items', property: 'template/actions' 
-                        event.reply({
-                            type: 'template',
-                            altText: 'this is a confirm template',
-                            template: {
-                            type: 'confirm',
-                            text: '想了解素食?',
-                            actions: [{
-                                type: 'message',
-                                label: '何謂素食者?',
-                                text: '素食說明'
-                                }, {
-                                type: 'message',
-                                label: '何謂植物五辛?',
-                                text: '植物五辛'
-                                }]
-                            }
-                        });
-                        break;
-                    }
+                    // if(event.message.text == 'Confirm')
+                    // {
+                        // // message: 'must be 2 items', property: 'template/actions' 
+                        // event.reply({
+                            // type: 'template',
+                            // altText: 'this is a confirm template',
+                            // template: {
+                            // type: 'confirm',
+                            // text: '想了解素食?',
+                            // actions: [{
+                                // type: 'message',
+                                // label: '何謂素食者?',
+                                // text: '素食說明'
+                                // }, {
+                                // type: 'message',
+                                // label: '何謂植物五辛?',
+                                // text: '植物五辛'
+                                // }]
+                            // }
+                        // });
+                        // break;
+                    // }
                     // Access to this API is not available for your account
                     // 改付費功能
                     // else if(event.message.text == 'member')
@@ -169,10 +169,10 @@ bot.on('message', function(event) {
 + '「植物五辛」:' + '\n' + '介紹何為植物五辛?' + '\n' 
                         ,{
                             type: 'template',
-                            altText: 'this is a confirm template',
+                            altText: 'What is vegetarianism?',
                             template: {
                             type: 'confirm',
-                            text: '關鍵字',
+                            text: '素食?',
                             actions: [{
                                 type: 'message',
                                 label: '何謂素食者?',
@@ -181,14 +181,6 @@ bot.on('message', function(event) {
                                 type: 'message',
                                 label: '何謂植物五辛?',
                                 text: '植物五辛'
-                                }, {
-                                type: 'message',
-                                label: '素食標示',
-                                text: '素食標示'
-                                }, {
-                                type: 'message',
-                                label: '笑笑為甚麼吃素?',
-                                text: '為甚麼吃素'
                                 }]
                             }
                         }]);
