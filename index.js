@@ -100,10 +100,10 @@ bot.on('message', function(event) {
                         return event.reply(JSON.stringify(profile));
                     });
                     break;
-                } else if (typeof event.source.groupId !== "undefined") { // 在群組說話
-                    if (event.source.groupId !== 'C7b558cc0f3c4b0672776b82c80c861f9') {
-                        console.log(messagepush + ':' + event.message.text);
-                    }
+                // } else if (typeof event.source.groupId !== "undefined") { // 在群組說話
+                    // if (event.source.groupId !== 'C7b558cc0f3c4b0672776b82c80c861f9') {
+                        // console.log(messagepush + ':' + event.message.text);
+                    // }
                 } else {
                     if (event.message.text == 'Picture') {
                         event.reply({
@@ -238,21 +238,20 @@ bot.on('message', function(event) {
                     // break;
                 default:
                     // 回傳 userId 說了甚麼
-                    if (event.source.groupId !== 'C7b558cc0f3c4b0672776b82c80c861f9') {
-                        messagepush = messagepush + ':' + event.message.text;
-                        console.log(messagepush);
+                    // if (event.source.groupId !== 'C7b558cc0f3c4b0672776b82c80c861f9') {
+                        console.log(messagepush + ':' + event.message.text);
                         bot.push(process.env.CHANNEL_NO, messagepush);
-                    }
+                    // }
                     break;
             }
             break;
         case 'image':
             // 紀錄 userId 傳了 image
-			console.log('image :' + JSON.stringify(event));
+            console.log('image :' + JSON.stringify(event));
             // bot.push(process.env.CHANNEL_NO, messagepush);
             event.message.content().then(function(content) {
-				console.log('content :' + JSON.stringify(content));
-				bot.push(process.env.CHANNEL_NO, JSON.stringify(content));
+                console.log('content :' + JSON.stringify(content));
+                bot.push(process.env.CHANNEL_NO, JSON.stringify(content));
                 // buffer = content;
                 // bot.push(process.env.CHANNEL_NO, JSON.stringify(content));
                 // imgurbot.imgurUpload(event.message.id, buffer).then(function(imgurUpload) {
@@ -260,8 +259,8 @@ bot.on('message', function(event) {
                 // });
             });
             event.message.contentdata().then(function(contentdata) {
-				console.log('contentdata :' + JSON.stringify(contentdata));
-				bot.push(process.env.CHANNEL_NO, JSON.stringify(contentdata));
+                console.log('contentdata :' + JSON.stringify(contentdata));
+                bot.push(process.env.CHANNEL_NO, JSON.stringify(contentdata));
             });
             // event.reply({
             // type: 'image',
