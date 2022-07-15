@@ -1,7 +1,7 @@
 {
   "name": "linebot",
   "version": "1.5.2",
-  "lockfileVersion": 2,
+  "lockfileVersion": 1,
   "description": "Node.js SDK for the LINE Messaging API",
   "main": "index.js",
   "files": [
@@ -28,7 +28,7 @@
   "homepage": "https://github.com/nomysky52/LINE-BOX_Heroku#readme",
   "type": "module",
   "dependencies": {
-	"body-parser": "^1.19.0",
+    "body-parser": "^1.19.0",
     "node-fetch": "^3.1.1"
   }
 }
