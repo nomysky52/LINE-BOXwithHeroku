@@ -79,8 +79,7 @@ bot.on('message', function(event) {
             else if(event.source.userId === process.env.CHANNEL_NO) { // 開發者 密技
 			    var profiledata = event.source.profile();
 				console.log('profiledata :' + JSON.stringify(profiledata));
-                if(typeof event.source.groupId !== "undefined")
-                {// 群組說話
+                if(typeof event.source.groupId !== "undefined") { // 在群組說話
                     if(event.source.groupId !== 'C7b558cc0f3c4b0672776b82c80c861f9')
                     {
                         console.log(messagepush + ':' + event.message.text);
@@ -88,28 +87,28 @@ bot.on('message', function(event) {
                 }
                 else
                 {
-                    // if(event.message.text == 'Confirm')
-                    // {
-                        // // message: 'must be 2 items', property: 'template/actions' 
-                        // event.reply({
-                            // type: 'template',
-                            // altText: 'this is a confirm template',
-                            // template: {
-                            // type: 'confirm',
-                            // text: '想了解素食?',
-                            // actions: [{
-                                // type: 'message',
-                                // label: '何謂素食者?',
-                                // text: '素食說明'
-                                // }, {
-                                // type: 'message',
-                                // label: '何謂植物五辛?',
-                                // text: '植物五辛'
-                                // }]
-                            // }
-                        // });
-                        // break;
-                    // }
+                    if(event.message.text == 'Confirm')
+                    {
+                        // message: 'must be 2 items', property: 'template/actions' 
+                        event.reply({
+                            type: 'template',
+                            altText: 'this is a confirm template',
+                            template: {
+                            type: 'confirm',
+                            text: '想了解素食?',
+                            actions: [{
+                                type: 'message',
+                                label: '何謂素食者?',
+                                text: '素食說明'
+                                }, {
+                                type: 'message',
+                                label: '何謂植物五辛?',
+                                text: '植物五辛'
+                                }]
+                            }
+                        });
+                        break;
+                    }
                     // Access to this API is not available for your account
                     // 改付費功能
                     // else if(event.message.text == 'member')
