@@ -384,9 +384,6 @@ export function createBot(options) {
     return new LineBot(options);
 }
 
-//module.exports = createBot;
-module.exports.LineBot = LineBot;
-
 // 用於辨識Line Channel的資訊
 const bot = LineBot({
     channelId: process.env.CHANNEL_ID,
