@@ -415,10 +415,6 @@ async function GET_SOMEE_MS(sql) {
 
             // console.time('query')
             const query = await request.query(sql, function(err, result) {
-                // if (result.recordsets) {
-                // console.log('GET_SOMEE_MS result.recordsets :');
-                // console.log(result.recordsets);
-                // }
                 if (result) {
                     if (result.recordset) {
                         console.log('GET_SOMEE_MS result.recordset :');
