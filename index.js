@@ -462,15 +462,13 @@ async function SET_PROFILE(userId, profile) {
                             if (result.recordset) {
                                 console.log('SET_PROFILE result.recordset :');
                                 console.log(result.recordset);
-                                if (count(result.recordset.legnth) === 0) {
-                                    if (userId !== process.env.CHANNEL_NO) { // 傳送照片
-                                        bot.push(process.env.CHANNEL_NO, {
-                                            type: 'image',
-                                            originalContentUrl: profile.pictureUrl,
-                                            previewImageUrl: profile.pictureUrl
-                                        });
-                                    }
-                                }
+                                    // if (userId !== process.env.CHANNEL_NO) { // 傳送照片
+                                        // bot.push(process.env.CHANNEL_NO, {
+                                            // type: 'image',
+                                            // originalContentUrl: profile.pictureUrl,
+                                            // previewImageUrl: profile.pictureUrl
+                                        // });
+                                    // }
                             }
                         }
                     })
