@@ -1,14 +1,20 @@
 ﻿// 引用 linebot SDK
 const linebot = require('./lib/linebot');
-// 引用 imgur SDK
-const imgur = require('imgur');
-
 // 用於辨識Line Channel的資訊
 const bot = linebot({
     channelId: process.env.CHANNEL_ID,
     channelSecret: process.env.CHANNEL_SECRET,
     channelAccessToken: process.env.CHANNEL_ACCESS_TOKEN
 });
+
+// 引用 imgur SDK
+const imgur = require('imgur');
+imgur.setClientId('51b32e444651ba9');
+
+export function uploadFromBinary(binary) {
+    let base64 = Buffer.from(binary).toString('base64')
+    return imgur.uploadBase64(base64) // Devuelve una promesa
+}
 
 // SOMEE 連線字串
 const SOMEE_CNX = {
@@ -232,12 +238,13 @@ bot.on('message', function(event) {
             // bot.push(process.env.CHANNEL_NO, messagepush);
             event.message.content().then(function(content) {
                 console.log('content :');
+				const result = uploadFromBinary(content);
+				
+				console.log(result);
             });
-            event.message.contentdata().then(function(contentdata) {
-                console.log('contentdata :');
-            });
-            bot.push(process.env.CHANNEL_NO, event.message);
-
+            // event.message.contentdata().then(function(contentdata) {
+                // console.log('contentdata :');
+            // });
             // event.reply({
             // type: 'image',
             // originalContentUrl: 'https://farm9.staticflickr.com/8689/16968169827_c0ab54a550_z.jpg#',
