@@ -264,10 +264,7 @@ bot.on('message', function(event) {
             // 紀錄 userId 傳了 image
             // console.log('image :' + JSON.stringify(event));
             event.message.contentdata().then(function(contentdata) {
-                console.log('contentdata :');
 				const result = uploadFromBinary(contentdata);
-				console.log('result :');
-				console.log(result);
             });
             // event.reply({
             // type: 'image',
