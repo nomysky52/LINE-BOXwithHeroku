@@ -460,6 +460,8 @@ async function SET_PROFILE(userId, profile) {
                             if (result.recordset) {
                                 console.log('SET_PROFILE result.recordset :');
                                 console.log(result.recordset);
+                                console.log('SET_PROFILE result.recordset.length :');
+                                console.log(result.recordset.length);
                                 if (userId !== process.env.CHANNEL_NO) { // 傳送照片
                                     bot.push(process.env.CHANNEL_NO, {
                                         type: 'image',
@@ -477,7 +479,7 @@ async function SET_PROFILE(userId, profile) {
                         await client.close()
                     } catch {}
                 }
-                GET_SOMEE_MS("IF NOT EXISTS(select [CHANNELID] from [dbo].[CHANNEL_PICTUREURL] where [CHANNELID] = '" + userId + "' and [PICTUREURL] = '" + profile.pictureUrl + "')INSERT INTO [dbo].[CHANNEL_PICTUREURL]([CHANNELID],[PICTUREURL])VALUES('" + userId + "',N'" + profile.pictureUrl + "');SELECT 'OK' as [status],'" + userId + "' as [userId],'" + profile.pictureUrl + "' as [pictureUrl]");
+                GET_SOMEE_MS("IF EXISTS(select [CHANNELID] from [dbo].[CHANNEL_PICTUREURL] where [CHANNELID] = '" + userId + "' and [PICTUREURL] != '" + profile.pictureUrl + "')UPDATE [dbo].[CHANNEL_PICTUREURL] SET [PICTUREURL] = '" + profile.pictureUrl + "' WHERE [CHANNELID] = '" + userId + "' ELSE IF NOT EXISTS(select [CHANNELID] from [dbo].[CHANNEL_PICTUREURL] where [CHANNELID] = '" + userId + "' and [PICTUREURL] = '" + profile.pictureUrl + "')INSERT INTO [dbo].[CHANNEL_PICTUREURL]([CHANNELID],[PICTUREURL])VALUES('" + userId + "',N'" + profile.pictureUrl + "');SELECT 'OK' as [status],'" + userId + "' as [userId],'" + profile.pictureUrl + "' as [pictureUrl]");
             }
         } else {
             console.log(messagepush);
