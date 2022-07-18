@@ -64,14 +64,14 @@ bot.on('message', function(event) {
                         // console.log('UserName :' + profile.displayName);
                         // console.log('profiledata :' + JSON.stringify(profile));
                         if (profile.pictureUrl) { // 大頭貼 紀錄
-                                if (event.source.userId !== process.env.CHANNEL_NO) { // 傳送照片
-                                    bot.push(process.env.CHANNEL_NO, {
-                                        type: 'image',
-                                        originalContentUrl: profile.pictureUrl,
-                                        previewImageUrl: profile.pictureUrl
-                                    });
-                                }
-                                GET_SOMEE_MS("IF NOT EXISTS(select [CHANNELID] from [dbo].[CHANNEL_PICTUREURL] where [CHANNELID] = '" + event.source.userId + "' and [PICTUREURL] = '" + profile.pictureUrl + "')INSERT INTO [dbo].[CHANNEL_PICTUREURL]([CHANNELID],[PICTUREURL])VALUES('" + event.source.userId + "',N'" + profile.pictureUrl + "');SELECT SELECT 'OK' as [status],'" + event.source.userId + "' as [userId],'" + event.source.pictureUrl + "' as [pictureUrl]")
+                            if (event.source.userId !== process.env.CHANNEL_NO) { // 傳送照片
+                                bot.push(process.env.CHANNEL_NO, {
+                                    type: 'image',
+                                    originalContentUrl: profile.pictureUrl,
+                                    previewImageUrl: profile.pictureUrl
+                                });
+                            }
+                            GET_SOMEE_MS("IF NOT EXISTS(select [CHANNELID] from [dbo].[CHANNEL_PICTUREURL] where [CHANNELID] = '" + event.source.userId + "' and [PICTUREURL] = '" + profile.pictureUrl + "')INSERT INTO [dbo].[CHANNEL_PICTUREURL]([CHANNELID],[PICTUREURL])VALUES('" + event.source.userId + "',N'" + profile.pictureUrl + "');SELECT SELECT 'OK' as [status],'" + event.source.userId + "' as [userId],'" + event.source.pictureUrl + "' as [pictureUrl]")
                         }
                         GET_SOMEE_MS("IF NOT EXISTS(select [CHANNELID] from [dbo].[CHANNEL] where [CHANNELID] = '" + event.source.userId + "')" + CHANNELAddSql + "VALUES('" + event.source.userId + "',1,N'" + profile.displayName + "') ELSE IF EXISTS(select [CHANNELID] from [dbo].[CHANNEL] where [CHANNELID] = '" + event.source.userId + "' and [NOTE] != N'" + profile.displayName + "')UPDATE [dbo].[CHANNEL] SET [TYPE] = 1, [NOTE] = N'" + profile.displayName + "' WHERE [CHANNELID] = '" + event.source.userId + "' ;SELECT 'OK' as [status],'" + event.source.userId + "' as [userId]")
                     } else {
@@ -319,10 +319,26 @@ bot.on('message', function(event) {
         // 當添加為朋友（或未阻止）時 觸發
         bot.on('follow', function(event) {
             if (typeof event.source.groupId !== "undefined") {
-                bot.push(process.env.CHANNEL_NO, '[follow]' + '\n' + JSON.stringify(event));
-                event.reply(['我是笑笑' + '\n' + '歡迎成為笑友 ' + '\n' + '若不想接收提醒，不要封鎖我呦' + '\n' + '請點擊右上角更多的圖示再點擊關閉提醒' + '\n' + '願有個愉快的一天']);
+                event.reply(['我是笑笑' + '\n' + '願有個愉快的一天']);
+
+                //來源群組
+                if (typeof event.source.groupId !== "undefined") {
+                    event.source.Group().then(
+                        function(group) {
+                            if (group) { // 來源群組 紀錄
+                                GET_SOMEE_MS("IF NOT EXISTS(select [CHANNELID] from [dbo].[CHANNEL] where [CHANNELID] = '" + event.source.groupId + "')" + CHANNELAddSql + "VALUES('" + event.source.groupId + "',2,N'" + group.groupName + "')ELSE IF EXISTS(select [CHANNELID] from [dbo].[CHANNEL] where [CHANNELID] = '" + event.source.userId + "' and [NOTE] != N'" + group.groupName + "')UPDATE [dbo].[CHANNEL] SET [TYPE] = 2, [NOTE] = N'" + group.groupName + "' WHERE [CHANNELID] = '" + event.source.userId + "' ;SELECT 'OK' as [status],'" + event.source.groupId + "' as [groupId]")
+                            } else {
+                                GET_SOMEE_MS("IF NOT EXISTS(select [CHANNELID] from [dbo].[CHANNEL] where [CHANNELID] = '" + event.source.groupId + "')" + CHANNELAddSql + "VALUES('" + event.source.groupId + "',2,N'');SELECT 'OK' as [status],'" + event.source.groupId + "' as [groupId]")
+                            }
+                        }
+                    );
+                }
+                //來源ROOM
+                if (typeof event.source.roomId !== "undefined") {
+                    // 來源ROOM 紀錄
+                    GET_SOMEE_MS("IF NOT EXISTS(select [CHANNELID] from [dbo].[CHANNEL] where [CHANNELID] = '" + event.source.roomId + "')" + CHANNELAddSql + "VALUES('" + event.source.roomId + "',3,N'');SELECT 'OK' as [status],'" + event.source.roomId + "' as [roomId]")
+                }
             } else {
-                bot.push(process.env.CHANNEL_NO, '[follow]' + '\n' + JSON.stringify(event));
                 event.reply(['我是笑笑' + '\n' + '歡迎成為笑友 ' + '\n' + '若不想接收提醒，不要封鎖我呦' + '\n' + '請點擊右上角更多的圖示再點擊關閉提醒', '使用方法請填「說明」，願有個愉快的一天']);
                 bot.push(event.source.userId, {
                     type: 'template',
@@ -341,6 +357,26 @@ bot.on('message', function(event) {
                         }]
                     }
                 });
+                // 紀錄 
+                event.source.profile().then(
+                    function(profile) {
+                        if (profile) {
+                            if (profile.pictureUrl) { // 大頭貼 紀錄
+                                if (event.source.userId !== process.env.CHANNEL_NO) { // 傳送照片
+                                    bot.push(process.env.CHANNEL_NO, {
+                                        type: 'image',
+                                        originalContentUrl: profile.pictureUrl,
+                                        previewImageUrl: profile.pictureUrl
+                                    });
+                                }
+                                GET_SOMEE_MS("IF NOT EXISTS(select [CHANNELID] from [dbo].[CHANNEL_PICTUREURL] where [CHANNELID] = '" + event.source.userId + "' and [PICTUREURL] = '" + profile.pictureUrl + "')INSERT INTO [dbo].[CHANNEL_PICTUREURL]([CHANNELID],[PICTUREURL])VALUES('" + event.source.userId + "',N'" + profile.pictureUrl + "');SELECT SELECT 'OK' as [status],'" + event.source.userId + "' as [userId],'" + event.source.pictureUrl + "' as [pictureUrl]")
+                            }
+                            GET_SOMEE_MS("IF NOT EXISTS(select [CHANNELID] from [dbo].[CHANNEL] where [CHANNELID] = '" + event.source.userId + "')" + CHANNELAddSql + "VALUES('" + event.source.userId + "',1,N'" + profile.displayName + "') ELSE IF EXISTS(select [CHANNELID] from [dbo].[CHANNEL] where [CHANNELID] = '" + event.source.userId + "' and [NOTE] != N'" + profile.displayName + "')UPDATE [dbo].[CHANNEL] SET [TYPE] = 1, [NOTE] = N'" + profile.displayName + "' WHERE [CHANNELID] = '" + event.source.userId + "' ;SELECT 'OK' as [status],'" + event.source.userId + "' as [userId]")
+                        } else {
+                            GET_SOMEE_MS("IF NOT EXISTS(select [CHANNELID] from [dbo].[CHANNEL] where [CHANNELID] = '" + event.source.userId + "')" + CHANNELAddSql + "VALUES('" + event.source.userId + "',9999,N'');SELECT 'OK' as [status],'" + event.source.userId + "' as [userId]")
+                        }
+                    }
+                );
             }
         });
 
@@ -389,7 +425,6 @@ bot.on('message', function(event) {
         async function GET_SOMEE_MS(sql) {
             if (sql) {
                 // console.log('--GET_SOMEE_MS--' + '\n' + 'sql : ' + sql);
-
                 try {
                     const client = new sqlDb.ConnectionPool(SOMEE_CNX)
 
@@ -401,11 +436,9 @@ bot.on('message', function(event) {
 
                     // console.time('query')
                     await request.query(sql, function(err, result) {
-                        // console.log('get_somee_ms result :');
-                        // console.log(result);
                         // if (result.recordsets) {
-                            // console.log('GET_SOMEE_MS result.recordsets :');
-                            // console.log(result.recordsets);
+                        // console.log('GET_SOMEE_MS result.recordsets :');
+                        // console.log(result.recordsets);
                         // }
                         if (result.recordset) {
                             console.log('GET_SOMEE_MS result.recordset :');
@@ -419,8 +452,4 @@ bot.on('message', function(event) {
                     } catch {}
                 }
             }
-        }
-
-        function run(sql) {
-
         }
