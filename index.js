@@ -17,19 +17,25 @@ const client = new ImgurClient({
 });
 
 async function uploadFromBinary(binary) {
-    let base64 = Buffer.from(binary).toString('base64');
-	const response = await client.upload({
-		image: base64,
-		type: 'base64',
-		album: 'x4TiFnP'
-	});
-	if(response.status !== 200) { 
-	    console.log(response.data);
+	try {
+		console.log('toString(base64)');
+		let base64 = Buffer.from(binary).toString('base64');
+		console.log('client.upload');
+		const response = await client.upload({
+			image: base64,
+			type: 'base64',
+			album: 'x4TiFnP'
+		});
+		console.log('response.status ');
+		if(response.status !== 200) { 
+			console.log(response.data);
+		}
+		else {
+			return response.data;
+		}
+		return response;
 	}
-	else {
-		return response.data;
-	}
-	return response;
+	catch{ return '';}
 }
 
 // SOMEE 連線字串
