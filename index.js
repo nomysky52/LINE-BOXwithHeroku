@@ -13,8 +13,12 @@ const { ImgurClient } = require('imgur');
 const client = new ImgurClient({ clientId: '51b32e444651ba9' });
 
 function uploadFromBinary(binary) {
-    let base64 = Buffer.from(binary).toString('base64')
-    return client.uploadBase64(base64) // Devuelve una promesa
+    let base64 = Buffer.from(binary).toString('base64');
+	const response = await client.upload({
+		image: base64,
+		type: 'base64',
+	});
+    return response;
 }
 
 // SOMEE 連線字串
