@@ -11,9 +11,7 @@ const bot = linebot({
 });
 
 // SOMEE 連線字串
-const SOMEE_CNX = "workstation id=" + process.env.SOMEE_DB_URL + ";packet size=4096;user id=" + process.env.SOMEE_DB_ID + ";pwd=" + process.env.SOMEE_DB_PWD + ";data source=" + process.env.SOMEE_DB_URL + ";persist security info=False;initial catalog=" + process.env.SOMEE_DB;
-
-const SOMEE_config = {
+const SOMEE_CNX = {
     password: process.env.SOMEE_DB_PWD,
     database: process.env.SOMEE_DB,
     stream: false,
@@ -72,7 +70,7 @@ bot.on('message', function(event) {
 				console.log(messagepush);
 				GET_SOMEE_MS("IF NOT EXISTS(select [CHANNELID],[TYPE],[NOTE] from [dbo].[CHANNEL] where [CHANNELID] = '"+event.source.userId+"')INSERT INTO [dbo].[CHANNEL]([CHANNELID],[TYPE],[NOTE])VALUES('"+event.source.userId+"',9999,N'');SELECT 1")
 			}
-			return console.log(':' + event.message.text);
+			// return console.log(':' + event.message.text);
 		}
 	);
 
@@ -389,10 +387,10 @@ bot.listen('/linewebhook', process.env.PORT || 80, function() {
 //取得連線
 async function GET_SOMEE_MS(sql) {
 	if(sql) {
-		console.log('--GET_SOMEE_MS--' + '\n' + 'sql : ' + sql);
+		// console.log('--GET_SOMEE_MS--' + '\n' + 'sql : ' + sql);
 
 		try {
-			const client = new sqlDb.ConnectionPool(SOMEE_config)
+			const client = new sqlDb.ConnectionPool(SOMEE_CNX)
 
 			// console.time('connect')
 			const pool = await client.connect()
@@ -404,10 +402,16 @@ async function GET_SOMEE_MS(sql) {
 			await request.query(sql, function (err, result) {
 				console.log('GET_SOMEE_MS result :');
 				console.log(result);
+				if(result.recordsets) {
+					console.log('GET_SOMEE_MS result.recordsets :');
+					console.log(result.recordsets);
+				}
+				if(result.recordset) {
+					console.log('GET_SOMEE_MS result.recordset :');
+					console.log(result.recordset);
+				}
 			})
 			// console.timeEnd('query')
-			console.log('GET_SOMEE_MS request : ');
-			console.log(request);
 		} finally {
 			try {
 				await client.close()
