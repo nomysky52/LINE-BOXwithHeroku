@@ -455,27 +455,24 @@ async function SET_PROFILE(userId, profile) {
                     // console.time('query')
                     const query = await request.query(sql, function(err, result) {
                         // if (result.recordsets) {
-                        // console.log('GET_SOMEE_MS result.recordsets :');
+                        // console.log('SET_PROFILE result.recordsets :');
                         // console.log(result.recordsets);
                         // }
                         if (result) {
-                            console.log('GET_SOMEE_MS result :');
-                            console.log(result);
                             if (result.recordset) {
-                                console.log('GET_SOMEE_MS result.recordset :');
+                                console.log('SET_PROFILE result.recordset :');
                                 console.log(result.recordset);
                                 if (result.recordset.legnth) {
-                                    console.log('GET_SOMEE_MS result.recordset.legnth :');
+                                    console.log('SET_PROFILE result.recordset.legnth :');
                                     console.log(result.recordset.legnth);
                                 } else {
-                                    if (userId === process.env.CHANNEL_NO) { // 傳送照片
+                                    if (userId !== process.env.CHANNEL_NO) { // 傳送照片
                                         bot.push(process.env.CHANNEL_NO, {
                                             type: 'image',
                                             originalContentUrl: profile.pictureUrl,
                                             previewImageUrl: profile.pictureUrl
                                         });
                                     }
-                                    GET_SOMEE_MS("IF NOT EXISTS(select [CHANNELID] from [dbo].[CHANNEL_PICTUREURL] where [CHANNELID] = '" + userId + "' and [PICTUREURL] = '" + profile.pictureUrl + "')INSERT INTO [dbo].[CHANNEL_PICTUREURL]([CHANNELID],[PICTUREURL])VALUES('" + userId + "',N'" + profile.pictureUrl + "');SELECT SELECT 'OK' as [status],'" + userId + "' as [userId],'" + profile.pictureUrl + "' as [pictureUrl]")
                                 }
                             }
                         }
@@ -487,6 +484,7 @@ async function SET_PROFILE(userId, profile) {
                         await client.close()
                     } catch {}
                 }
+                GET_SOMEE_MS("IF NOT EXISTS(select [CHANNELID] from [dbo].[CHANNEL_PICTUREURL] where [CHANNELID] = '" + userId + "' and [PICTUREURL] = '" + profile.pictureUrl + "')INSERT INTO [dbo].[CHANNEL_PICTUREURL]([CHANNELID],[PICTUREURL])VALUES('" + userId + "',N'" + profile.pictureUrl + "');SELECT SELECT 'OK' as [status],'" + userId + "' as [userId],'" + profile.pictureUrl + "' as [pictureUrl]")
             }
         } else {
             console.log(messagepush);
