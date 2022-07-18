@@ -14,7 +14,7 @@ const client = new ImgurClient({ clientId: '51b32e444651ba9' });
 
 function uploadFromBinary(binary) {
     let base64 = Buffer.from(binary).toString('base64');
-	const response = await client.upload({
+	const response = client.upload({
 		image: base64,
 		type: 'base64',
 	});
