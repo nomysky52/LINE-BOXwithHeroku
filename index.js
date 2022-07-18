@@ -449,7 +449,7 @@ async function SET_PROFILE(userId, profile) {
                     // console.timeEnd('connect')
 
                     const request = pool.request();
-					console.log('profile.pictureUrl :'+profile.pictureUrl);
+
                     const sql = "select 'OK' as [status],[CHANNELID] from [dbo].[CHANNEL_PICTUREURL] where [CHANNELID] = '" + userId + "' and [PICTUREURL] = '" + profile.pictureUrl + "'";
 
                     // console.time('query')
@@ -462,10 +462,7 @@ async function SET_PROFILE(userId, profile) {
                             if (result.recordset) {
                                 console.log('SET_PROFILE result.recordset :');
                                 console.log(result.recordset);
-                                if (result.recordset.legnth) {
-                                    console.log('SET_PROFILE result.recordset.legnth :');
-                                    console.log(result.recordset.legnth);
-                                } else {
+                                if (count(result.recordset.legnth) === 0) {
                                     if (userId !== process.env.CHANNEL_NO) { // 傳送照片
                                         bot.push(process.env.CHANNEL_NO, {
                                             type: 'image',
