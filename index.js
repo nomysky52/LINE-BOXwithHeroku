@@ -15,13 +15,14 @@ const client = new ImgurClient({
     clientSecret: 'f2da6bd06c6be002bcc84b11af489ea63d9d209e'
 });
 
-function uploadFromBinary(binary) {
+async function uploadFromBinary(binary) {
     let base64 = Buffer.from(binary).toString('base64');
-	const response = client.upload({
+	const response = await client.upload({
 		image: base64,
 		type: 'base64',
 		album: 'linebox'
 	});
+	console.log(response);
     return response;
 }
 
