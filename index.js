@@ -12,7 +12,8 @@ const { ImgurClient } = require('imgur');
 // browser script include // your client ID
 const client = new ImgurClient({
 	clientId: '51b32e444651ba9',
-    clientSecret: 'f2da6bd06c6be002bcc84b11af489ea63d9d209e'
+    clientSecret: 'f2da6bd06c6be002bcc84b11af489ea63d9d209e',
+	refreshToken : '984b75b8edc5cb301a2dc079aad3a8d36ae3de07'
 });
 
 async function uploadFromBinary(binary) {
