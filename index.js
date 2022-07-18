@@ -8,13 +8,13 @@ const bot = linebot({
 });
 
 // 引用 imgur SDK
-const ImgurClient = require('imgur');
-// browser script include
-const imgurClient = new ImgurClient({ clientId: '51b32e444651ba9' });
+const { ImgurClient } = require('imgur');
+// browser script include // your client ID
+const client = new ImgurClient({ clientId: '51b32e444651ba9' });
 
 function uploadFromBinary(binary) {
     let base64 = Buffer.from(binary).toString('base64')
-    return imgurClient.uploadBase64(base64) // Devuelve una promesa
+    return client.uploadBase64(base64) // Devuelve una promesa
 }
 
 // SOMEE 連線字串
