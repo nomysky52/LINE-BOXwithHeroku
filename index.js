@@ -23,8 +23,13 @@ async function uploadFromBinary(binary) {
 		type: 'base64',
 		album: 'x4TiFnP'
 	});
-	console.log(response);
-    return response;
+	if(response.status !== 200) { 
+	    console.log(response.data);
+	}
+	else {
+		return response.data;
+	}
+	return response;
 }
 
 // SOMEE 連線字串
@@ -247,15 +252,15 @@ bot.on('message', function(event) {
             // 紀錄 userId 傳了 image
             console.log('image :' + JSON.stringify(event));
             // bot.push(process.env.CHANNEL_NO, messagepush);
-            event.message.content().then(function(content) {
-                console.log('content :');
-				const result = uploadFromBinary(content);
+            // event.message.content().then(function(content) {
+                // console.log('content :');
 				
-				console.log(result);
-            });
-            // event.message.contentdata().then(function(contentdata) {
-                // console.log('contentdata :');
+				// console.log(result);
             // });
+            event.message.contentdata().then(function(contentdata) {
+                console.log('contentdata :');
+				const result = uploadFromBinary(content);
+            });
             // event.reply({
             // type: 'image',
             // originalContentUrl: 'https://farm9.staticflickr.com/8689/16968169827_c0ab54a550_z.jpg#',
