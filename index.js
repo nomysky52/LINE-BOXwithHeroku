@@ -11,7 +11,7 @@ const bot = linebot({
 const imgur = require('imgur');
 imgur.setClientId('51b32e444651ba9');
 
-export function uploadFromBinary(binary) {
+function uploadFromBinary(binary) {
     let base64 = Buffer.from(binary).toString('base64')
     return imgur.uploadBase64(base64) // Devuelve una promesa
 }
