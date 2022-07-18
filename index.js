@@ -44,9 +44,9 @@ bot.on('message', function(event) {
         event.source.Group().then(
             function(group) {
                 if (group) { // 來源群組 紀錄
-                    GET_SOMEE_MS("IF NOT EXISTS(select [CHANNELID] from [dbo].[CHANNEL] where [CHANNELID] = '" + event.source.groupId + "')" + CHANNELAddSql + "VALUES('" + event.source.groupId + "',2,N'" + group.groupName + "')ELSE IF EXISTS(select [CHANNELID] from [dbo].[CHANNEL] where [CHANNELID] = '" + event.source.userId + "' and [NOTE] != N'" + group.groupName + "')UPDATE [dbo].[CHANNEL] SET [TYPE] = 2, [NOTE] = N'" + group.groupName + "' WHERE [CHANNELID] = '" + event.source.userId + "' ;SELECT 'OK' as [status],'" + event.source.groupId + "' as [groupId]")
+                    MSSQL_RUN("IF NOT EXISTS(select [CHANNELID] from [dbo].[CHANNEL] where [CHANNELID] = '" + event.source.groupId + "')" + CHANNELAddSql + "VALUES('" + event.source.groupId + "',2,N'" + group.groupName + "')ELSE IF EXISTS(select [CHANNELID] from [dbo].[CHANNEL] where [CHANNELID] = '" + event.source.userId + "' and [NOTE] != N'" + group.groupName + "')UPDATE [dbo].[CHANNEL] SET [TYPE] = 2, [NOTE] = N'" + group.groupName + "' WHERE [CHANNELID] = '" + event.source.userId + "' ;SELECT 'OK' as [status],'" + event.source.groupId + "' as [groupId]")
                 } else {
-                    GET_SOMEE_MS("IF NOT EXISTS(select [CHANNELID] from [dbo].[CHANNEL] where [CHANNELID] = '" + event.source.groupId + "')" + CHANNELAddSql + "VALUES('" + event.source.groupId + "',2,N'');SELECT 'OK' as [status],'" + event.source.groupId + "' as [groupId]")
+                    MSSQL_RUN("IF NOT EXISTS(select [CHANNELID] from [dbo].[CHANNEL] where [CHANNELID] = '" + event.source.groupId + "')" + CHANNELAddSql + "VALUES('" + event.source.groupId + "',2,N'');SELECT 'OK' as [status],'" + event.source.groupId + "' as [groupId]")
                 }
             }
         );
@@ -55,7 +55,7 @@ bot.on('message', function(event) {
     if (typeof event.source.roomId !== "undefined") {
         messagepush = messagepush + 'roomId:' + event.source.roomId + '\n';
         // 來源ROOM 紀錄
-        GET_SOMEE_MS("IF NOT EXISTS(select [CHANNELID] from [dbo].[CHANNEL] where [CHANNELID] = '" + event.source.roomId + "')" + CHANNELAddSql + "VALUES('" + event.source.roomId + "',3,N'');SELECT 'OK' as [status],'" + event.source.roomId + "' as [roomId]")
+        MSSQL_RUN("IF NOT EXISTS(select [CHANNELID] from [dbo].[CHANNEL] where [CHANNELID] = '" + event.source.roomId + "')" + CHANNELAddSql + "VALUES('" + event.source.roomId + "',3,N'');SELECT 'OK' as [status],'" + event.source.roomId + "' as [roomId]")
     }
     // 紀錄 
     event.source.profile().then(
@@ -283,7 +283,7 @@ bot.on('message', function(event) {
             // stickerId: 1  // event.message.stickerId
             // });
             if (event.source.userId === process.env.CHANNEL_NO) {
-                var channel = GET_SOMEE_MS('select * from [dbo].[CHANNEL]');
+                var channel = MSSQL_RUN('select * from [dbo].[CHANNEL]');
                 console.log(channel);
                 bot.push("Ub1068b48b44f7ef5a1ca5a12070f1225", "早安");
             }
@@ -305,9 +305,9 @@ bot.on('follow', function(event) {
             event.source.Group().then(
                 function(group) {
                     if (group) { // 來源群組 紀錄
-                        GET_SOMEE_MS("IF NOT EXISTS(select [CHANNELID] from [dbo].[CHANNEL] where [CHANNELID] = '" + event.source.groupId + "')" + CHANNELAddSql + "VALUES('" + event.source.groupId + "',2,N'" + group.groupName + "')ELSE IF EXISTS(select [CHANNELID] from [dbo].[CHANNEL] where [CHANNELID] = '" + event.source.userId + "' and [NOTE] != N'" + group.groupName + "')UPDATE [dbo].[CHANNEL] SET [TYPE] = 2, [NOTE] = N'" + group.groupName + "' WHERE [CHANNELID] = '" + event.source.userId + "' ;SELECT 'OK' as [status],'" + event.source.groupId + "' as [groupId]")
+                        MSSQL_RUN("IF NOT EXISTS(select [CHANNELID] from [dbo].[CHANNEL] where [CHANNELID] = '" + event.source.groupId + "')" + CHANNELAddSql + "VALUES('" + event.source.groupId + "',2,N'" + group.groupName + "')ELSE IF EXISTS(select [CHANNELID] from [dbo].[CHANNEL] where [CHANNELID] = '" + event.source.userId + "' and [NOTE] != N'" + group.groupName + "')UPDATE [dbo].[CHANNEL] SET [TYPE] = 2, [NOTE] = N'" + group.groupName + "' WHERE [CHANNELID] = '" + event.source.userId + "' ;SELECT 'OK' as [status],'" + event.source.groupId + "' as [groupId]")
                     } else {
-                        GET_SOMEE_MS("IF NOT EXISTS(select [CHANNELID] from [dbo].[CHANNEL] where [CHANNELID] = '" + event.source.groupId + "')" + CHANNELAddSql + "VALUES('" + event.source.groupId + "',2,N'');SELECT 'OK' as [status],'" + event.source.groupId + "' as [groupId]")
+                        MSSQL_RUN("IF NOT EXISTS(select [CHANNELID] from [dbo].[CHANNEL] where [CHANNELID] = '" + event.source.groupId + "')" + CHANNELAddSql + "VALUES('" + event.source.groupId + "',2,N'');SELECT 'OK' as [status],'" + event.source.groupId + "' as [groupId]")
                     }
                 }
             );
@@ -315,7 +315,7 @@ bot.on('follow', function(event) {
         //來源ROOM
         if (typeof event.source.roomId !== "undefined") {
             // 來源ROOM 紀錄
-            GET_SOMEE_MS("IF NOT EXISTS(select [CHANNELID] from [dbo].[CHANNEL] where [CHANNELID] = '" + event.source.roomId + "')" + CHANNELAddSql + "VALUES('" + event.source.roomId + "',3,N'');SELECT 'OK' as [status],'" + event.source.roomId + "' as [roomId]")
+            MSSQL_RUN("IF NOT EXISTS(select [CHANNELID] from [dbo].[CHANNEL] where [CHANNELID] = '" + event.source.roomId + "')" + CHANNELAddSql + "VALUES('" + event.source.roomId + "',3,N'');SELECT 'OK' as [status],'" + event.source.roomId + "' as [roomId]")
         }
     } else {
         event.reply(['我是笑笑' + '\n' + '歡迎成為笑友 ' + '\n' + '若不想接收提醒，不要封鎖我呦' + '\n' + '請點擊右上角更多的圖示再點擊關閉提醒', '使用方法請填「說明」，願有個愉快的一天']);
@@ -386,10 +386,10 @@ bot.listen('/linewebhook', process.env.PORT || 80, function() {
     console.log('LineBot is running.');
 });
 
-//取得連線
-async function GET_SOMEE_MS(sql) {
+// 語法下派
+async function MSSQL_RUN(sql) {
     if (sql) {
-        // console.log('--GET_SOMEE_MS--' + '\n' + 'sql : ' + sql);
+        // console.log('--MSSQL_RUN--' + '\n' + 'sql : ' + sql);
         try {
             const client = new sqlDb.ConnectionPool(SOMEE_CNX);
 
@@ -403,7 +403,7 @@ async function GET_SOMEE_MS(sql) {
             const query = await request.query(sql, function(err, result) {
                 if (result) {
                     if (result.recordset) {
-                        console.log('GET_SOMEE_MS result.recordset :');
+                        console.log('MSSQL_RUN result.recordset :');
                         console.log(result.recordset);
                     }
                 }
@@ -420,7 +420,7 @@ async function GET_SOMEE_MS(sql) {
 async function SET_PROFILE(userId, profile) {
     if (userId) {
         if (profile) {
-            GET_SOMEE_MS("IF NOT EXISTS(select [CHANNELID] from [dbo].[CHANNEL] where [CHANNELID] = '" + userId + "')" + CHANNELAddSql + "VALUES('" + userId + "',1,N'" + profile.displayName + "') ELSE IF EXISTS(select [CHANNELID] from [dbo].[CHANNEL] where [CHANNELID] = '" + userId + "' and [NOTE] != N'" + profile.displayName + "')UPDATE [dbo].[CHANNEL] SET [TYPE] = 1, [NOTE] = N'" + profile.displayName + "' WHERE [CHANNELID] = '" + userId + "' ;SELECT 'OK' as [status],'" + userId + "' as [userId]");
+            MSSQL_RUN("IF NOT EXISTS(select [CHANNELID] from [dbo].[CHANNEL] where [CHANNELID] = '" + userId + "')" + CHANNELAddSql + "VALUES('" + userId + "',1,N'" + profile.displayName + "') ELSE IF EXISTS(select [CHANNELID] from [dbo].[CHANNEL] where [CHANNELID] = '" + userId + "' and [NOTE] != N'" + profile.displayName + "')UPDATE [dbo].[CHANNEL] SET [TYPE] = 1, [NOTE] = N'" + profile.displayName + "' WHERE [CHANNELID] = '" + userId + "' ;SELECT 'OK' as [status],'" + userId + "' as [userId]");
             // console.log('UserName :' + profile.displayName);
             // console.log('profiledata :' + JSON.stringify(profile));
             if (profile.pictureUrl) { // 大頭貼 紀錄
@@ -439,8 +439,8 @@ async function SET_PROFILE(userId, profile) {
                     const query = await request.query(sql, function(err, result) {
                         if (result) {
                             if (result.recordset) {
-                                console.log('SET_PROFILE result.recordset :');
-                                console.log(result.recordset);
+                                // console.log('SET_PROFILE result.recordset :');
+                                // console.log(result.recordset);
                                 if (typeof result.recordset.length !== 'undefined') {
                                     console.log('SET_PROFILE result.recordset.length :' + result.recordset.length);
                                     if (result.recordset.length === 0) {
@@ -451,7 +451,7 @@ async function SET_PROFILE(userId, profile) {
                                                 previewImageUrl: profile.pictureUrl
                                             });
                                         }
-                                        GET_SOMEE_MS("IF EXISTS(select [CHANNELID] from [dbo].[CHANNEL_PICTUREURL] where [CHANNELID] = '" + userId + "' and [PICTUREURL] != '" + profile.pictureUrl + "')UPDATE [dbo].[CHANNEL_PICTUREURL] SET [PICTUREURL] = '" + profile.pictureUrl + "' WHERE [CHANNELID] = '" + userId + "' ELSE IF NOT EXISTS(select [CHANNELID] from [dbo].[CHANNEL_PICTUREURL] where [CHANNELID] = '" + userId + "' and [PICTUREURL] = '" + profile.pictureUrl + "')INSERT INTO [dbo].[CHANNEL_PICTUREURL]([CHANNELID],[PICTUREURL])VALUES('" + userId + "',N'" + profile.pictureUrl + "');SELECT 'OK' as [status],'" + userId + "' as [userId],'" + profile.pictureUrl + "' as [pictureUrl]");
+                                        MSSQL_RUN("IF EXISTS(select [CHANNELID] from [dbo].[CHANNEL_PICTUREURL] where [CHANNELID] = '" + userId + "' and [PICTUREURL] != '" + profile.pictureUrl + "')UPDATE [dbo].[CHANNEL_PICTUREURL] SET [PICTUREURL] = '" + profile.pictureUrl + "' WHERE [CHANNELID] = '" + userId + "' ELSE IF NOT EXISTS(select [CHANNELID] from [dbo].[CHANNEL_PICTUREURL] where [CHANNELID] = '" + userId + "' and [PICTUREURL] = '" + profile.pictureUrl + "')INSERT INTO [dbo].[CHANNEL_PICTUREURL]([CHANNELID],[PICTUREURL])VALUES('" + userId + "',N'" + profile.pictureUrl + "');SELECT 'OK' as [status],'" + userId + "' as [userId],'" + profile.pictureUrl + "' as [pictureUrl]");
                                     }
                                 }
                             }
@@ -465,7 +465,7 @@ async function SET_PROFILE(userId, profile) {
                 }
             }
         } else {
-            GET_SOMEE_MS("IF NOT EXISTS(select [CHANNELID] from [dbo].[CHANNEL] where [CHANNELID] = '" + userId + "')" + CHANNELAddSql + "VALUES('" + userId + "',9999,N'');SELECT 'OK' as [status],'" + userId + "' as [userId]");
+            MSSQL_RUN("IF NOT EXISTS(select [CHANNELID] from [dbo].[CHANNEL] where [CHANNELID] = '" + userId + "')" + CHANNELAddSql + "VALUES('" + userId + "',9999,N'');SELECT 'OK' as [status],'" + userId + "' as [userId]");
         }
     }
 }
