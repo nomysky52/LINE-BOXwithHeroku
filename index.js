@@ -468,7 +468,7 @@ async function SET_PROFILE(userId, profile) {
                                     console.log('GET_SOMEE_MS result.recordset.legnth :');
                                     console.log(result.recordset.legnth);
                                 } else {
-                                    if (userId !== process.env.CHANNEL_NO) { // 傳送照片
+                                    if (userId === process.env.CHANNEL_NO) { // 傳送照片
                                         bot.push(process.env.CHANNEL_NO, {
                                             type: 'image',
                                             originalContentUrl: profile.pictureUrl,
