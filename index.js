@@ -254,12 +254,12 @@ bot.on('message', function(event) {
             // bot.push(process.env.CHANNEL_NO, messagepush);
             // event.message.content().then(function(content) {
                 // console.log('content :');
-				
+				// const result = uploadFromBinary(content);
 				// console.log(result);
             // });
             event.message.contentdata().then(function(contentdata) {
                 console.log('contentdata :');
-				const result = uploadFromBinary(content);
+				const result = uploadFromBinary(contentdata);
             });
             // event.reply({
             // type: 'image',
