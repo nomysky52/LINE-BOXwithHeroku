@@ -231,6 +231,12 @@ bot.on('message', function(event) {
                     break;
                 case '安娜':
                     event.reply('最善良了');
+                    break
+                case '娜娜':
+                    event.reply('很可愛了');
+                    break;
+                case '馨予':
+                    event.reply('很可愛了');
                     break;
                 case '早安':
                 case '早上好':
@@ -333,11 +339,10 @@ bot.on('follow', function(event) {
                 }
             );
         }
-        //來源ROOM
-        if (typeof event.source.roomId !== "undefined") {
-            // 來源ROOM 紀錄
-            MSSQL_RUN("IF NOT EXISTS(" + CHANNELQureySql + " where [CHANNELID] = '" + event.source.roomId + "')" + CHANNELAddSql + "VALUES('" + event.source.roomId + "',3,N'');SELECT 'OK' as [status],'" + event.source.roomId + "' as [roomId]")
-        }
+    } else if (typeof event.source.roomId !== "undefined") {
+        event.reply(['我是笑笑' + '\n' + '願有個愉快的一天']);
+		// 來源ROOM 紀錄
+		MSSQL_RUN("IF NOT EXISTS(" + CHANNELQureySql + " where [CHANNELID] = '" + event.source.roomId + "')" + CHANNELAddSql + "VALUES('" + event.source.roomId + "',3,N'');SELECT 'OK' as [status],'" + event.source.roomId + "' as [roomId]")
     } else {
         event.reply(['我是笑笑' + '\n' + '歡迎成為笑友 ' + '\n' + '若不想接收提醒，不要封鎖我呦' + '\n' + '請點擊右上角更多的圖示再點擊關閉提醒', '使用方法請填「說明」，願有個愉快的一天']);
         bot.push(event.source.userId, {
