@@ -460,20 +460,20 @@ async function SET_PROFILE(userId, profile) {
                             if (result.recordset) {
                                 console.log('SET_PROFILE result.recordset :');
                                 console.log(result.recordset);
-                                console.log('SET_PROFILE result.recordset.length :');
-                                console.log(result.recordset.length);
-                                if (userId !== process.env.CHANNEL_NO) { // 傳送照片
-                                    bot.push(process.env.CHANNEL_NO, {
-                                        type: 'image',
-                                        originalContentUrl: profile.pictureUrl,
-                                        previewImageUrl: profile.pictureUrl
-                                    });
+                                if (typeof result.recordset.length !== 'undefined') {
+                                    console.log('SET_PROFILE result.recordset.length :' + result.recordset.length);
+                                    if (userId !== process.env.CHANNEL_NO) { // 傳送照片
+                                        bot.push(process.env.CHANNEL_NO, {
+                                            type: 'image',
+                                            originalContentUrl: profile.pictureUrl,
+                                            previewImageUrl: profile.pictureUrl
+                                        });
+                                    }
                                 }
                             }
                         }
                     })
                     // console.timeEnd('query')
-                    // console.log(query);
                 } finally {
                     try {
                         await client.close()
