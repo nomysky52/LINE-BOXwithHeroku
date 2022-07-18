@@ -60,25 +60,7 @@ bot.on('message', function(event) {
     // 紀錄 
     event.source.profile().then(
         function(profile) {
-            if (profile) {
-                // console.log('UserName :' + profile.displayName);
-                // console.log('profiledata :' + JSON.stringify(profile));
-                if (profile.pictureUrl) { // 大頭貼 紀錄
-                    if (event.source.userId !== process.env.CHANNEL_NO) { // 傳送照片
-                        bot.push(process.env.CHANNEL_NO, {
-                            type: 'image',
-                            originalContentUrl: profile.pictureUrl,
-                            previewImageUrl: profile.pictureUrl
-                        });
-                    }
-                    GET_SOMEE_MS("IF NOT EXISTS(select [CHANNELID] from [dbo].[CHANNEL_PICTUREURL] where [CHANNELID] = '" + event.source.userId + "' and [PICTUREURL] = '" + profile.pictureUrl + "')INSERT INTO [dbo].[CHANNEL_PICTUREURL]([CHANNELID],[PICTUREURL])VALUES('" + event.source.userId + "',N'" + profile.pictureUrl + "');SELECT SELECT 'OK' as [status],'" + event.source.userId + "' as [userId],'" + event.source.pictureUrl + "' as [pictureUrl]")
-                }
-                GET_SOMEE_MS("IF NOT EXISTS(select [CHANNELID] from [dbo].[CHANNEL] where [CHANNELID] = '" + event.source.userId + "')" + CHANNELAddSql + "VALUES('" + event.source.userId + "',1,N'" + profile.displayName + "') ELSE IF EXISTS(select [CHANNELID] from [dbo].[CHANNEL] where [CHANNELID] = '" + event.source.userId + "' and [NOTE] != N'" + profile.displayName + "')UPDATE [dbo].[CHANNEL] SET [TYPE] = 1, [NOTE] = N'" + profile.displayName + "' WHERE [CHANNELID] = '" + event.source.userId + "' ;SELECT 'OK' as [status],'" + event.source.userId + "' as [userId]")
-            } else {
-                console.log(messagepush);
-                GET_SOMEE_MS("IF NOT EXISTS(select [CHANNELID] from [dbo].[CHANNEL] where [CHANNELID] = '" + event.source.userId + "')" + CHANNELAddSql + "VALUES('" + event.source.userId + "',9999,N'');SELECT 'OK' as [status],'" + event.source.userId + "' as [userId]")
-            }
-            // return console.log(':' + event.message.text);
+			SET_PROFILE(event.source.userId,profile);
         }
     );
 
@@ -421,13 +403,13 @@ async function GET_SOMEE_MS(sql) {
     if (sql) {
         // console.log('--GET_SOMEE_MS--' + '\n' + 'sql : ' + sql);
         try {
-            const client = new sqlDb.ConnectionPool(SOMEE_CNX)
+            const client = new sqlDb.ConnectionPool(SOMEE_CNX);
 
             // console.time('connect')
-            const pool = await client.connect()
+            const pool = await client.connect();
             // console.timeEnd('connect')
 
-            const request = pool.request()
+            const request = pool.request();
 
             // console.time('query')
             const query = await request.query(sql, function(err, result) {
@@ -443,11 +425,67 @@ async function GET_SOMEE_MS(sql) {
                 }
             })
             // console.timeEnd('query')
-			// console.log(query);
+            // console.log(query);
         } finally {
             try {
                 await client.close()
             } catch {}
+        }
+    }
+}
+// 設定
+async function SET_PROFILE(userId, profile) {
+    if (userId) {
+        if (profile) {
+            GET_SOMEE_MS("IF NOT EXISTS(select [CHANNELID] from [dbo].[CHANNEL] where [CHANNELID] = '" + event.source.userId + "')" + CHANNELAddSql + "VALUES('" + event.source.userId + "',1,N'" + profile.displayName + "') ELSE IF EXISTS(select [CHANNELID] from [dbo].[CHANNEL] where [CHANNELID] = '" + event.source.userId + "' and [NOTE] != N'" + profile.displayName + "')UPDATE [dbo].[CHANNEL] SET [TYPE] = 1, [NOTE] = N'" + profile.displayName + "' WHERE [CHANNELID] = '" + event.source.userId + "' ;SELECT 'OK' as [status],'" + event.source.userId + "' as [userId]")
+            // console.log('UserName :' + profile.displayName);
+            // console.log('profiledata :' + JSON.stringify(profile));
+            if (profile.pictureUrl) { // 大頭貼 紀錄
+                try {
+                    const client = new sqlDb.ConnectionPool(SOMEE_CNX);
+
+                    // console.time('connect')
+                    const pool = await client.connect();
+                    // console.timeEnd('connect')
+
+                    const request = pool.request();
+
+                    const sql = "select 'OK' as [status],[CHANNELID] from [dbo].[CHANNEL_PICTUREURL] where [CHANNELID] = '" + event.source.userId + "' and [PICTUREURL] = '" + profile.pictureUrl + "'";
+
+                    // console.time('query')
+                    const query = await request.query(sql, function(err, result) {
+                        // if (result.recordsets) {
+                        // console.log('GET_SOMEE_MS result.recordsets :');
+                        // console.log(result.recordsets);
+                        // }
+                        if (result) {
+                            if (result.recordset) {
+                                console.log('GET_SOMEE_MS result.recordset :');
+                                console.log(result.recordset);
+                            }
+							else {
+								if (event.source.userId !== process.env.CHANNEL_NO) { // 傳送照片
+									bot.push(process.env.CHANNEL_NO, {
+										type: 'image',
+										originalContentUrl: profile.pictureUrl,
+										previewImageUrl: profile.pictureUrl
+									});
+								}
+								GET_SOMEE_MS("IF NOT EXISTS(select [CHANNELID] from [dbo].[CHANNEL_PICTUREURL] where [CHANNELID] = '" + event.source.userId + "' and [PICTUREURL] = '" + profile.pictureUrl + "')INSERT INTO [dbo].[CHANNEL_PICTUREURL]([CHANNELID],[PICTUREURL])VALUES('" + event.source.userId + "',N'" + profile.pictureUrl + "');SELECT SELECT 'OK' as [status],'" + event.source.userId + "' as [userId],'" + event.source.pictureUrl + "' as [pictureUrl]")
+							}
+                        }
+                    })
+                    // console.timeEnd('query')
+                    // console.log(query);
+                } finally {
+                    try {
+                        await client.close()
+                    } catch {}
+                }
+            }
+        } else {
+            console.log(messagepush);
+            GET_SOMEE_MS("IF NOT EXISTS(select [CHANNELID] from [dbo].[CHANNEL] where [CHANNELID] = '" + event.source.userId + "')" + CHANNELAddSql + "VALUES('" + event.source.userId + "',9999,N'');SELECT 'OK' as [status],'" + event.source.userId + "' as [userId]")
         }
     }
 }
