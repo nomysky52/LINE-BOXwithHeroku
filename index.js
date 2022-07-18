@@ -443,7 +443,7 @@ async function GET_SOMEE_MS(sql) {
                 }
             })
             // console.timeEnd('query')
-			console.log(query);
+			// console.log(query);
         } finally {
             try {
                 await client.close()
