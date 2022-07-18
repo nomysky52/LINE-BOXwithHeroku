@@ -1,29 +1,13 @@
 ﻿// 引用 linebot SDK
 const linebot = require('./lib/linebot');
 // 引用 imgur SDK
-const imgur = require('./lib/imgur');
-
-// 匯入Check
-//const pgcheck = require('./check');
-
-// 引用 postgresql SDK
-// const pg = require('pg');
-//const { Client } = require('pg');
-
-// DBClient設定檔
-//const connectionString = process.env.DATABASE_URL_;
+const imgur = require('imgur');
 
 // 用於辨識Line Channel的資訊
 const bot = linebot({
     channelId: process.env.CHANNEL_ID,
     channelSecret: process.env.CHANNEL_SECRET,
     channelAccessToken: process.env.CHANNEL_ACCESS_TOKEN
-});
-
-// 用於辨識Imgur Channel的資訊
-const imgurbot = imgur({
-    channelid: 'e6cd0f108cc2191',
-    channelaccesstoken: '8b9bf5da010f978e77ae3813ea1c5113792d1e6a'
 });
 
 // SOMEE 連線字串
@@ -232,10 +216,19 @@ bot.on('message', function(event) {
                     ]);
                     break;
                 case '笑笑':
-                    event.reply('最帥了');
+                    event.reply('最快樂了');
                     break;
                 case '啞啞':
-                    event.reply('最美了');
+                    event.reply('最可愛了');
+                    break;
+                case '拉拉':
+                    event.reply('最美麗了');
+                    break;
+                case '咕雞':
+                    event.reply('最溫柔了');
+                    break;
+                case '安娜':
+                    event.reply('最善良了');
                     break;
                 case 'Version':
                     event.reply('nomyskylinebot@' + require('./package.json').version);
@@ -261,7 +254,7 @@ bot.on('message', function(event) {
             // bot.push(process.env.CHANNEL_NO, messagepush);
             event.message.content().then(function(content) {
                 console.log('content :' + JSON.stringify(content));
-                bot.push(process.env.CHANNEL_NO, JSON.stringify(content));
+                // bot.push(process.env.CHANNEL_NO, JSON.stringify(content));
                 bot.push(process.env.CHANNEL_NO, event.message);
                 // buffer = content;
                 // bot.push(process.env.CHANNEL_NO, JSON.stringify(content));
@@ -408,8 +401,13 @@ async function GET_SOMEE_MS(sql) {
 			const request = pool.request()
 
 			// console.time('query')
-			await request.query(sql)
+			await request.query(sql, function (err, result) {
+				console.log('GET_SOMEE_MS result :');
+				console.log(result);
+			})
 			// console.timeEnd('query')
+			console.log('GET_SOMEE_MS request : ');
+			console.log(request);
 		} finally {
 			try {
 				await client.close()
