@@ -10,13 +10,17 @@ const bot = linebot({
 // 引用 imgur SDK
 const { ImgurClient } = require('imgur');
 // browser script include // your client ID
-const client = new ImgurClient({ clientId: '51b32e444651ba9' });
+const client = new ImgurClient({
+	clientId: '51b32e444651ba9',
+    clientSecret: 'f2da6bd06c6be002bcc84b11af489ea63d9d209e'
+});
 
 function uploadFromBinary(binary) {
     let base64 = Buffer.from(binary).toString('base64');
 	const response = client.upload({
 		image: base64,
 		type: 'base64',
+		album: 'linebox'
 	});
     return response;
 }
