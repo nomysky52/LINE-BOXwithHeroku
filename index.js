@@ -20,7 +20,7 @@ async function uploadFromBinary(binary) {
 	const response = await client.upload({
 		image: base64,
 		type: 'base64',
-		album: 'linebox'
+		album: 'x4TiFnP'
 	});
 	console.log(response);
     return response;
