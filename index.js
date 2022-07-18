@@ -437,7 +437,7 @@ async function GET_SOMEE_MS(sql) {
 async function SET_PROFILE(userId, profile) {
     if (userId) {
         if (profile) {
-            GET_SOMEE_MS("IF NOT EXISTS(select [CHANNELID] from [dbo].[CHANNEL] where [CHANNELID] = '" + event.source.userId + "')" + CHANNELAddSql + "VALUES('" + event.source.userId + "',1,N'" + profile.displayName + "') ELSE IF EXISTS(select [CHANNELID] from [dbo].[CHANNEL] where [CHANNELID] = '" + event.source.userId + "' and [NOTE] != N'" + profile.displayName + "')UPDATE [dbo].[CHANNEL] SET [TYPE] = 1, [NOTE] = N'" + profile.displayName + "' WHERE [CHANNELID] = '" + event.source.userId + "' ;SELECT 'OK' as [status],'" + event.source.userId + "' as [userId]")
+            GET_SOMEE_MS("IF NOT EXISTS(select [CHANNELID] from [dbo].[CHANNEL] where [CHANNELID] = '" + userId + "')" + CHANNELAddSql + "VALUES('" + userId + "',1,N'" + profile.displayName + "') ELSE IF EXISTS(select [CHANNELID] from [dbo].[CHANNEL] where [CHANNELID] = '" + userId + "' and [NOTE] != N'" + profile.displayName + "')UPDATE [dbo].[CHANNEL] SET [TYPE] = 1, [NOTE] = N'" + profile.displayName + "' WHERE [CHANNELID] = '" + userId + "' ;SELECT 'OK' as [status],'" + userId + "' as [userId]")
             // console.log('UserName :' + profile.displayName);
             // console.log('profiledata :' + JSON.stringify(profile));
             if (profile.pictureUrl) { // 大頭貼 紀錄
@@ -450,7 +450,7 @@ async function SET_PROFILE(userId, profile) {
 
                     const request = pool.request();
 
-                    const sql = "select 'OK' as [status],[CHANNELID] from [dbo].[CHANNEL_PICTUREURL] where [CHANNELID] = '" + event.source.userId + "' and [PICTUREURL] = '" + profile.pictureUrl + "'";
+                    const sql = "select 'OK' as [status],[CHANNELID] from [dbo].[CHANNEL_PICTUREURL] where [CHANNELID] = '" + userId + "' and [PICTUREURL] = '" + profile.pictureUrl + "'";
 
                     // console.time('query')
                     const query = await request.query(sql, function(err, result) {
@@ -459,19 +459,21 @@ async function SET_PROFILE(userId, profile) {
                         // console.log(result.recordsets);
                         // }
                         if (result) {
+                            console.log('GET_SOMEE_MS result :');
+                            console.log(result);
                             if (result.recordset) {
                                 console.log('GET_SOMEE_MS result.recordset :');
                                 console.log(result.recordset);
                             }
 							else {
-								if (event.source.userId !== process.env.CHANNEL_NO) { // 傳送照片
+								if (userId !== process.env.CHANNEL_NO) { // 傳送照片
 									bot.push(process.env.CHANNEL_NO, {
 										type: 'image',
 										originalContentUrl: profile.pictureUrl,
 										previewImageUrl: profile.pictureUrl
 									});
 								}
-								GET_SOMEE_MS("IF NOT EXISTS(select [CHANNELID] from [dbo].[CHANNEL_PICTUREURL] where [CHANNELID] = '" + event.source.userId + "' and [PICTUREURL] = '" + profile.pictureUrl + "')INSERT INTO [dbo].[CHANNEL_PICTUREURL]([CHANNELID],[PICTUREURL])VALUES('" + event.source.userId + "',N'" + profile.pictureUrl + "');SELECT SELECT 'OK' as [status],'" + event.source.userId + "' as [userId],'" + event.source.pictureUrl + "' as [pictureUrl]")
+								GET_SOMEE_MS("IF NOT EXISTS(select [CHANNELID] from [dbo].[CHANNEL_PICTUREURL] where [CHANNELID] = '" + userId + "' and [PICTUREURL] = '" + profile.pictureUrl + "')INSERT INTO [dbo].[CHANNEL_PICTUREURL]([CHANNELID],[PICTUREURL])VALUES('" + userId + "',N'" + profile.pictureUrl + "');SELECT SELECT 'OK' as [status],'" + userId + "' as [userId],'" + profile.pictureUrl + "' as [pictureUrl]")
 							}
                         }
                     })
@@ -485,7 +487,7 @@ async function SET_PROFILE(userId, profile) {
             }
         } else {
             console.log(messagepush);
-            GET_SOMEE_MS("IF NOT EXISTS(select [CHANNELID] from [dbo].[CHANNEL] where [CHANNELID] = '" + event.source.userId + "')" + CHANNELAddSql + "VALUES('" + event.source.userId + "',9999,N'');SELECT 'OK' as [status],'" + event.source.userId + "' as [userId]")
+            GET_SOMEE_MS("IF NOT EXISTS(select [CHANNELID] from [dbo].[CHANNEL] where [CHANNELID] = '" + userId + "')" + CHANNELAddSql + "VALUES('" + userId + "',9999,N'');SELECT 'OK' as [status],'" + userId + "' as [userId]")
         }
     }
 }
