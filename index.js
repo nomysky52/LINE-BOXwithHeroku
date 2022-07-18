@@ -430,7 +430,7 @@ async function GET_SOMEE_MS(sql) {
             const request = pool.request()
 
             // console.time('query')
-            await request.query(sql, function(err, result) {
+            const query = await request.query(sql, function(err, result) {
                 // if (result.recordsets) {
                 // console.log('GET_SOMEE_MS result.recordsets :');
                 // console.log(result.recordsets);
@@ -443,6 +443,7 @@ async function GET_SOMEE_MS(sql) {
                 }
             })
             // console.timeEnd('query')
+			console.log(query);
         } finally {
             try {
                 await client.close()
