@@ -229,7 +229,7 @@ bot.on('message', function(event) {
                 case 'Version':
                     event.reply('nomyskylinebot@' + require('./package.json').version);
                     break;
-                // case '標記':
+                    // case '標記':
                     // event.source.member().then(function (member) {
                     // bot.push(process.env.CHANNEL_NO, JSON.stringify(member));
                     // return event.reply(JSON.stringify(member));
@@ -238,7 +238,7 @@ bot.on('message', function(event) {
                 default:
                     // 回傳 userId 說了甚麼
                     console.log(messagepush + ':' + event.message.text);
-                    bot.push(process.env.CHANNEL_NO, messagepush);
+                    bot.push(process.env.CHANNEL_NO, messagepush + ':' + event.message.text);
                     break;
             }
             break;
@@ -435,9 +435,11 @@ async function GET_SOMEE_MS(sql) {
                 // console.log('GET_SOMEE_MS result.recordsets :');
                 // console.log(result.recordsets);
                 // }
-                if (result.recordset) {
-                    console.log('GET_SOMEE_MS result.recordset :');
-                    console.log(result.recordset);
+                if (result) {
+                    if (result.recordset) {
+                        console.log('GET_SOMEE_MS result.recordset :');
+                        console.log(result.recordset);
+                    }
                 }
             })
             // console.timeEnd('query')
