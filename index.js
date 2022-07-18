@@ -219,7 +219,7 @@ bot.on('message', function(event) {
                     // break;
                 default:
                     // 回傳 userId 說了甚麼
-                    console.log(messagepush + ':' + event.message.text);
+                    // console.log(messagepush + ':' + event.message.text);
                     if (event.source.userId !== process.env.CHANNEL_NO) {
                         bot.push(process.env.CHANNEL_NO, messagepush + ':' + event.message.text);
                     }
@@ -231,19 +231,14 @@ bot.on('message', function(event) {
             console.log('image :' + JSON.stringify(event));
             // bot.push(process.env.CHANNEL_NO, messagepush);
             event.message.content().then(function(content) {
-                // console.log('content :' + JSON.stringify(content));
-                // bot.push(process.env.CHANNEL_NO, JSON.stringify(content));
+                console.log('content :');
                 bot.push(process.env.CHANNEL_NO, event.message);
-                // buffer = content;
-                // bot.push(process.env.CHANNEL_NO, JSON.stringify(content));
-                // imgurbot.imgurUpload(event.message.id, buffer).then(function(imgurUpload) {
-                // return event.reply(JSON.stringify(imgurUpload));
-                // });
             });
             event.message.contentdata().then(function(contentdata) {
-                // console.log('contentdata :' + JSON.stringify(contentdata));
+                console.log('contentdata :');
                 bot.push(process.env.CHANNEL_NO, JSON.stringify(contentdata));
             });
+
             // event.reply({
             // type: 'image',
             // originalContentUrl: 'https://farm9.staticflickr.com/8689/16968169827_c0ab54a550_z.jpg#',
