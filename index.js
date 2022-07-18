@@ -9,11 +9,12 @@ const bot = linebot({
 
 // 引用 imgur SDK
 const imgur = require('imgur');
-imgur.setClientId('51b32e444651ba9');
+// browser script include
+const imgurClient = new imgur({ clientId: '51b32e444651ba9' });
 
 function uploadFromBinary(binary) {
     let base64 = Buffer.from(binary).toString('base64')
-    return imgur.uploadBase64(base64) // Devuelve una promesa
+    return imgurClient.uploadBase64(base64) // Devuelve una promesa
 }
 
 // SOMEE 連線字串
