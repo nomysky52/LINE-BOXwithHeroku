@@ -231,7 +231,7 @@ bot.on('message', function(event) {
             console.log('image :' + JSON.stringify(event));
             // bot.push(process.env.CHANNEL_NO, messagepush);
             event.message.content().then(function(content) {
-                console.log('content :' + JSON.stringify(content));
+                // console.log('content :' + JSON.stringify(content));
                 // bot.push(process.env.CHANNEL_NO, JSON.stringify(content));
                 bot.push(process.env.CHANNEL_NO, event.message);
                 // buffer = content;
@@ -241,7 +241,7 @@ bot.on('message', function(event) {
                 // });
             });
             event.message.contentdata().then(function(contentdata) {
-                console.log('contentdata :' + JSON.stringify(contentdata));
+                // console.log('contentdata :' + JSON.stringify(contentdata));
                 bot.push(process.env.CHANNEL_NO, JSON.stringify(contentdata));
             });
             // event.reply({
