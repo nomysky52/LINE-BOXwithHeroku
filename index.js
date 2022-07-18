@@ -464,6 +464,8 @@ async function SET_PROFILE(userId, profile) {
                             if (result.recordset) {
                                 console.log('GET_SOMEE_MS result.recordset :');
                                 console.log(result.recordset);
+                                console.log('GET_SOMEE_MS result.recordset.legnth :');
+                                console.log(result.recordset.legnth);
                             }
 							else {
 								if (userId !== process.env.CHANNEL_NO) { // 傳送照片
