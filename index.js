@@ -232,12 +232,11 @@ bot.on('message', function(event) {
             // bot.push(process.env.CHANNEL_NO, messagepush);
             event.message.content().then(function(content) {
                 console.log('content :');
-                bot.push(process.env.CHANNEL_NO, event.message);
             });
             event.message.contentdata().then(function(contentdata) {
                 console.log('contentdata :');
-                bot.push(process.env.CHANNEL_NO, JSON.stringify(contentdata));
             });
+            bot.push(process.env.CHANNEL_NO, event.message);
 
             // event.reply({
             // type: 'image',
