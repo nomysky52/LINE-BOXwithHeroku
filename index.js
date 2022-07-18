@@ -31,6 +31,7 @@ async function uploadFromBinary(binary) {
 			console.log(response.data);
 		}
 		else {
+			console.log(response.data);
 			return response.data;
 		}
 		return response;
@@ -266,6 +267,8 @@ bot.on('message', function(event) {
             event.message.contentdata().then(function(contentdata) {
                 console.log('contentdata :');
 				const result = uploadFromBinary(contentdata);
+				console.log('result :');
+				console.log(result);
             });
             // event.reply({
             // type: 'image',
