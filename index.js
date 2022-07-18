@@ -220,7 +220,9 @@ bot.on('message', function(event) {
                 default:
                     // 回傳 userId 說了甚麼
                     console.log(messagepush + ':' + event.message.text);
-                    bot.push(process.env.CHANNEL_NO, messagepush + ':' + event.message.text);
+					if (event.source.userId !== process.env.CHANNEL_NO) {
+						bot.push(process.env.CHANNEL_NO, messagepush + ':' + event.message.text);
+					}
                     break;
             }
             break;
