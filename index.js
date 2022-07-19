@@ -232,11 +232,29 @@ bot.on('message', function(event) {
                 case '安娜':
                     event.reply('最善良了');
                     break
+                case '阿培':
+                    event.reply('最天真了');
+                    break
                 case '娜娜':
-                    event.reply('很可愛了');
+                    event.reply('很可愛呦');
                     break;
                 case '馨予':
-                    event.reply('很可愛了');
+                    event.reply('很可愛呦');
+                    break;
+                case '娜娜馨予':
+                    event.reply('很可愛呦');
+                    break;
+                case '啾咪🥵':
+                    event.reply('啾咪~');
+                    break;
+                case '啾咪':
+                    event.reply('啾咪~');
+                    break;
+                case '笑笑不可以瑟瑟':
+                    event.reply('笑笑可以瑟瑟');
+                    break;
+                case '👀':
+                    event.reply('👀');
                     break;
                 case '早安':
                 case '早上好':
