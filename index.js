@@ -58,6 +58,7 @@ const SOMEE_CNX = {
 let CHANNELAddSql = "INSERT INTO [dbo].[CHANNEL]([CHANNELID],[TYPE],[NOTE])";
 let CHANNELQureySql = "select [CHANNELID] from [dbo].[CHANNEL]";
 
+
 // 當有人傳送訊息給Bot時 觸發
 bot.on('message', function(event) {
     //來源者
@@ -217,55 +218,6 @@ bot.on('message', function(event) {
                         '這不是階層式的感受，一定要先怎樣然後怎樣。' + '\n'
                     ]);
                     break;
-                case '笑笑':
-                    event.reply('最快樂了');
-                    break;
-                case '啞啞':
-                    event.reply('最可愛了');
-                    break;
-                case '拉拉':
-                    event.reply('最美麗了');
-                    break;
-                case '咕雞':
-                    event.reply('最溫柔了');
-                    break;
-                case '安娜':
-                    event.reply('最善良了');
-                    break
-                case '阿培':
-                    event.reply('最天真了');
-                    break
-                case '娜娜':
-                    event.reply('很可愛呦');
-                    break;
-                case '馨予':
-                    event.reply('很可愛呦');
-                    break;
-                case '娜娜馨予':
-                    event.reply('很可愛呦');
-                    break;
-                case '啾咪🥵':
-                    event.reply('啾咪~');
-                    break;
-                case '啾咪':
-                    event.reply('啾咪~');
-                    break;
-                case '笑笑不可以瑟瑟':
-                    event.reply('笑笑可以瑟瑟');
-                    break;
-                case '👀':
-                    event.reply('👀');
-                    break;
-                case '早安':
-                case '早上好':
-                case 'Good morning':
-                case 'Good Morning':
-                    event.reply({
-					type: 'image',
-						originalContentUrl: 'https://p1-tt.byteimg.com/origin/pgc-image/7c6c1690a8e74cd79d02bbb711b146cb',
-						previewImageUrl: 'https://p1-tt.byteimg.com/origin/pgc-image/7c6c1690a8e74cd79d02bbb711b146cb'
-					});
-                    break;
                 case 'Version':
                     event.reply('nomyskylinebot@' + require('./package.json').version);
                     break;
@@ -276,9 +228,14 @@ bot.on('message', function(event) {
                     // });
                     // break;
                 default:
+				    var replytext = findKeyWords(massage);
+				    if(replytext !== "")
+					{
+						event.reply(replytext);
+					}
                     // 回傳 userId 說了甚麼
                     // console.log(messagepush + ':' + event.message.text);
-                    if (event.source.userId !== process.env.CHANNEL_NO) {
+                    else if (event.source.userId !== process.env.CHANNEL_NO) {
                         bot.push(process.env.CHANNEL_NO, messagepush + ':' + event.message.text);
                     }
                     break;
@@ -339,7 +296,44 @@ bot.on('message', function(event) {
             break;
     }
 });
+function findWords(messagetext,term){
+  return messagetext.includes(term);
+}
 
+function findKeyWords(messagetext){
+  if(findWords(messagetext, "morning"))
+	  return "Good Morning";
+  else if(findWords(messagetext, "night"))
+	  return "Good Night
+  else if(findWords(messagetext, "早"))
+	  return "早安呦";
+  else if(findWords(messagetext, "晚"))
+	  return "晚上好";
+  else if(findWords(messagetext, "👀"))
+	  return "👀";
+  else if(findWords(messagetext, "啾咪"))
+	  return "啾咪~";
+  else if(findWords(messagetext, "不可以瑟瑟"))
+	  return "笑笑可以瑟瑟";
+  else if(findWords(messagetext, "笑笑"))
+	  return "笑笑最快樂了";
+  else if(findWords(messagetext, "啞啞"))
+	  return "啞啞最可愛了";
+  else if(findWords(messagetext, "拉拉"))
+	  return "拉拉最美麗了";
+  else if(findWords(messagetext, "咕雞"))
+	  return "咕雞最溫柔了";
+  else if(findWords(messagetext, "安娜"))
+	  return "安娜最善良了";
+  else if(findWords(messagetext, "阿培"))
+	  return "阿培最天真了";
+  else if(findWords(messagetext, "娜娜"))
+	  return "娜娜很可愛呦";
+  else if(findWords(messagetext, "馨予"))
+	  return "馨予很可愛呦";
+  else
+	  return "";
+}
 // 當添加為朋友（或未阻止）時 觸發
 bot.on('follow', function(event) {
     if (typeof event.source.groupId !== "undefined") {
