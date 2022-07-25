@@ -228,7 +228,7 @@ bot.on('message', function(event) {
                     // });
                     // break;
                 default:
-				    var replytext = findKeyWords(massage);
+				    var replytext = findKeyWords(event.message.text);
 				    if(replytext !== "")
 					{
 						event.reply(replytext);
