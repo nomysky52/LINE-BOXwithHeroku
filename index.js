@@ -304,7 +304,7 @@ function findKeyWords(messagetext){
   if(findWords(messagetext, "morning"))
 	  return "Good Morning";
   else if(findWords(messagetext, "night"))
-	  return "Good Night
+	  return "Good Night";
   else if(findWords(messagetext, "早"))
 	  return "早安呦";
   else if(findWords(messagetext, "晚"))
