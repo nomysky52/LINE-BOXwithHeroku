@@ -105,7 +105,7 @@ bot.on('message', function(event) {
             } else if (event.source.userId === process.env.CHANNEL_NO) { // 開發者 密技
                 switch (event.message.text) {
                     case 'run':
-                        PD_RUN(event, 'SELECT [List] FROM [dbo].[PrettyDerbyView]');
+                        PD_RUN(event, 'SELECT top (20) [List] FROM [dbo].[PrettyDerbyView]');
                         break;
                     case 'profile': // 輸出群組
                         event.source.profile().then(function(profile) {
@@ -431,7 +431,7 @@ bot.listen('/linewebhook', process.env.PORT || 80, function() {
 // 語法下派
 async function PD_RUN(event, sql) {
     if (sql) {
-        // console.log('--MSSQL_RUN--' + '\n' + 'sql : ' + sql);
+        // console.log('--PD_RUN--' + '\n' + 'sql : ' + sql);
         try {
             const client = new sqlDb.ConnectionPool(SOMEE_CNX);
 
@@ -445,9 +445,9 @@ async function PD_RUN(event, sql) {
             const query = await request.query(sql, function(err, result) {
                 if (result) {
                     if (result.recordset) {
-                        console.log('MSSQL_RUN result.recordset :');
+                        console.log('PD_RUN result.recordset :');
                         console.log(result.recordset);
-						event.reply(result.recordset)
+						event.reply(JSON.stringify(result.recordset));
                     }
                 }
             })
