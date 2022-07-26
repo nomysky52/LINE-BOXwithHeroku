@@ -8,30 +8,32 @@ const bot = linebot({
 });
 
 // 引用 imgur SDK
-const { ImgurClient } = require('imgur');
+const {
+    ImgurClient
+} = require('imgur');
 // browser script include // your client ID
 const client = new ImgurClient({
-	clientId: process.env.IMGUR_CLIENTID,
+    clientId: process.env.IMGUR_CLIENTID,
     clientSecret: process.env.IMGUR_CLIENT_SECRET,
-	refreshToken : process.env.IMGUR_REFRESH_TOKEN
+    refreshToken: process.env.IMGUR_REFRESH_TOKEN
 });
 async function uploadFromBinary(binary) {
-	try {
-		let base64 = Buffer.from(binary).toString('base64');
-		const response = await client.upload({
-			image: base64,
-			type: 'base64',
-			album: process.env.IMGUR_ALBUM_ID
-		});
-		if(response.status !== 200) { 
-			console.log(response.data);
-			return '';
-		}
-		else {
-			return response.data.link;
-		}
-	}
-	catch{ return '';}
+    try {
+        let base64 = Buffer.from(binary).toString('base64');
+        const response = await client.upload({
+            image: base64,
+            type: 'base64',
+            album: process.env.IMGUR_ALBUM_ID
+        });
+        if (response.status !== 200) {
+            console.log(response.data);
+            return '';
+        } else {
+            return response.data.link;
+        }
+    } catch {
+        return '';
+    }
 }
 
 var sqlDb = require("mssql");
@@ -102,6 +104,34 @@ bot.on('message', function(event) {
                 break;
             } else if (event.source.userId === process.env.CHANNEL_NO) { // 開發者 密技
                 switch (event.message.text) {
+                    case 'run':
+                        try {
+                            var sql = 'SELECT [List] FROM [dbo].[PrettyDerbyView]';
+                            const client = new sqlDb.ConnectionPool(SOMEE_CNX);
+
+                            // console.time('connect')
+                            const pool = await client.connect();
+                            // console.timeEnd('connect')
+
+                            const request = pool.request();
+
+                            // console.time('query')
+                            const query = await request.query(sql, function(err, result) {
+                                if (result) {
+                                    if (result.recordset) {
+                                        console.log('MSSQL_RUN result.recordset :');
+                                        console.log(result.recordset);
+										event.reply(result.recordset)
+                                    }
+                                }
+                            })
+                            // console.timeEnd('query')
+                        } finally {
+                            try {
+                                await client.close()
+                            } catch {}
+                        }
+                        break;
                     case 'profile': // 輸出群組
                         event.source.profile().then(function(profile) {
                             return event.reply(JSON.stringify(profile));
@@ -118,7 +148,6 @@ bot.on('message', function(event) {
                         event.source.member().then(function(member) {
                             return event.reply(JSON.stringify(member));
                         });
-                        event.reply(bot.getUserProfile(event.source.userId));
                         break;
                     case 'Location': // 給予地圖
                         // event.reply({
@@ -128,7 +157,7 @@ bot.on('message', function(event) {
                         // latitude: 13.7202068,
                         // longitude: 100.5298698
                         // });
-                        // break;
+                        break;
                         // Access to this API is not available for your account
                     case 'member': // 改付費功能
                         event.source.member().then(function(member) {
@@ -228,11 +257,10 @@ bot.on('message', function(event) {
                     // });
                     // break;
                 default:
-				    var replytext = findKeyWords(event.message.text);
-				    if(replytext !== "")
-					{
-						event.reply(replytext);
-					}
+                    var replytext = findKeyWords(event.message.text);
+                    if (replytext !== "") {
+                        event.reply(replytext);
+                    }
                     // 回傳 userId 說了甚麼
                     // console.log(messagepush + ':' + event.message.text);
                     else if (event.source.userId !== process.env.CHANNEL_NO) {
@@ -245,7 +273,7 @@ bot.on('message', function(event) {
             // 紀錄 userId 傳了 image
             // console.log('image :' + JSON.stringify(event));
             event.message.contentdata().then(function(contentdata) {
-				const result = uploadFromBinary(contentdata);
+                const result = uploadFromBinary(contentdata);
             });
             // event.reply({
             // type: 'image',
@@ -277,7 +305,7 @@ bot.on('message', function(event) {
             // bot.push(process.env.CHANNEL_NO, JSON.stringify(event));
             break;
             // 收到貼圖    
-        // case 'sticker':
+            // case 'sticker':
             // //// 傳送貼圖
             // // bot.push(process.env.CHANNEL_NO, {
             // // type: 'sticker',
@@ -285,9 +313,9 @@ bot.on('message', function(event) {
             // // stickerId: 1  // event.message.stickerId
             // // });
             // if (event.source.userId === process.env.CHANNEL_NO) {
-                // var channel = MSSQL_RUN('select * from [dbo].[CHANNEL]');
-                // console.log(channel);
-                // bot.push("Ub1068b48b44f7ef5a1ca5a12070f1225", "早安");
+            // var channel = MSSQL_RUN('select * from [dbo].[CHANNEL]');
+            // console.log(channel);
+            // bot.push("Ub1068b48b44f7ef5a1ca5a12070f1225", "早安");
             // }
             // break;
         default:
@@ -296,43 +324,44 @@ bot.on('message', function(event) {
             break;
     }
 });
-function findWords(messagetext,term){
-  return messagetext.includes(term);
+
+function findWords(messagetext, term) {
+    return messagetext.includes(term);
 }
 
-function findKeyWords(messagetext){
-  if(findWords(messagetext, "morning"))
-	  return "Good Morning";
-  else if(findWords(messagetext, "night"))
-	  return "Good Night";
-  else if(findWords(messagetext, "早"))
-	  return "早安呦";
-  else if(findWords(messagetext, "晚"))
-	  return "晚上好";
-  else if(findWords(messagetext, "👀"))
-	  return "👀";
-  else if(findWords(messagetext, "啾咪"))
-	  return "啾咪~";
-  else if(findWords(messagetext, "不可以瑟瑟"))
-	  return "笑笑可以瑟瑟";
-  else if(findWords(messagetext, "笑笑"))
-	  return "笑笑最快樂了";
-  else if(findWords(messagetext, "啞啞"))
-	  return "啞啞最可愛了";
-  else if(findWords(messagetext, "拉拉"))
-	  return "拉拉最美麗了";
-  else if(findWords(messagetext, "咕雞"))
-	  return "咕雞最溫柔了";
-  else if(findWords(messagetext, "安娜"))
-	  return "安娜最善良了";
-  else if(findWords(messagetext, "阿培"))
-	  return "阿培最天真了";
-  else if(findWords(messagetext, "娜娜"))
-	  return "娜娜很可愛呦";
-  else if(findWords(messagetext, "馨予"))
-	  return "馨予很可愛呦";
-  else
-	  return "";
+function findKeyWords(messagetext) {
+    if (findWords(messagetext, "morning"))
+        return "Good Morning";
+    else if (findWords(messagetext, "night"))
+        return "Good Night";
+    else if (findWords(messagetext, "早"))
+        return "早安呦";
+    else if (findWords(messagetext, "晚"))
+        return "晚上好";
+    else if (findWords(messagetext, "👀"))
+        return "👀";
+    else if (findWords(messagetext, "啾咪"))
+        return "啾咪~";
+    else if (findWords(messagetext, "不可以瑟瑟"))
+        return "笑笑可以瑟瑟";
+    else if (findWords(messagetext, "笑笑"))
+        return "笑笑最快樂了";
+    else if (findWords(messagetext, "啞啞"))
+        return "啞啞最可愛了";
+    else if (findWords(messagetext, "拉拉"))
+        return "拉拉最美麗了";
+    else if (findWords(messagetext, "咕雞"))
+        return "咕雞最溫柔了";
+    else if (findWords(messagetext, "安娜"))
+        return "安娜最善良了";
+    else if (findWords(messagetext, "阿培"))
+        return "阿培最天真了";
+    else if (findWords(messagetext, "娜娜"))
+        return "娜娜很可愛呦";
+    else if (findWords(messagetext, "馨予"))
+        return "馨予很可愛呦";
+    else
+        return "";
 }
 // 當添加為朋友（或未阻止）時 觸發
 bot.on('follow', function(event) {
@@ -353,8 +382,8 @@ bot.on('follow', function(event) {
         }
     } else if (typeof event.source.roomId !== "undefined") {
         event.reply(['我是笑笑' + '\n' + '願有個愉快的一天']);
-		// 來源ROOM 紀錄
-		MSSQL_RUN("IF NOT EXISTS(" + CHANNELQureySql + " where [CHANNELID] = '" + event.source.roomId + "')" + CHANNELAddSql + "VALUES('" + event.source.roomId + "',3,N'');SELECT 'OK' as [status],'" + event.source.roomId + "' as [roomId]")
+        // 來源ROOM 紀錄
+        MSSQL_RUN("IF NOT EXISTS(" + CHANNELQureySql + " where [CHANNELID] = '" + event.source.roomId + "')" + CHANNELAddSql + "VALUES('" + event.source.roomId + "',3,N'');SELECT 'OK' as [status],'" + event.source.roomId + "' as [roomId]")
     } else {
         event.reply(['我是笑笑' + '\n' + '歡迎成為笑友 ' + '\n' + '若不想接收提醒，不要封鎖我呦' + '\n' + '請點擊右上角更多的圖示再點擊關閉提醒', '使用方法請填「說明」，願有個愉快的一天']);
         bot.push(event.source.userId, {
