@@ -109,11 +109,7 @@ bot.on('message', function(event) {
                             var sql = 'SELECT [List] FROM [dbo].[PrettyDerbyView]';
                             const client = new sqlDb.ConnectionPool(SOMEE_CNX);
 
-                            // console.time('connect')
-                            const pool = client.connect();
-                            // console.timeEnd('connect')
-
-                            const request = pool.request();
+                            const request = client.connect();
 
                             // console.time('query')
                             const query = request.query(sql, function(err, result) {
