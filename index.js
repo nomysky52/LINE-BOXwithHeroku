@@ -110,13 +110,13 @@ bot.on('message', function(event) {
                             const client = new sqlDb.ConnectionPool(SOMEE_CNX);
 
                             // console.time('connect')
-                            const pool = await client.connect();
+                            const pool = client.connect();
                             // console.timeEnd('connect')
 
                             const request = pool.request();
 
                             // console.time('query')
-                            const query = await request.query(sql, function(err, result) {
+                            const query = request.query(sql, function(err, result) {
                                 if (result) {
                                     if (result.recordset) {
                                         console.log('MSSQL_RUN result.recordset :');
@@ -128,7 +128,7 @@ bot.on('message', function(event) {
                             // console.timeEnd('query')
                         } finally {
                             try {
-                                await client.close()
+                                client.close()
                             } catch {}
                         }
                         break;
