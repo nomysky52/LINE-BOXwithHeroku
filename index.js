@@ -431,7 +431,7 @@ bot.listen('/linewebhook', process.env.PORT || 80, function() {
 // 語法下派
 async function PD_RUN(event, sql) {
     if (sql) {
-        // console.log('--PD_RUN--' + '\n' + 'sql : ' + sql);
+        console.log('--PD_RUN--' + '\n' + 'sql : ' + sql);
         try {
             const client = new sqlDb.ConnectionPool(SOMEE_CNX);
 
