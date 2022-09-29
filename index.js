@@ -482,7 +482,10 @@ async function MSSQL_RUN(sql) {
                 }
             })
             console.timeEnd('query')
-        } finally {
+        } catch {
+        console.log('--MSSQL_RUN--:Error' + '\n' + 'sql : ' + sql);
+		} 
+		finally {
             try {
                 await client.close()
             } catch {}
