@@ -52,7 +52,7 @@ const SOMEE_CNX = {
         max: 1,
         min: 0,
     },
-    port: 1433,
+//    port: 1433,
     user: process.env.SOMEE_DB_ID,
     server: process.env.SOMEE_DB_URL,
 }
@@ -466,13 +466,13 @@ async function MSSQL_RUN(sql) {
         try {
             const client = new sqlDb.ConnectionPool(SOMEE_CNX);
 
-            // console.time('connect')
+            console.time('connect')
             const pool = await client.connect();
-            // console.timeEnd('connect')
+            console.timeEnd('connect')
 
             const request = pool.request();
 
-            // console.time('query')
+            console.time('query')
             const query = await request.query(sql, function(err, result) {
                 if (result) {
                     if (result.recordset) {
@@ -481,7 +481,7 @@ async function MSSQL_RUN(sql) {
                     }
                 }
             })
-            // console.timeEnd('query')
+            console.timeEnd('query')
         } finally {
             try {
                 await client.close()
