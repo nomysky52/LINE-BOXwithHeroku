@@ -12,7 +12,7 @@ const {
     ImgurClient
 } = require('imgur');
 // browser script include // your client ID
-const client = new ImgurClient({
+const imgurClient = new ImgurClient({
     clientId: process.env.IMGUR_CLIENTID,
     clientSecret: process.env.IMGUR_CLIENT_SECRET,
     refreshToken: process.env.IMGUR_REFRESH_TOKEN
@@ -20,7 +20,7 @@ const client = new ImgurClient({
 async function uploadFromBinary(binary) {
     try {
         let base64 = Buffer.from(binary).toString('base64');
-        const response = await client.upload({
+        const response = await imgurClient.upload({
             image: base64,
             type: 'base64',
             album: process.env.IMGUR_ALBUM_ID
@@ -36,7 +36,7 @@ async function uploadFromBinary(binary) {
     }
 }
 
-var sqlDb = require("mssql");
+var sqlDb = require("mssql"); // SQL 2016^
 // SOMEE 連線字串
 const SOMEE_CNX = {
     password: process.env.SOMEE_DB_PWD,
@@ -52,13 +52,14 @@ const SOMEE_CNX = {
         max: 1,
         min: 0,
     },
-//    port: 1433,
+    port: 1433,
     user: process.env.SOMEE_DB_ID,
     server: process.env.SOMEE_DB_URL,
 }
 
 let CHANNELAddSql = "INSERT INTO [dbo].[CHANNEL]([CHANNELID],[TYPE],[NOTE])";
 let CHANNELQureySql = "select [CHANNELID] from [dbo].[CHANNEL]";
+
 
 
 // 當有人傳送訊息給Bot時 觸發
@@ -110,6 +111,11 @@ bot.on('message', function(event) {
                     case 'profile': // 輸出群組
                         event.source.profile().then(function(profile) {
                             return event.reply(JSON.stringify(profile));
+                        });
+                        break;
+                    case 'follower': // 輸出群組
+                        event.source.getFollowers().then(function(follower) {
+                            return event.reply(JSON.stringify(follower));
                         });
                         break;
                     case 'Picture': // 輸出照片
@@ -462,17 +468,17 @@ async function PD_RUN(event, sql) {
 // 語法下派
 async function MSSQL_RUN(sql) {
     if (sql) {
-        console.log('--MSSQL_RUN--' + '\n' + 'sql : ' + sql);
+        //console.log('--MSSQL_RUN--' + '\n' + 'sql : ' + sql);
         try {
             const client = new sqlDb.ConnectionPool(SOMEE_CNX);
 
-            console.time('connect')
+            //console.time('connect')
             const pool = await client.connect();
-            console.timeEnd('connect')
+            //console.timeEnd('connect')
 
             const request = pool.request();
 
-            console.time('query')
+            //console.time('query')
             const query = await request.query(sql, function(err, result) {
                 if (result) {
                     if (result.recordset) {
@@ -481,9 +487,9 @@ async function MSSQL_RUN(sql) {
                     }
                 }
             })
-            console.timeEnd('query')
+            //console.timeEnd('query')
         } catch {
-        console.log('--MSSQL_RUN--:Error' + '\n' + 'sql : ' + sql);
+            console.log('--MSSQL_RUN--:Error' + '\n' + 'sql : ' + sql);
 		} 
 		finally {
             try {
