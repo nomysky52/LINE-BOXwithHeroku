@@ -462,7 +462,7 @@ async function PD_RUN(event, sql) {
 // 語法下派
 async function MSSQL_RUN(sql) {
     if (sql) {
-        // console.log('--MSSQL_RUN--' + '\n' + 'sql : ' + sql);
+        console.log('--MSSQL_RUN--' + '\n' + 'sql : ' + sql);
         try {
             const client = new sqlDb.ConnectionPool(SOMEE_CNX);
 
