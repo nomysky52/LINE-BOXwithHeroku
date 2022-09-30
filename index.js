@@ -17,21 +17,60 @@ const imgurClient = new ImgurClient({
     clientSecret: process.env.IMGUR_CLIENT_SECRET,
     refreshToken: process.env.IMGUR_REFRESH_TOKEN
 });
-async function uploadFromBinary(binary) {
+async function uploadFromBinary(binary,imgname) {
     try {
         let base64 = Buffer.from(binary).toString('base64');
-        const response = await imgurClient.upload({
-            image: base64,
-            type: 'base64',
-            album: process.env.IMGUR_ALBUM_ID
-        });
-        if (response.status !== 200) {
-            console.log(response.data);
-            return '';
-        } else {
-            return response.data.link;
-        }
+		if(!imgname) {
+			const response = await imgurClient.upload({
+				image: base64,
+				name: imgname
+				type: 'base64',
+				album: process.env.IMGUR_ALBUM_ID
+			});
+			if (response.status !== 200) {
+				console.log(response.data);
+				return '';
+			} else {
+				return response.data.link;
+			}
+		}
+		else
+		{
+			const response = await imgurClient.upload({
+				image: base64,
+				type: 'base64',
+				album: process.env.IMGUR_ALBUM_ID
+			});
+			if (response.status !== 200) {
+				console.log(response.data);
+				return '';
+			} else {
+				return response.data.link;
+			}
+		}
     } catch {
+        return '';
+    }
+}
+function getAlbumInfo() {
+    try {
+        const album = await imgurClient.getAlbum(process.env.IMGUR_ALBUM_ID);
+		console.log(album);
+		return album;
+    } catch {
+		console.log('getAlbumInfo catch');
+        return '';
+    }
+}
+function searchGallery() {
+    try {
+        const Gallery = imgurClient.searchGallery({
+//  query: 'title: memes',
+});
+		console.log(Gallery);
+		return Gallery;
+    } catch {
+		console.log('searchGallery catch');
         return '';
     }
 }
@@ -129,6 +168,15 @@ bot.on('message', function(event) {
                         event.source.member().then(function(member) {
                             return event.reply(JSON.stringify(member));
                         });
+                        break;
+                    case 'test2': // 輸出 照片
+                        event.source.member().then(function(member) {
+                            return event.reply(JSON.stringify(member));
+                        });
+                        break;
+                    case 'album': // 輸出 相簿
+                        getAlbumInfo();
+						searchGallery();
                         break;
                     case 'Location': // 給予地圖
                         // event.reply({
@@ -437,7 +485,7 @@ bot.listen('/linewebhook', process.env.PORT || 80, function() {
 // 語法下派
 async function PD_RUN(event, sql) {
     if (sql) {
-        console.log('--PD_RUN--' + '\n' + 'sql : ' + sql);
+        // console.log('--PD_RUN--' + '\n' + 'sql : ' + sql);
         try {
             const client = new sqlDb.ConnectionPool(SOMEE_CNX);
 
@@ -468,17 +516,17 @@ async function PD_RUN(event, sql) {
 // 語法下派
 async function MSSQL_RUN(sql) {
     if (sql) {
-        //console.log('--MSSQL_RUN--' + '\n' + 'sql : ' + sql);
+        // console.log('--MSSQL_RUN--' + '\n' + 'sql : ' + sql);
         try {
             const client = new sqlDb.ConnectionPool(SOMEE_CNX);
 
-            //console.time('connect')
+            // console.time('connect')
             const pool = await client.connect();
-            //console.timeEnd('connect')
+            // console.timeEnd('connect')
 
             const request = pool.request();
 
-            //console.time('query')
+            // console.time('query')
             const query = await request.query(sql, function(err, result) {
                 if (result) {
                     if (result.recordset) {
@@ -487,7 +535,7 @@ async function MSSQL_RUN(sql) {
                     }
                 }
             })
-            //console.timeEnd('query')
+            // console.timeEnd('query')
         } catch {
             console.log('--MSSQL_RUN--:Error' + '\n' + 'sql : ' + sql);
 		} 
