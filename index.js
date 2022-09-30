@@ -23,7 +23,7 @@ async function uploadFromBinary(binary,imgname) {
 		if(!imgname) {
 			const response = await imgurClient.upload({
 				image: base64,
-				name: imgname
+				name: imgname,
 				type: 'base64',
 				album: process.env.IMGUR_ALBUM_ID
 			});
