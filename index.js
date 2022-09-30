@@ -166,12 +166,18 @@ bot.on('message', function(event) {
                         break;
                     case 'test': // 輸出 測試
                         event.source.member().then(function(member) {
-                            return event.reply(JSON.stringify(member));
+							if(member)
+							   return event.reply(JSON.stringify(member));
+							else
+								return ;
                         });
                         break;
                     case 'test2': // 輸出 照片
                         event.source.member().then(function(member) {
-                            return event.reply(JSON.stringify(member));
+							if(member)
+							   return event.reply(JSON.stringify(member));
+							else
+								return ;
                         });
                         break;
                     case 'album': // 輸出 相簿
