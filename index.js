@@ -54,7 +54,7 @@ async function uploadFromBinary(binary,imgname) {
 }
 function getAlbumInfo() {
     try {
-        const album = await imgurClient.getAlbum(process.env.IMGUR_ALBUM_ID);
+        const album = imgurClient.getAlbum(process.env.IMGUR_ALBUM_ID);
 		console.log(album);
 		return album;
     } catch {
